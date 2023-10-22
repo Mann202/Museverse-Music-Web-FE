@@ -4,6 +4,7 @@ import SideBar from "./SideBar/SideBar";
 import Discover from "./Discover/Discover";
 import Play from "./Play/Play";
 import NotFound from "./NotFound/NotFound";
+import Chart from "./Chart/Chart";
 
 
 function App() {
@@ -13,9 +14,10 @@ function App() {
       <div className="flex-1 flex flex-col bg-[#101010]">
         <Headers />
         <div className="flex-1 pb-40">
-          <Routes>
-            <Route path="/" element={<Discover />} />
-          </Routes>
+        <Routes>
+              <Route path="/" element={<Discover />} />
+              <Route path="/chart" element={<Chart />} />
+            </Routes>
         </div>
         <div className="xl:sticky relative top-0 h-fit">
           <Play />

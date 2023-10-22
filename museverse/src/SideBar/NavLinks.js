@@ -16,7 +16,7 @@ const links = [
 ]
 
 const mainLinks = [
-    {name: "Explore", to: "/explore"},
+    {name: "Explore", to: "/"},
     {name: "Chart", to: "/chart"},
     {name: "History", to: "/history"},
 ]
@@ -33,7 +33,6 @@ const albums = [
 
 export default function NavLinks ({handleClick}) {
     const {expanded} = useContext(SideBarContext)
-    console.log(expanded)
 
     return(
         <div className={`${expanded ? "" : ""}`}>
