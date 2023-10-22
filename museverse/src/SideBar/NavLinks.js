@@ -4,7 +4,6 @@ import {IoIosAlbums} from 'react-icons/io'
 import  {BsMusicNoteBeamed } from 'react-icons/bs'
 import {GiMicrophone} from 'react-icons/gi'
 import { useContext } from 'react';
-
 import { SideBarContext } from './SideBar';
 
 const links = [
@@ -59,7 +58,7 @@ export default function NavLinks ({handleClick}) {
                     className="flex flex-row justify-start items-center ml-2 my-8 text-sm font-medium text-gray-100 hover:text-[#1FD662]"
                     onClick={() => handleClick && handleClick()}
                 >
-                    <item.icon className={`w-10 h-7 ${expanded ? "mr-2" : "ml-[1px]"}`} />
+                    <item.icon className={`w-10 h-7 ${expanded ? "mr-2" : "ml-[3px]"}`} />
                     <span className={`overflow-hidden transition-all ${expanded ? "w-56 ml-3" : "visibility: hidden"}`}>
                         {item.name}
                     </span>
