@@ -1,0 +1,181 @@
+*,
+*::affter,
+*::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+
+.left-section {
+    width: 1123.994px;
+    min-height: 100vh;
+    margin-right: 476px;
+    border: 1px;
+    background: url(../../assets/bg-image.png);
+    background-size: cover;
+    background-position: center;
+    position: fixed;
+}
+
+.logo {
+    position: absolute;
+    font-size: 128px;
+    top: 40%;
+    left: 50%;
+    transform: translate(-110%, -120%);
+}
+
+.right-section {
+    width: 1024px;
+    height: 100vh;
+    margin-left: 650px;
+    border: 1px solid #4C4E54;
+    background: #1F1F22;
+    position: fixed;
+}
+
+.login {
+    color: #1FD662;
+    font-family: Inter;
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+}
+
+form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    /* background-color: #FFF; */
+    width: 60%;
+    text-align: center;
+}
+
+.line {
+    background: #63676F;
+    width: 100%;
+    height: 1px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-radius: 5px;
+    border: none;
+}
+
+.content {
+    background-color: transparent;
+    text-align: left;
+    color: #FFF;
+    font-size: 20px;
+    border-bottom: solid #FFF 1px;
+    border-right: none;
+    outline: none;
+    width: 60%;
+    margin-bottom: 30px;
+}
+
+.error-mess {
+    color: red;
+    margin-bottom: 5px;
+    width: 60%;
+    margin: 0 auto;
+    text-align: left;
+}
+.pass-input{
+    position: relative;
+}
+.password-icon-signin {
+    position: absolute;
+    cursor: pointer;
+    color: #FFF;
+    font-size: 20px;
+    top: 32%;
+    right: 21%;
+    transform: translateY(-50%);
+}
+
+.login-btn {
+    font-size: 20px;
+    color: #FFF;
+    width: 60%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    background: var(--main-color, #1FD662);
+    margin-bottom: 5px;
+}
+
+.btn01 {
+    position: relative;
+}
+
+.sign-gg-btn {
+    font-size: 20px;
+    color: black;
+    padding: 10px 10px 10px 20px;
+    text-align: center;
+    border-radius: 8px;
+    background-color: #FFF;
+    width: 40%;
+}
+
+.sign-gg-icon {
+    position: absolute;
+    top: 55%;
+    left: 31.5%;
+    transform: translateY(-50%);
+    font-size: 30px;
+}
+
+.sign-fb-btn {
+    font-size: 20px;
+    color: white;
+    width: 40%;
+    padding: 10px 10px 10px 35px;
+    text-align: center;
+    border-radius: 8px;
+    background: #1877F2;
+    margin-top: 5px;
+}
+
+.sign-fb-icon {
+    position: absolute;
+    top: 60%;
+    left: 31.5%;
+    transform: translateY(-50%);
+    font-size: 25px;
+    color: white;
+}
+
+.form-01 {
+    width: 100%;
+    display: block;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.forgot {
+    color: #FFF;
+    font-size: 20px;
+    width: 60%;
+    text-align: left;
+    margin: 0 auto;
+    text-decoration: underline;
+}
+
+.text02 {
+    margin-top: 40px;
+    color: #FFF;
+    font-size: 18px;
+}
+
+.text02 .green {
+    color: #1FD662;
+    text-decoration: underline;
+
+}
