@@ -14,10 +14,10 @@ function App() {
       <div className="flex-1 flex flex-col bg-[#171719]">
         <Headers />
         <div className="flex-1 pb-40">
-        <Routes>
+          <Routes>
               <Route path="/" element={<Discover />} />
               <Route path="/chart" element={<Chart />} />
-            </Routes>
+          </Routes>
         </div>
         <div className="xl:sticky relative top-0 h-fit">
           <Play />

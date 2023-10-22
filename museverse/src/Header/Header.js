@@ -7,6 +7,8 @@ import {MdNotificationsActive} from 'react-icons/md'
 
 import SearchBar from './SearchBar'
 import Notification from '../Notification/Notification'
+import DropDownMenu from '../Notification/DropdownMenu'
+
 import axios from 'axios'
 import avatar from "../assets/avatar.png"
 import { Spotify } from '../API/Credentials'
@@ -38,6 +40,7 @@ export default function Headers() {
 
 export function LoggedHeader() {
     const [notification, setNotification] = useState(false)
+    const [dropdownMenu, setDropdownMenu] = useState(true)
     const [data,setData] = useState([])
     
     const ClientID = Spotify.ClientID
@@ -73,6 +76,17 @@ export function LoggedHeader() {
         });
     }, []);
 
+    function HandleClickNotification() {
+        setNotification(!notification) 
+        setDropdownMenu(false) 
+        console.log(dropdownMenu)
+    }
+
+    function HandleClickDropdown() {
+        setDropdownMenu(!dropdownMenu)
+        setNotification(false)
+    }
+
     return (
         <>
             <div className="flex justify-between items-center bg-[#171719] h-16 mx-auto">
@@ -88,13 +102,16 @@ export function LoggedHeader() {
 
                 <div className="flex gap-4 mr-4">
                     <SearchBar />
-                    <img src={avatar} className='rounded-full w-10 h-10'></img>
-                    <button onClick={() => {setNotification(!notification)}} className="bg-[#EBEBFF0D] text-white rounded-lg w-10 h-10 flex justify-center items-center hover:bg-[#323232]">
+                    <button onClick={HandleClickDropdown}>
+                        <img src={avatar} className='rounded-full w-10 h-10'></img>
+                    </button>
+                    <button onClick={HandleClickNotification} className="bg-[#EBEBFF0D] text-white rounded-lg w-10 h-10 flex justify-center items-center hover:bg-[#323232]">
                         {notification ? <MdNotificationsActive className="text-xl"/> : <IoIosNotifications className="text-xl"/>}
                     </button>
                 </div>
             </div>
             {notification ? <Notification notification={notification} data={data}/> : ""}
+            {dropdownMenu ? <DropDownMenu /> : ""}
         </>
     )
 }
