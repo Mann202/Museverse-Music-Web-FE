@@ -27,3 +27,5 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+html, body {margin: 0; height: 100%; overflow: hidden}

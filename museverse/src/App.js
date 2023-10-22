@@ -12,7 +12,7 @@ function App() {
       <SideBar />
       <div className="flex-1 flex flex-col bg-[#101010]">
         <Headers />
-        <div className="flex-1 h-fit pb-40">
+        <div className="flex-1 pb-40">
           <Routes>
             <Route path="/" element={<Discover />} />
           </Routes>
