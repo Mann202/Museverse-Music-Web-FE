@@ -1,9 +1,17 @@
 import { useState } from "react";
+import { NavLink, useNavigate  } from 'react-router-dom'
+
 import { AiOutlineSearch } from "react-icons/ai";
 
 
 export default function SearchBar() {
     const [focus, setFocus] = useState(false)
+
+    let navigate = useNavigate(); 
+    const routeChange = () =>{ 
+        let path = `/search`; 
+        navigate(path);
+    }
 
     return (
         <>
@@ -11,7 +19,8 @@ export default function SearchBar() {
                 <div className="flex justify-center items-center">
                     <AiOutlineSearch className={`mx-2 text-xl ${focus ? "text-white" : "text-[#939393]"}`}/>
                 </div>
-                <input placeholder="Search" onFocus={()=> {setFocus(true)}} onBlur={() => {setFocus(false)}}className="w-full text-[#FCFCFC] rounded-lg bg-[#1F1F22] placeholder-[#939393] focus: outline-none"></input>
+                <input placeholder="Search" onClick={routeChange} onFocus={()=> {setFocus(true)}} onBlur={() => {setFocus(false)}}className="w-full text-[#FCFCFC] rounded-lg bg-[#1F1F22] placeholder-[#939393] focus: outline-none">
+                </input>
             </div>
         </>
     )

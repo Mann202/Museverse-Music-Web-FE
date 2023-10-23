@@ -42,10 +42,10 @@ export default function Chart() {
             console.error(error);
         });
     }, []);
-    console.log(data)
+    
     return (
         
-        <div className="bg-transparent flex flex-col gap-5 h-screen mt-3 pb-24 overflow-y-scroll mx-7">
+        <div className="bg-transparent flex flex-col gap-5 h-screen pb-24 overflow-y-scroll">
             <HeaderChart />
           {
             data.map(item => {
