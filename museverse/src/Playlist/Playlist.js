@@ -99,7 +99,7 @@ function Playlist() {
     }) 
 
     const timeinString = chuyenDoiThoiGian(time)
-    console.log(timeinString)
+    console.log(data)
 
 
     return (
@@ -120,14 +120,15 @@ function Playlist() {
 
                 {data.map((item, index) => (
 
-                    <PlaylistCard 
-                    id={index}
+                    <PlaylistCard
+                    id={item.track.id} 
+                    index={index}
                     name={item.track.name}
                     album={item.track.album.name}
                     date={item.added_at}
                     duration={item.track.duration_ms}
                     image={item.track.album.images[0].url}
-                    artist={item.track.artists[0].name}
+                    artist={item.track.artists}
                     />
                 ))}
             </div>
@@ -153,26 +154,26 @@ function PlayButton() {
 function HeaderPlaylist() {
     return(
         <>
-            <div className="flex w-full gap-7">
-                <div className="flex felx-row w-full pb-5 pl-3 gap-7">
-                    <div className="flex flex-row gap-8 w-5/12">
-                        <div className="flex flex-col justify-center">
-                            <p className="text-[#B4B4B4] font-medium text-sm w-5">#</p>
-                        </div>
-                        <div className="flex flex-col justify-center">
-                            <p className="text-[#B4B4B4] font-medium text-sm">Title</p>
-                        </div>
+            <div className="flex felx-row w-11/12 gap-7 pl-3 hover:rounded-lg mb-5 border-b-[1px] border-white border-opacity-20 pb-2">
+                <div className="flex flex-row gap-8 w-5/12">
+                    <div className="flex flex-row items-center">
+                        <p className="text-white text-opacity-50 w-5">#</p>
                     </div>
-                    <div className="flex flex-row w-7/12 gap-36">
-                        <div className="flex flex-col justify-center w-40">
-                            <p className="text-[#B1B1B1] font-medium text-sm">Album</p>
-                        </div>
-                        <div className="flex flex-col justify-center w-52">
-                            <p className="text-[#B1B1B1] font-medium text-sm">Added</p>
-                        </div>
-                        <div className="flex flex-col justify-center w-16">
-                            <p className="text-[#B1B1B1] font-medium text-sm">Duration</p>
-                        </div>
+                    <div>
+                        <h3 className="text-white text-opacity-50 font-medium text-sm">
+                            Title
+                        </h3>
+                    </div>
+                </div>
+                <div className="flex flex-row w-7/12 gap-32">
+                    <div className="w-40 flex items-center">
+                        <p className="text-white text-opacity-50 font-medium text-sm">Album</p>
+                    </div>
+                    <div className="w-60 flex items-center">
+                        <p className="text-white text-opacity-50 font-medium text-sm">Added</p>
+                    </div>
+                    <div className="flex items-center w-16 justify-center">
+                        <p className="text-white text-opacity-50 font-medium text-sm">Duration</p>
                     </div>
                 </div>
             </div>

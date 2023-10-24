@@ -1,10 +1,15 @@
 import React, {useState} from 'react'
-import {BsFillPlayFill} from 'react-icons/bs'
-import { NavLink } from 'react-router-dom'
-import {AiOutlineHeart} from 'react-icons/ai'
+import {BsPlayFill} from 'react-icons/bs'
+import { NavLink, useNavigate } from 'react-router-dom'
 
-function PlaylistCard({id, name, album, date, duration, image, artist}) {
+function PlaylistCard({id, index, name, album, date, duration, image, artist}) {
     const [focus, setFocus] = useState(false)
+    const navigate = useNavigate()
+    
+    function changeRouteTrack() {
+        const path = `/track/${id}`
+        navigate(path)
+    }
     
     duration = duration * 0.000017
     const duration_minutes = Math.floor(duration)
@@ -21,35 +26,46 @@ function PlaylistCard({id, name, album, date, duration, image, artist}) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = dateTime.toLocaleDateString(undefined, options);
 
+
     return(
         <>
-            <div className="flex felx-row w-11/12 gap-7 pl-3 hover:bg-[#323232] hover:opacity-70 hover:rounded-lg"
+            <div className="flex felx-row w-11/12 gap-7 pl-3 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1 "
             onMouseEnter={() => {setFocus(true)}}
             onMouseLeave={() => {setFocus(false)}}
             >
                 <div className="flex flex-row gap-8 w-5/12">
                     <div className="flex flex-row items-center">
-                        <p className="text-[#B4B4B4] w-5">{id+1}</p>
+                        {focus 
+                        ? <BsPlayFill className="text-white opacity-70 text-2xl"/>
+                        : <p className="text-white text-opacity-50 w-5">{index+1}</p> }
                     </div>
                     <div className="flex flex-row items-center">
                         <img src={image} className="w-12 h-12 rounded-lg"></img>
                     </div>
                     <div>
-                        <h3 className="text-white font-bold text-xl">
+                        <h3 className="text-white text-opacity-90 font-medium text-base cursor-pointer hover:underline"
+                        onClick={changeRouteTrack}
+                        >
                             {(name.length > 50) ? name.slice(0,50) + "..." : name}
                         </h3>
-                        <p className="text-[#B4B4B4] font-medium text-sm">{artist}</p>
+                        <div className='flex flex-row'>
+                            {artist.map((item, index) => (
+                                <NavLink to={`/artist/${item.id}`} className={`text-sm text-white font-semibold hover:underline ${focus ? "text-opacity-100" : "text-opacity-50"}`} key={index}>
+                                    {item.name}{index !== artist.length - 1 ? `, ` : ''} 
+                                </NavLink>
+                            ))}
+                        </div>
                     </div>
                 </div>
                 <div className="flex flex-row w-7/12 gap-32">
                     <div className="w-40 flex items-center">
-                        <p className="text-[#B1B1B1] font-medium text-sm">{album}</p>
+                        <NavLink className={`text-white font-medium text-sm hover:underline ${focus ? "text-opacity-100" : "text-opacity-50"}`}>{album}</NavLink>
                     </div>
                     <div className="w-60 flex items-center">
-                        <p className="text-[#B1B1B1] font-medium text-sm">{formattedDate}</p>
+                        <p className="text-white text-opacity-50 font-medium text-sm">{formattedDate}</p>
                     </div>
-                    <div className="flex flex items-center w-16 justify-center">
-                        <p className="text-[#B1B1B1] font-medium text-sm">{duration_minutes}:{(round_duration_second < 10) ? round_duration_second_text : round_duration_second}</p>
+                    <div className="flex items-center w-16 justify-center">
+                        <p className="text-white text-opacity-50 font-medium text-sm">{duration_minutes}:{(round_duration_second < 10) ? round_duration_second_text : round_duration_second}</p>
                     </div>
                 </div>
             </div>

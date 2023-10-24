@@ -33,7 +33,7 @@ export default function Headers() {
 export function LoggedHeader() {
     return (
         <>
-            <div className="flex justify-between items-center bg-black h-16 mx-auto">
+            <div className="flex justify-between items-center bg-opacity-100  h-16 mx-auto">
                 <div className="flex gap-2 ml-4">
                     <button className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
                         <AiOutlineLeft />
