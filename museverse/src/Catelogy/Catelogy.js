@@ -13,7 +13,7 @@ function Catelogy() {
   const [preData, setPreData] = useState([]);
   const [loading, setLoading] = useState(true); 
   const [image, setImage] = useState('')
-
+  
   const { catelogyID } = useParams();
   const imageRef = useRef(null);
 
@@ -98,7 +98,7 @@ function Catelogy() {
           <h1 className="text-7xl font-bold text-white">{preData.name}</h1>
         </div>
       </div>
-      <div className="w-full flex flex-row flex-wrap gap-5 gap-y-7 justify-center pb-36 bg-opacity-30 bg-black pt-16">
+      <div className="w-full flex flex-row flex-wrap gap-5 gap-y-7 justify-center items-start pb-36 bg-opacity-30 bg-black pt-16">
         {data.map(item => (
         <CatelogyCard
             key={item.id} 

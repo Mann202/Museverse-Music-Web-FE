@@ -9,6 +9,7 @@ import NotFound from "./NotFound/NotFound";
 import Chart from "./Chart/Chart";
 import Search from "./Search/Search";
 import Catelogy from "./Catelogy/Catelogy";
+import Playlist from "./Playlist/Playlist";
 
 
 function App() {
@@ -20,14 +21,16 @@ function App() {
       <div className="relative flex">
           <SideBar />
         <div className="flex-1 flex flex-col bg-[#101010]">
+          <div className="flex-1 pb-40">
           <Headers />
-          <div className="flex-1 pb-40 mt-5 mx-10">
-          <Routes>
+            <Routes>
                 <Route path="/" element={<Discover />} />
                 <Route path="/chart" element={<Chart />} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/search/:catelogyID" element={<Catelogy />} />
-              </Routes>
+                <Route path="/playlist" element={<Playlist />} />
+                <Route path="/playlist/:playlistID" element={<Playlist />} />
+            </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">
             <Play />

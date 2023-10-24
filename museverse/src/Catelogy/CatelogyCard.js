@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom' 
 import { BsPlayFill } from 'react-icons/bs';
 
 function CatelogyCard({ id, name, description, image }) {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate()
+
+  function changeRoute() {
+    const path = `/playlist/${id}`
+    navigate(path)
+  }
 
   let cleanedDescription = description.replace(/<.*?>/g, '');
 
   return (
     <div
-      className="bg-[#181818] h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 hover:bg-[#282828]"
+      className="bg-[#181818] h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 hover:bg-[#282828] cursor-pointer"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onClick={changeRoute}
     >
       <div className="relative overflow-hidden">
         <img src={image} className="rounded-xl w-40 h-40 mt-3" alt={name} />

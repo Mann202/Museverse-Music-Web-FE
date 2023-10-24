@@ -1,0 +1,60 @@
+import React, {useState} from 'react'
+import {BsFillPlayFill} from 'react-icons/bs'
+import { NavLink } from 'react-router-dom'
+import {AiOutlineHeart} from 'react-icons/ai'
+
+function PlaylistCard({id, name, album, date, duration, image, artist}) {
+    const [focus, setFocus] = useState(false)
+    
+    duration = duration * 0.000017
+    const duration_minutes = Math.floor(duration)
+    const duration_second = duration - duration_minutes
+    const round_duration_second = Math.floor(duration_second * 60)
+
+    if(round_duration_second < 10) {
+        round_duration_second.toString();
+        var round_duration_second_text = `0${round_duration_second}`
+    }
+
+    const dateTimeString = date;
+    const dateTime = new Date(dateTimeString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = dateTime.toLocaleDateString(undefined, options);
+
+    return(
+        <>
+            <div className="flex felx-row w-11/12 gap-7 pl-3 hover:bg-[#323232] hover:opacity-70 hover:rounded-lg"
+            onMouseEnter={() => {setFocus(true)}}
+            onMouseLeave={() => {setFocus(false)}}
+            >
+                <div className="flex flex-row gap-8 w-5/12">
+                    <div className="flex flex-row items-center">
+                        <p className="text-[#B4B4B4] w-5">{id+1}</p>
+                    </div>
+                    <div className="flex flex-row items-center">
+                        <img src={image} className="w-12 h-12 rounded-lg"></img>
+                    </div>
+                    <div>
+                        <h3 className="text-white font-bold text-xl">
+                            {(name.length > 50) ? name.slice(0,50) + "..." : name}
+                        </h3>
+                        <p className="text-[#B4B4B4] font-medium text-sm">{artist}</p>
+                    </div>
+                </div>
+                <div className="flex flex-row w-7/12 gap-32">
+                    <div className="w-40 flex items-center">
+                        <p className="text-[#B1B1B1] font-medium text-sm">{album}</p>
+                    </div>
+                    <div className="w-60 flex items-center">
+                        <p className="text-[#B1B1B1] font-medium text-sm">{formattedDate}</p>
+                    </div>
+                    <div className="flex flex items-center w-16 justify-center">
+                        <p className="text-[#B1B1B1] font-medium text-sm">{duration_minutes}:{(round_duration_second < 10) ? round_duration_second_text : round_duration_second}</p>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
+
+export default PlaylistCard
