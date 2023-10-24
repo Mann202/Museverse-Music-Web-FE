@@ -2,11 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Spotify } from "../API/Credentials";
 import CardChart from "./CardChart";
+import Loading from "../Loading/Loading";
 
 export default function Chart() {
     const [token, setToken] = useState('')
     const [data,setData] = useState([])
-    
+    const [loading, setLoading] = useState(true)
+
     const ClientID = Spotify.ClientID
     const ClientSecret = Spotify.ClientSecret
 
@@ -32,7 +34,7 @@ export default function Chart() {
             .then(json => {
                 console.log(json)
                 setData(json.data.tracks.items); // Lưu dữ liệu từ API vào state
-
+                setLoading(false)
             })
             .catch(error => {
                 console.error(error);
@@ -42,24 +44,27 @@ export default function Chart() {
             console.error(error);
         });
     }, []);
-    
-    return (
-        
-        <div className="bg-transparent flex flex-col gap-5 h-screen pb-24 overflow-y-scroll">
-            <HeaderChart />
-          {
-            data.map(item => {
-                return(
-                    <CardChart img={item.track.album.images[0].url}
-                        name={item.track.album.name}
-                        artist={item.track.album.artists[0].name}
-                        release_date={item.track.duration_ms}
-                    />
-                )
-            })
-          }
-        </div>
-      )
+
+    if(loading) {
+        return <div><Loading /></div>
+    }
+        return (
+            
+            <div className="bg-transparent flex flex-col gap-5 h-screen mt-3 pb-24 overflow-y-scroll mx-7">
+                <HeaderChart />
+            {
+                data.map(item => {
+                    return(
+                        <CardChart img={item.track.album.images[0].url}
+                            name={item.track.album.name}
+                            artist={item.track.album.artists[0].name}
+                            release_date={item.track.duration_ms}
+                        />
+                    )
+                })
+            }
+            </div>
+        )
 }
 
 function HeaderChart() {
