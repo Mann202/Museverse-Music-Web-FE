@@ -3,9 +3,13 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 import { Spotify } from '../API/Credentials'
-import CatelogyCard from './CatelogyCard'
+import CatelogyListCard from './CatelogyListCard'
+import Loading from '../Loading/Loading'
 
-const CategoryFetcher = ({ setToken, setData }) => {
+const Search = () => {
+    const [token, setToken] = useState('');
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true)
     const ClientID = Spotify.ClientID;
     const ClientSecret = Spotify.ClientSecret;
 
@@ -30,6 +34,7 @@ const CategoryFetcher = ({ setToken, setData }) => {
             })
             .then(json => {
                 setData(json.data.categories.items); // Lưu dữ liệu từ API vào state
+                setLoading(false)
             })
             .catch(error => {
                 console.error(error);
@@ -40,13 +45,9 @@ const CategoryFetcher = ({ setToken, setData }) => {
         });
     }, [setToken, setData]);
 
-    return null;
-};
-
-const Search = () => {
-    const [token, setToken] = useState('');
-    const [data, setData] = useState([]);
-
+    if(loading) {
+        return <div><Loading /></div>
+    } 
     return (
         <div className="w-full h-screen overflow-y-scroll">
             <div>
@@ -55,9 +56,8 @@ const Search = () => {
             <div>
                 <h2 className='font-bold text-2xl text-white'>Browse all</h2>
                 <div className="flex flex-row gap-x-12 gap-y-8 w-full flex-wrap pb-40 mt-8 ml-8">
-                    <CategoryFetcher setToken={setToken} setData={setData} />
                     {data.map(item => (
-                        <CatelogyCard
+                        <CatelogyListCard
                             key={item.id}
                             image={item.icons[0].url}  
                             name={item.name}

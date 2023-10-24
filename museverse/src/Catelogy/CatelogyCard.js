@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BsPlayFill } from 'react-icons/bs';
 
-function CatelogyListCard({ id, name, description, image }) {
+function CatelogyCard({ id, name, description, image }) {
   const [isHovered, setIsHovered] = useState(false);
 
   let cleanedDescription = description.replace(/<.*?>/g, '');
@@ -44,4 +44,4 @@ function ButtonPlay() {
   );
 }
 
-export default CatelogyListCard;
+export default CatelogyCard;

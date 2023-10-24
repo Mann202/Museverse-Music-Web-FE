@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import ColorThief from 'colorthief';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-function CatelogyCard({ name, image, id }) {
+function CatelogyListCard({ name, image, id }) {
   const [backgroundColor, setBackgroundColor] = useState('');
   const imageRef = useRef(null);
   const navigate = useNavigate()
@@ -47,4 +47,4 @@ function CatelogyCard({ name, image, id }) {
   );
 }
 
-export default CatelogyCard;
+export default CatelogyListCard;
