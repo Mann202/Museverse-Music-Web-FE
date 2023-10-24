@@ -1,9 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ColorThief from 'colorthief';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function CatelogyCard({ name, image, id }) {
   const [backgroundColor, setBackgroundColor] = useState('');
   const imageRef = useRef(null);
+  const navigate = useNavigate()
+
+  
+  const routeChange = () =>{ 
+      let path = `/search/${id}`; 
+      navigate(path);
+    }
+  
 
   useEffect(() => {
     const colorThief = new ColorThief();
@@ -26,10 +35,13 @@ function CatelogyCard({ name, image, id }) {
 
     loadImage();
   }, [image]);
+  
 
   return (
-    <div style={{backgroundColor: backgroundColor}} className={`w-48 h-48 rounded-lg flex justify-end items-end flex-col overflow-hidden`}>
-      <h1 id={id} className='h-full w-full pl-2 pt-2 text-white font-bold text-xl'>{name}</h1>
+    <div style={{backgroundColor: backgroundColor}} className={`w-48 h-48 rounded-lg flex justify-end items-end flex-col overflow-hidden cursor-pointer`} onClick={routeChange}>
+      <NavLink to={`/search/${id}`} className='h-full w-full pl-2 pt-2 text-white font-bold text-xl'>
+        <h1 id={id}>{name}</h1>
+      </NavLink>
       <img ref={imageRef} src={image} alt={name} className="w-32 h-32 rounded rotate-[15deg]" />
     </div>
   );

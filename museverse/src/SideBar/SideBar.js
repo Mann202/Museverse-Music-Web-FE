@@ -2,11 +2,19 @@ import NavLinks from "./NavLinks.js";
 import logo from '../assets/MuseverseMain.png'
 import miniLogo from '../assets/MiniLogo.png'
 import { createContext, useState } from "react";
+import {useNavigate} from 'react-router-dom'
 import { BsChevronBarLeft, BsChevronBarRight } from "react-icons/bs";
 
 export const SideBarContext = createContext();
 export default function SideBar() {
     const [expanded, setExpanded] = useState(true)
+    const navigate = useNavigate()
+
+  
+    const changeRoute = () =>{ 
+        let path = `/`; 
+        navigate(path);
+      }
 
     return(
         <div
@@ -18,8 +26,8 @@ export default function SideBar() {
                 </button>
             </div>
 
-            {expanded ? <img src={logo} className={`transition-all`}></img> :
-                <img src={miniLogo} className={`transition-all h-auto w-auto`}></img>
+            {expanded ? <img src={logo} onClick={changeRoute} className={`transition-all cursor-pointer`}></img> :
+                <img src={miniLogo} onClick={changeRoute} className={`transition-all h-auto w-auto cursor-pointer`}></img>
             }
             
             <SideBarContext.Provider value={{expanded}}>

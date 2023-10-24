@@ -5,12 +5,9 @@ import axios from 'axios'
 import { Spotify } from '../API/Credentials'
 import CatelogyCard from './CatelogyCard'
 
-const Search = () => {
-    const [token, setToken] = useState('')
-    const [data,setData] = useState([])
-    
-    const ClientID = Spotify.ClientID
-    const ClientSecret = Spotify.ClientSecret
+const CategoryFetcher = ({ setToken, setData }) => {
+    const ClientID = Spotify.ClientID;
+    const ClientSecret = Spotify.ClientSecret;
 
     useEffect(() => {
         // Gọi API để lấy token
@@ -41,7 +38,14 @@ const Search = () => {
         .catch(error => {
             console.error(error);
         });
-    }, []);
+    }, [setToken, setData]);
+
+    return null;
+};
+
+const Search = () => {
+    const [token, setToken] = useState('');
+    const [data, setData] = useState([]);
 
     return (
         <div className="w-full h-screen overflow-y-scroll">
@@ -51,21 +55,19 @@ const Search = () => {
             <div>
                 <h2 className='font-bold text-2xl text-white'>Browse all</h2>
                 <div className="flex flex-row gap-x-12 gap-y-8 w-full flex-wrap pb-40 mt-8 ml-8">
-                        {
-                            data.map(item => {
-                                return(
-                                    <CatelogyCard
-                                    image={item.icons[0].url}  
-                                    name={item.name}
-                                    id={item.id}
-                                    />
-                                )
-                            })
-                        }
-                    </div>
+                    <CategoryFetcher setToken={setToken} setData={setData} />
+                    {data.map(item => (
+                        <CatelogyCard
+                            key={item.id}
+                            image={item.icons[0].url}  
+                            name={item.name}
+                            id={item.id}
+                        />
+                    ))}
+                </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Search
+export default Search;
