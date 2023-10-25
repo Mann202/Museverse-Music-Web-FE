@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import { BsPlayFill } from 'react-icons/bs';
 
+import { chuyenNgay } from '../Playlist/SplitNumber';
+
 function ArtistTrackCard({index, id, image, name, duration, release_date}) {
     const [focus, setFocus] = useState(false)
 
@@ -48,7 +50,7 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
         <div className="flex flex-row w-7/12 gap-32">
           <div className="w-60 flex items-center">
             <p className="text-white text-opacity-50 font-medium text-sm">
-              {release_date}
+              {chuyenNgay(release_date)}
             </p>
           </div>
           <div className="flex items-center w-16 justify-center">

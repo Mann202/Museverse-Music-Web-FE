@@ -9,6 +9,8 @@ import Loading from '../Loading/Loading';
 import ArtistTrack from './ArtistTrack';
 import ArtistAlbum from './ArtistAlbum';
 import RelatedArtist from './RelatedArtist';
+import ArtistAppear from './ArtistAppear';
+import { formatNumber } from '../Playlist/SplitNumber';
 
 function Artist() {
     const [data, setData] = useState(null);
@@ -78,31 +80,35 @@ function Artist() {
         return <div><Loading /></div>
     }
     return (
-        <div className="h-screen overflow-y-scroll flex flex-col gap-y-10 pb-32">
-            <div style={{background: `${backgroundColor}`}} className="flex flex-row gap-7">
-                <div>
+        <div className="h-screen overflow-y-scroll flex flex-col gap-y-10 pb-20 w-full">
+            <div style={{background: `${backgroundColor}`}} className="flex flex-row gap-10">
+                <div className="h-[22rem] flex items-center flex-row ml-7">
                     <img src={data.images[0].url} className="rounded-full w-60 h-64"></img>
                 </div>
-                <div className='flex flex-row gap-5'>
+                <div className='flex gap-6 items-center flex-col justify-center'>
                     <div>
-                        <p className="text-base text-white font-base">Artist</p>
+                        <p className="font-medium text-lg text-white">Artist</p>
                         <h1 className="text-4xl text-white font-bold">{data.name}</h1>
-                        <h3 className="text-base text-white font-base">{data.followers.total} người theo dõi</h3>
+                        <h3 className="text-base text-white text-opacity-80 font-base">{formatNumber(data.followers.total)} người theo dõi</h3>
                     </div>
-                    <div>
-                    {
-                        data.genres.map(item => (
-                            <p className="text-base text-white font-base">{item}</p>
-                        ))
-                    }
+                    <div className='w-full'>
+                        <h2 className="text-base text-white font-base ">Genres</h2>
+                        {
+                            data.genres.map(item => (
+                                <p className="text-sm text-white text-opacity-80 font-base">
+                                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                                </p>
+                            ))
+                        }
                     </div>
                 </div>
             </div>
-            <div style={{background: `linear-gradient(${backgroundColor}, black)`}}>
+            <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="w-full pt-8 pb-32">
                 <PlayButton />
                 <ArtistTrack id={artistID} />
                 <ArtistAlbum id={artistID} />
                 <RelatedArtist id={artistID} />
+                <ArtistAppear id={artistID} />
             </div>
         </div>
     );
@@ -114,6 +120,9 @@ function PlayButton() {
             <button className="bg-[#1ED760] rounded-full w-12 h-12 flex justify-center items-center">
                 <BsPlayFill className="text-black text-3xl" />
             </button>
+            <div className='flex items-center'>
+                <button className='w-28 h-8 rounded-full border-solid border-[1px] border-black border-opacity-50 bg-transparent text-white text-opacity-50'>Follow</button>
+            </div>
             <div className="flex justify-center items-center">
                 <button>
                     <BsThreeDots className="text-[#AFAFAF] text-xl"/>

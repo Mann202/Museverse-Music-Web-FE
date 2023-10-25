@@ -42,20 +42,22 @@ function ArtistTrack({id}) {
     }, [setToken, setData]);
 
     return (
-        <div>
-            <h1>Popular</h1>
-            {
-                data.map((item, index) => (
-                    <ArtistTrackCard 
-                    index={index+1}
-                    id={item.id}
-                    image={item.album.images[0].url}
-                    name={item.album.name}
-                    duration ={item.duration_ms}
-                    release_date = {item.album.release_date}
-                    />
-                ))
-            } 
+        <div className='flex justify-evenly'>
+           <div>
+            <h1 className="text-white text-opacity-90 text-bold text-xl">Popular</h1>
+                {
+                    data.map((item, index) => (
+                        <ArtistTrackCard 
+                        index={index}
+                        id={item.id}
+                        image={item.album.images[0].url}
+                        name={item.album.name}
+                        duration ={item.duration_ms}
+                        release_date = {item.album.release_date}
+                        />
+                    ))
+                } 
+           </div>
         </div>
     )
 }

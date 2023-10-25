@@ -20,3 +20,11 @@ export function chuyenDoiThoiGian(ms) {
 
     return gio + " giờ " + phut + " phút "
 }
+
+export function chuyenNgay(ngay) {
+    const dateTimeString = ngay;
+    const dateTime = new Date(dateTimeString);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const formattedDate = dateTime.toLocaleDateString(undefined, options);
+    return formattedDate
+}

@@ -1,12 +1,13 @@
 import { useState } from 'react'
 import { AiOutlineLeft, AiOutlineRight} from 'react-icons/ai'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import avatar from "../assets/avatar.png"
 import { IoIosNotifications } from 'react-icons/io'
 import SearchBar from './SearchBar'
 
 export default function Headers() {
     const [logged, isLogged] = useState(false)
+    
 
     return(
         <div>
@@ -31,15 +32,16 @@ export default function Headers() {
 
 
 export function LoggedHeader() {
+    const navigate = useNavigate()
     return (
         <>
             <div className="flex justify-between items-center bg-opacity-100  h-16 mx-auto">
                 <div className="flex gap-2 ml-4">
-                    <button className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
+                    <button onClick={() => navigate(-1)} className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
                         <AiOutlineLeft />
                     </button>
 
-                    <button className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
+                    <button onClick={() => navigate(1)} className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
                         <AiOutlineRight />
                     </button>
                 </div>

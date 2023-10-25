@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 import { Spotify } from '../API/Credentials';
-import RelatedArtistCard from './RelatedArtistCard';
+import AppearOnCard from './AppearOnCard';
 
-function RelatedArtist({id}) {
-    const [token, setToken] = useState('');
-    const [data, setData] = useState([]);
-    const [artistID, setArtistID] = useState('')
+function ArtistAppear({id}) {
+    const [data, setData] = useState([])
 
     useEffect(() => {
         // Gọi API để lấy token
@@ -22,14 +20,14 @@ function RelatedArtist({id}) {
         .then(response => {
             const token = response.data.access_token;
             // Gọi Spotify Web API để lấy thông tin về nghệ sĩ
-            axios(`https://api.spotify.com/v1/artists/${id}/related-artists`, {
+            axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=appears_on&market=VN&limit=6`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token
                 }
             })
             .then(response => {
-                setData(response.data.artists)
+                setData(response.data.items)
             })
             .catch(error => {
                 console.error(error);
@@ -40,24 +38,24 @@ function RelatedArtist({id}) {
         });
     }, [id]);
 
-  return (
-    <div className='mt-10'>
-        <div>
-            <h3 className="text-white text-lg text-opacity-80 font-semibold font-base ml-7 ">Related Artist</h3>
+    return (
+        <div className='mt-7'>
+            <h3 className="text-white text-lg text-opacity-80 font-semibold font-base ml-7">Appear on</h3>
+            <div className="flex flex-row flex-wrap gap-5 justify-center">
+                {
+                    data.map(item => (
+                        <AppearOnCard 
+                        id={item.id}
+                        name={item.name}
+                        image={item.images[0].url}
+                        type={item.type}
+                        release={item.release_date}
+                        />
+                    ))
+                }
+            </div>
         </div>
-        <div className="flex flex-row flex-wrap justify-start ml-5 gap-5">
-            {
-                data.slice(0,6).map((item) => (
-                    <RelatedArtistCard 
-                    id={item.id}
-                    image={item.images[0].url}
-                    name={item.name}
-                    />
-                ))
-            }
-        </div>
-    </div>
-  )
+    )
 }
 
-export default RelatedArtist
+export default ArtistAppear
