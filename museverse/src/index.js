@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Link, NavLink, Routes } from "react-router-dom";
 import NotFound from './NotFound/NotFound';
-import SignIn from './Login-SignUp/SignIn';
 
 //<Route path="/*" element={<Navigate to="/notfound" />} />
 
@@ -14,7 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-        <SignIn />
+        <App />
     </Router>
   </React.StrictMode>
 );
