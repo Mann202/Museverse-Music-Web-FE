@@ -10,6 +10,7 @@ import Chart from "./Chart/Chart";
 import Search from "./Search/Search";
 import Catelogy from "./Catelogy/Catelogy";
 import Playlist from "./Playlist/Playlist";
+import Artist from "./Artists/Artists";
 
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
                 <Route path="/search/:catelogyID" element={<Catelogy />} />
                 <Route path="/playlist" element={<Playlist />} />
                 <Route path="/playlist/:playlistID" element={<Playlist />} />
+                <Route path="/artist/" element={<Artist />} />
+                <Route path="/artist/:artistID" element={<Artist />} />
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">

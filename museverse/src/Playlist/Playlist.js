@@ -99,8 +99,6 @@ function Playlist() {
     }) 
 
     const timeinString = chuyenDoiThoiGian(time)
-    console.log(data)
-
 
     return (
         <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
