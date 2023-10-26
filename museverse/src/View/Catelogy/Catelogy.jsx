@@ -3,8 +3,9 @@ import { useParams } from 'react-router-dom';
 import ColorThief from 'colorthief';
 import axios from 'axios';
 
-import { Spotify } from '../API/Credentials';
-import CatelogyCard from '../Catelogy/CatelogyCard'
+import { Spotify } from '../../API/Credentials';
+
+import CatelogyCard from './CatelogyCard';
 import Loading from '../Loading/Loading';
 
 function Catelogy() {

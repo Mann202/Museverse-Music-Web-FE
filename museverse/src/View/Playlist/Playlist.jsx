@@ -5,9 +5,9 @@ import ColorThief from 'colorthief';
 
 import { BsPlayFill, BsThreeDots } from 'react-icons/bs';
 
-import { Spotify } from '../API/Credentials';
+import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
-import {formatNumber} from '../Playlist/SplitNumber'
+import {formatNumber} from './SplitNumber'
 import PlaylistCard from './PlaylistCard';
 import {chuyenDoiThoiGian} from './SplitNumber'
 

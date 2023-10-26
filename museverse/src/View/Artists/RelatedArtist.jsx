@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 
-import { Spotify } from '../API/Credentials';
+import { Spotify } from '../../API/Credentials';
 import RelatedArtistCard from './RelatedArtistCard';
 
 function RelatedArtist({id}) {

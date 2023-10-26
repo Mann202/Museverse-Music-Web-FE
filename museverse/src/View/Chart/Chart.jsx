@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Spotify } from "../API/Credentials";
+import { Spotify } from "../../API/Credentials";
 import CardChart from "./CardChart";
 import Loading from "../Loading/Loading";
 

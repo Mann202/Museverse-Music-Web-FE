@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { chuyenNgay } from '../Playlist/SplitNumber'
-import { capitalizeFirstLetter } from '../Playlist/SplitNumber'
+import { chuyenNgay, capitalizeFirstLetter } from '../Playlist/SplitNumber'
 
 function AppearOnCard({id, image, name, type, release}) {
   

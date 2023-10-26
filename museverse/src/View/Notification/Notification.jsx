@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { Spotify } from '../API/Credentials'
+import { Spotify } from '../../API/Credentials';
 import axios from 'axios'
 import { NavLink } from 'react-router-dom';
 

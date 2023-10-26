@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 
-import { Spotify } from '../API/Credentials';
+import { Spotify } from '../../API/Credentials';
 import ArtistTrackCard from './ArtistTrackCard';
 
 function ArtistTrack({id}) {

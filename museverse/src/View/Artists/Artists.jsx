@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ColorThief from 'colorthief'
 
-import { Spotify } from '../API/Credentials';
+import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
 import ArtistTrack from './ArtistTrack';
 import ArtistAlbum from './ArtistAlbum';

@@ -1,25 +1,22 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useState } from "react";
 
-import Headers from "./Header/Header";
-import SideBar from "./SideBar/SideBar";
-import Discover from "./Discover/Discover";
-import Play from "./Play/Play";
-import NotFound from "./NotFound/NotFound";
-import Chart from "./Chart/Chart";
-import Search from "./Search/Search";
-import Catelogy from "./Catelogy/Catelogy";
-import Playlist from "./Playlist/Playlist";
-import Artist from "./Artists/Artists";
-import Discovery from "./Artists/Discovery/Discovery";
-import Related from "./Artists/Related";
-import AppearOn from "./Artists/AppearOn";
-
+import Headers from "./View/Header/Header";
+import SideBar from "./View/SideBar/SideBar";
+import Discover from "./View/Discover/Discover";
+import Play from "./View/Play/Play"
+import NotFound from './View/NotFound/NotFound'
+import Chart from "./View/Chart/Chart";
+import Search from "./View/Search/Search";
+import Catelogy from "./View/Catelogy/Catelogy";
+import Playlist from "./View/Playlist/Playlist";
+import Artist from "./View/Artists/Artists";
+import Discovery from "./View/Artists/Discovery/Discovery";
+import Related from "./View/Artists/Related";
+import AppearOn from "./View/Artists/AppearOn";
 
 function App() {
   const [backGroundColorCatelogy, setBackgroundColorCatelogy] = useState('')
-
-  
 
   return (
       <div className="relative flex">

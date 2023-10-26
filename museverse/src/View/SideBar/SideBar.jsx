@@ -1,6 +1,6 @@
-import NavLinks from "./NavLinks.js";
-import logo from '../assets/MuseverseMain.png'
-import miniLogo from '../assets/MiniLogo.png'
+import NavLinks from "./NavLinks.jsx";
+import logo from '../../assets/MuseverseMain.png'
+import miniLogo from '../../assets/MiniLogo.png'
 import { createContext, useState } from "react";
 import {useNavigate} from 'react-router-dom'
 import { BsChevronBarLeft, BsChevronBarRight } from "react-icons/bs";

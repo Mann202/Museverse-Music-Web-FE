@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
 
-import { Spotify } from '../../API/Credentials';
+import { Spotify } from '../../../API/Credentials';
 import {AiOutlineClockCircle} from 'react-icons/ai'
 import { convertMsToMinSec } from '../../Playlist/SplitNumber';
 import { NavLink } from 'react-router-dom';

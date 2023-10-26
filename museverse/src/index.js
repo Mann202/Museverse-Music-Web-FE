@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Link, NavLink, Routes } from "react-router-dom";
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import NotFound from './NotFound/NotFound';
 
 //<Route path="/*" element={<Navigate to="/notfound" />} />
 

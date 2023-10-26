@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 
-import { Spotify } from '../API/Credentials'
+import { Spotify } from '../../API/Credentials'
 import CatelogyListCard from './CatelogyListCard'
 import Loading from '../Loading/Loading'
 

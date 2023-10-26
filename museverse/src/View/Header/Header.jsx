@@ -7,11 +7,11 @@ import {MdNotificationsActive} from 'react-icons/md'
 
 import SearchBar from './SearchBar'
 import Notification from '../Notification/Notification'
-import DropDownMenu from '../Notification/DropdownMenu'
+import DropdownMenu from '../Notification/DropdownMenu'
 
 import axios from 'axios'
-import avatar from "../assets/avatar.png"
-import { Spotify } from '../API/Credentials'
+import avatar from '../../assets/avatar.png'
+import { Spotify } from '../../API/Credentials'
 
 export default function Headers() {
     const [logged, isLogged] = useState(false)
@@ -112,7 +112,7 @@ export function LoggedHeader() {
                 </div>
             </div>
             {notification ? <Notification notification={notification} data={data}/> : ""}
-            {dropdownMenu ? <DropDownMenu /> : ""}
+            {dropdownMenu ? <DropdownMenu /> : ""}
         </>
     )
 }

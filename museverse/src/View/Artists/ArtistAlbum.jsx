@@ -3,7 +3,7 @@ import {NavLink} from 'react-router-dom'
 import React from 'react'
 import axios from "axios";
 
-import { Spotify } from "../API/Credentials";
+import { Spotify } from "../../API/Credentials";
 import ArtistCardAlbum from "./ArtistCardAlbum";
 import RelatedArtist from "./RelatedArtist";
 
