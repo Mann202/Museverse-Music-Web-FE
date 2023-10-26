@@ -39,7 +39,7 @@ export default function NavLinks ({handleClick}) {
             <NavLink
                 key={item.name}
                 to={item.to}
-                className={`flex flex-row justify-start items-center transition-all overflow-hidden my-8 text-lg font-semibold text-gray-100 hover:text-[#1FD662] 
+                className={`flex flex-row justify-start items-center transition-all overflow-hidden my-8 text-lg font-semibold text-gray-100 hover:text-[#EE5566] 
                 ${expanded ? "" : "visibility: hidden"}`}
                 onClick={() => handleClick && handleClick()}
             >
@@ -55,7 +55,7 @@ export default function NavLinks ({handleClick}) {
                 <NavLink
                     key={item.name}
                     to={item.to}
-                    className="flex flex-row justify-start items-center ml-2 my-8 text-sm font-medium text-gray-100 hover:text-[#1FD662]"
+                    className="flex flex-row justify-start items-center ml-2 my-8 text-sm font-medium text-gray-100 hover:text-[#EE5566]"
                     onClick={() => handleClick && handleClick()}
                 >
                     <item.icon className={`w-10 h-7 ${expanded ? "mr-2" : "ml-[3px]"}`} />
@@ -73,7 +73,7 @@ export default function NavLinks ({handleClick}) {
                 <NavLink
                     key={item.content}
                     to={item.content}
-                    className="flex flex-row justify-start items-center rounded-md py-5 pr-8 pl-3 my-8 text-sm font-medium text-gray-100 hover:bg-slate-800"
+                    className="flex flex-row justify-start items-center rounded-md py-5 pr-8 pl-3 my-8 text-sm font-medium text-gray-100 hover:bg-[#EE5566] hover:bg-opacity-50"
                     onClick={() => handleClick && handleClick()}
                 >
                     {item.content}

@@ -137,12 +137,12 @@ function Playlist() {
 function PlayButton() {
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">
-            <button className="bg-[#1ED760] rounded-full w-12 h-12 flex justify-center items-center">
+            <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
                 <BsPlayFill className="text-black text-3xl" />
             </button>
             <div className="flex justify-center items-center">
                 <button>
-                    <BsThreeDots className="text-[#AFAFAF] text-xl"/>
+                    <BsThreeDots className="text-[#EE5566] text-xl"/>
                 </button>
             </div>
         </div>
