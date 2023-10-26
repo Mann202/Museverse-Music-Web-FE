@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Route, Link, NavLink, Routes } from "react-router-dom";
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import NotFound from './NotFound/NotFound';
 
 //<Route path="/*" element={<Navigate to="/notfound" />} />
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-        <App />
+      <GoogleOAuthProvider clientId="810152862388-0eomepn0d2hkm5j2bau5vasn9br3j0c6.apps.googleusercontent.com">
+          <App />
+      </GoogleOAuthProvider>
     </Router>
   </React.StrictMode>
 );
