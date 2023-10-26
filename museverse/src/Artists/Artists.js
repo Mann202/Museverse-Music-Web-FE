@@ -74,9 +74,9 @@ function Artist() {
                 
                 if (brightness > 160) {
                   const darkenedColor = [
-                    Math.max(0, color[0] - 50), 
-                    Math.max(0, color[1] - 50), 
-                    Math.max(0, color[2] - 50), 
+                    Math.max(0, color[0] - 100), 
+                    Math.max(0, color[1] - 100), 
+                    Math.max(0, color[2] - 100), 
                   ];
                   const hexColor = `#${darkenedColor[0].toString(16).padStart(2, '0')}${darkenedColor[1].toString(16).padStart(2, '0')}${darkenedColor[2].toString(16).padStart(2, '0')}`;
                   setBackgroundColor(hexColor);
@@ -110,7 +110,7 @@ function Artist() {
                 </div>
                 <div className='flex gap-6 items-center flex-col justify-center'>
                     <div className="flex flex-col gap-1">
-                        <p className="font-medium text-lg text-white">Artist</p>
+                        <p className="font-medium text-lg text-[white]">Artist</p>
                         <h1 className="text-5xl text-white font-bold">{data.name}</h1>
                         <h3 className="text-base text-white text-opacity-80 font-base">{formatNumber(data.followers.total)} người theo dõi</h3>
                     </div>
@@ -141,14 +141,14 @@ function PlayButton() {
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">
             <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
-                <BsPlayFill className="text-black text-3xl" />
+                <BsPlayFill className="text-white text-3xl" />
             </button>
             <div className='flex items-center'>
-                <button className='w-28 h-8 rounded-full border-solid border-[1px] border-black border-opacity-50 bg-black bg-opacity-20 text-white text-opacity-50'>Follow</button>
+                <button className='w-28 h-8 rounded-full border-solid border-[1px] border-[#EE5566] border-opacity-50 bg-[#EE5566] bg-opacity-80 text-white'>Follow</button>
             </div>
             <div className="flex justify-center items-center">
                 <button>
-                    <BsThreeDots className="text-white text-opacity-80 text-xl"/>
+                    <BsThreeDots className="text-[#EE5566] text-opacity-80 text-xl"/>
                 </button>
             </div>
         </div>

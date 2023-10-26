@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 import { AiOutlineLeft, AiOutlineRight} from 'react-icons/ai'
 import { IoIosNotifications } from 'react-icons/io'
@@ -42,6 +42,7 @@ export function LoggedHeader() {
     const [notification, setNotification] = useState(false)
     const [dropdownMenu, setDropdownMenu] = useState(false)
     const [data,setData] = useState([])
+    const navigate = useNavigate()
     
     const ClientID = Spotify.ClientID
     const ClientSecret = Spotify.ClientSecret
@@ -91,11 +92,11 @@ export function LoggedHeader() {
         <>
             <div className="flex justify-between items-center bg-[#171719] h-16 mx-auto">
                 <div className="flex gap-2 ml-4">
-                    <button className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
+                    <button onClick={()=>{navigate(-1)}} className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
                         <AiOutlineLeft />
                     </button>
 
-                    <button className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
+                    <button onClick={()=>{navigate(1)}} className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
                         <AiOutlineRight />
                     </button>
                 </div>

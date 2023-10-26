@@ -44,7 +44,7 @@ function ArtistTrack({id}) {
     return (
         <div className='flex justify-center'>
            <div className='w-full flex flex-col justify-center ml-10 mt-5'>
-            <h1 className="text-white text-opacity-90 text-bold text-xl">Popular</h1>
+            <h1 className="text-[#EE5566] text-opacity-90 font-semibold text-lg">Popular</h1>
                 <div className='mt-5'>
                 {
                     data.map((item, index) => (
