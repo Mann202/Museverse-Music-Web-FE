@@ -8,13 +8,13 @@ import { Navigate } from 'react-router-dom';
 import NotFound from './NotFound/NotFound';
 import SignIn from './Login-SignUp/SignIn';
 
+//import anh, copy file .txt
 //<Route path="/*" element={<Navigate to="/notfound" />} />
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Router>
-        <SignIn />
     </Router>
   </React.StrictMode>
 );
