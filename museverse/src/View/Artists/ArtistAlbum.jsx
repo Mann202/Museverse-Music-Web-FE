@@ -89,7 +89,7 @@ function ArtistAlbum({id}) {
         .catch(error => {
             console.error(error);
         });
-    }, [setToken, setData, type, limit]);
+    }, []);
 
     
 

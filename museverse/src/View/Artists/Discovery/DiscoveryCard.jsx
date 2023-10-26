@@ -5,6 +5,7 @@ import { Spotify } from '../../../API/Credentials';
 import {AiOutlineClockCircle} from 'react-icons/ai'
 import { convertMsToMinSec } from '../../Playlist/SplitNumber';
 import { NavLink } from 'react-router-dom';
+import Loading from '../../Loading/Loading';
 
 function DiscoveryCard({id}) {
     const [data, setData] = useState([])
@@ -42,9 +43,7 @@ function DiscoveryCard({id}) {
         });
     }, [id]);
 
-    console.log(data)
-
-    if(loading) return <div>Loading</div>
+    if(loading) return <div><Loading /></div>
 
     return (
         <div>
