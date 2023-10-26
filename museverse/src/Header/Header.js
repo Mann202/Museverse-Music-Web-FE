@@ -40,7 +40,7 @@ export default function Headers() {
 
 export function LoggedHeader() {
     const [notification, setNotification] = useState(false)
-    const [dropdownMenu, setDropdownMenu] = useState(true)
+    const [dropdownMenu, setDropdownMenu] = useState(false)
     const [data,setData] = useState([])
     
     const ClientID = Spotify.ClientID

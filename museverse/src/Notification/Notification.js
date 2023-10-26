@@ -1,9 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import { Spotify } from '../API/Credentials'
 import axios from 'axios'
+import { NavLink } from 'react-router-dom';
 
 function Notification({notification, data}) {
-    const [token, setToken] = useState('')
+    const [focus, setFocus] = useState(false)
+
+    const artists = data[0].artists
 
     var ngayThangBanDau = data[0].release_date;
     var parts = ngayThangBanDau.split('-');
@@ -13,12 +16,20 @@ function Notification({notification, data}) {
     var ngayThangMoi = ngay + '/' + thang + '/' + nam;
 
     return (
-        <div className="bg-[#1A1A1A] w-96 p-4 rounded-md h-32 absolute top-16 right-4 border-solid border-[1px] border-gray-700">
+        <div className="bg-[#1A1A1A] w-96 p-4 rounded-md h-32 absolute top-16 right-4 border-solid border-[1px] border-gray-700 mt-1">
             <div className="flex flex-row gap-6">
                 <img src={data[0].images[0].url} className="w-24 h-24 rounded"></img>
                 <div>
-                    <h3 className="font-semibold text-white text-base">{data[0].name}</h3>
-                    <p className="text-[#939393] text-sm pt-1">{(data[0].artists[0].name.length > 50 && data[0].name > 50) ? data[0].artists[0].name.slice(50) + "..." : data[0].artists[0].name}</p>
+                    <h3 className="font-semibold text-white text-lg">{data[0].name}</h3>
+                    <div className='flex flex-row'>
+                        {
+                            artists.map((item, index) => (
+                                <NavLink to={`/artist/${item.id}`} className={`text-sm text-white text-opacity-50 font-medium hover:underline ${focus ? "text-opacity-100" : "text-opacity-50"}`} key={index}>
+                                    {item.name}{index !== artists.length - 1 ? `, ` : ''} 
+                                </NavLink>
+                            ))
+                        }
+                    </div>
                     <p className="text-white font-semibold text-sm pt-1">{data[0].album_type.charAt(0).toUpperCase() + data[0].album_type.slice(1)} - {ngayThangMoi}</p>
                 </div>
             </div>
