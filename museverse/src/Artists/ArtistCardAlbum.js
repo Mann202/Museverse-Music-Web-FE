@@ -44,7 +44,7 @@ function ArtistCardAlbum({ id, name, release , image }) {
 
 function ButtonPlay() {
   return (
-    <button className="bg-[#1ED760] rounded-full w-12 h-12 flex justify-center items-center">
+    <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
       <BsPlayFill className="text-black text-3xl" />
     </button>
   );

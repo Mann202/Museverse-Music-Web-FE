@@ -42,3 +42,10 @@ export function capitalizeFirstLetter(chuoi) {
     var chuoiVietHoa = kyTuDau + phanConLai;
     return chuoiVietHoa;
 }
+
+export function convertMsToMinSec(ms) {
+    const minutes = Math.floor(ms / 60000); // Một phút có 60000 miligiây
+    const seconds = ((ms % 60000) / 1000).toFixed(0); // Lấy phần dư và chuyển thành giây
+
+    return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}`;
+}

@@ -11,6 +11,9 @@ import Search from "./Search/Search";
 import Catelogy from "./Catelogy/Catelogy";
 import Playlist from "./Playlist/Playlist";
 import Artist from "./Artists/Artists";
+import Discovery from "./Artists/Discovery/Discovery";
+import Related from "./Artists/Related";
+import AppearOn from "./Artists/AppearOn";
 
 
 function App() {
@@ -33,6 +36,9 @@ function App() {
                 <Route path="/playlist/:playlistID" element={<Playlist />} />
                 <Route path="/artist/" element={<Artist />} />
                 <Route path="/artist/:artistID" element={<Artist />} />
+                <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
+                <Route path="/artist/:artistID/related-artists" element={<Related />} />
+                <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">

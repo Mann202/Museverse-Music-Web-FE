@@ -44,7 +44,7 @@ function ArtistAppear({id}) {
             <div className="flex flex-row gap-5 justify-between">
                 <h3 className="text-white text-lg text-opacity-80 font-semibold font-base ml-7">Appear on</h3>
                 <div className="flex flex-row items-end mr-7">
-                    <NavLink className="text-white text-opacity-80">Show all</NavLink>
+                    <NavLink to={`/artist/${id}/appear-on`} className="text-white text-opacity-80">Show all</NavLink>
                 </div>
             </div>
             <div className="flex flex-row flex-wrap gap-5 justify-center mt-4">

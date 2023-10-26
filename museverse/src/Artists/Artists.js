@@ -103,7 +103,7 @@ function Artist() {
         return <div><Loading /></div>
     }
     return (
-        <div className="h-screen overflow-y-scroll flex flex-col gap-y-10 pb-20 w-full">
+        <div className="h-screen overflow-y-scroll flex flex-col gap-y-6 pb-20 w-full">
             <div style={{background: `${backgroundColor}`}} className="flex flex-row gap-10">
                 <div className="flex items-center flex-row ml-7">
                     <img src={data.images[0].url} className="rounded-full w-60 h-64 my-5"></img>

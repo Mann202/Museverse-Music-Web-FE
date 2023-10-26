@@ -19,7 +19,7 @@ function RelatedArtistCard({id, name, image}) {
         onClick={changeRoute}
          >
         <div className="relative overflow-hidden">
-            <img src={image} className="rounded-xl w-48 h-48 mt-3" />
+            <img src={image} className="rounded-full w-48 h-48 mt-3" />
                     
         </div>
         <div className="w-40 pb-4">
