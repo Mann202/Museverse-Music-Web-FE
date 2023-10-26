@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom' 
 import { BsPlayFill } from 'react-icons/bs';
 
+import { chuyenNgay } from '../Playlist/SplitNumber';
+
 function ArtistCardAlbum({ id, name, release , image }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate()
@@ -32,7 +34,7 @@ function ArtistCardAlbum({ id, name, release , image }) {
             {name.length > 15 ? name.slice(0, 15) + '...' : name}
           </h3>
           <p className="font-normal text-sm text-[#9898A6]">
-            {release}
+            {chuyenNgay(release)}
           </p>
         </div>
       </div>

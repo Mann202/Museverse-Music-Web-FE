@@ -20,7 +20,7 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
   return (
     <>
       <div
-        className="flex felx-row w-11/12 gap-7 pl-3 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1 "
+        className="flex flex-row justify-between w-11/12 gap-20 pl-3 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1"
         onMouseEnter={() => {
           setFocus(true);
         }}
@@ -39,7 +39,7 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
           <div className="flex flex-row items-center">
             <img src={image} className="w-12 h-12 rounded-lg"></img>
           </div>
-          <div>
+          <div className="flex items-center">
             <h3
               className="text-white text-opacity-90 font-medium text-base cursor-pointer hover:underline"
             >
@@ -47,7 +47,7 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
             </h3>
           </div>
         </div>
-        <div className="flex flex-row w-7/12 gap-32">
+        <div className="flex flex-row w-4/12 gap-32">
           <div className="w-60 flex items-center">
             <p className="text-white text-opacity-50 font-medium text-sm">
               {chuyenNgay(release_date)}

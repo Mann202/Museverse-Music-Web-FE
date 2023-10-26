@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { chuyenNgay } from '../Playlist/SplitNumber'
+import { capitalizeFirstLetter } from '../Playlist/SplitNumber'
+
 function AppearOnCard({id, image, name, type, release}) {
   
     return (
@@ -18,8 +21,13 @@ function AppearOnCard({id, image, name, type, release}) {
                 {name.length > 15 ? name.slice(0, 15) + '...' : name}
             </h3>
             <p className="font-normal text-sm text-[#9898A6]">
-                {release} . {type}
+                {chuyenNgay(release)}
             </p>
+            <div>
+            <p className="font-normal text-sm text-[#9898A6]">
+                {capitalizeFirstLetter(type)}
+            </p>
+            </div>
             </div>
         </div>
         </div>

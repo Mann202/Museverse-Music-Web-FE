@@ -59,8 +59,8 @@ function ArtistAlbum({id}) {
     <div className="mt-10">
         <div className="flex flex-row justify-between">
             <div className="flex flex-row gap-5 ml-5">
-                <button onClick={handleChangeType1} className="w-20 h-10 rounded-full border-[1px] bg-transparent border-black border-opacity-60 text-white text-opacity-50">Single</button>
-                <button onClick={handleChangeType2} className="w-20 h-10 rounded-full border-[1px] bg-transparent border-black border-opacity-60 text-white text-opacity-50">Album</button>
+                <button onClick={handleChangeType1} className="w-20 h-7 rounded-full border-[1px] bg-transparent border-black border-opacity-60 text-white text-opacity-50">Single</button>
+                <button onClick={handleChangeType2} className="w-20 h-7 rounded-full border-[1px] bg-transparent border-black border-opacity-60 text-white text-opacity-50">Album</button>
             </div>
             <div className="flex flex-row items-end mr-7">
                 <NavLink className="text-white text-opacity-80">Show all</NavLink>

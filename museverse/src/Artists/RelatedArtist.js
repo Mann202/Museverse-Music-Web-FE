@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 import { Spotify } from '../API/Credentials';
 import RelatedArtistCard from './RelatedArtistCard';
@@ -42,8 +43,11 @@ function RelatedArtist({id}) {
 
   return (
     <div className='mt-10'>
-        <div>
-            <h3 className="text-white text-lg text-opacity-80 font-semibold font-base ml-7 ">Related Artist</h3>
+        <div className="flex flex-row gap-5 justify-between">
+            <h3 className="text-white text-lg text-opacity-80 font-semibold font-base ml-7">Related artists</h3>
+            <div className="flex flex-row items-end mr-7">
+                <NavLink className="text-white text-opacity-80">Show all</NavLink>
+            </div>
         </div>
         <div className="flex flex-row flex-wrap justify-start ml-5 gap-5">
             {

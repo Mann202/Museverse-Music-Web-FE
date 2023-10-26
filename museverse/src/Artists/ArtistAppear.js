@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 import { Spotify } from '../API/Credentials';
 import AppearOnCard from './AppearOnCard';
@@ -40,8 +41,13 @@ function ArtistAppear({id}) {
 
     return (
         <div className='mt-7'>
-            <h3 className="text-white text-lg text-opacity-80 font-semibold font-base ml-7">Appear on</h3>
-            <div className="flex flex-row flex-wrap gap-5 justify-center">
+            <div className="flex flex-row gap-5 justify-between">
+                <h3 className="text-white text-lg text-opacity-80 font-semibold font-base ml-7">Appear on</h3>
+                <div className="flex flex-row items-end mr-7">
+                    <NavLink className="text-white text-opacity-80">Show all</NavLink>
+                </div>
+            </div>
+            <div className="flex flex-row flex-wrap gap-5 justify-center mt-4">
                 {
                     data.map(item => (
                         <AppearOnCard 

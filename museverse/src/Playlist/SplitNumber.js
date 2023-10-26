@@ -28,3 +28,17 @@ export function chuyenNgay(ngay) {
     const formattedDate = dateTime.toLocaleDateString(undefined, options);
     return formattedDate
 }
+
+export function capitalizeFirstLetter(chuoi) {
+    // Kiểm tra nếu chuỗi là rỗng hoặc null
+    if (!chuoi) {
+        return chuoi;
+    }
+    // Lấy kí tự đầu tiên và chuyển thành chữ cái viết hoa
+    var kyTuDau = chuoi.charAt(0).toUpperCase();
+    // Lấy phần còn lại của chuỗi
+    var phanConLai = chuoi.slice(1);
+    // Kết hợp kí tự đầu viết hoa và phần còn lại của chuỗi
+    var chuoiVietHoa = kyTuDau + phanConLai;
+    return chuoiVietHoa;
+}
