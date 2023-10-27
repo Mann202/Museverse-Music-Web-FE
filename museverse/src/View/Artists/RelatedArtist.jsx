@@ -46,7 +46,7 @@ function RelatedArtist({id}) {
         <div className="flex flex-row gap-5 justify-between">
             <h3 className="text-[#EE5566] text-lg text-opacity-80 font-semibold font-base ml-7">Related artists</h3>
             <div className="flex flex-row items-end mr-7">
-                <NavLink to={`/artist/${id}/related-artists`} className="text-[#EE5566] text-opacity-80">Show all</NavLink>
+                <NavLink to={`/artist/${id}/related-artists`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
             </div>
         </div>
         <div className="flex flex-row flex-wrap justify-start ml-5 gap-5">

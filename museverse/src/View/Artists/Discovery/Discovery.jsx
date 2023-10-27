@@ -105,9 +105,9 @@ function Discovery() {
         <div className='h-screen overflow-y-scroll w-full pb-32'>
             <div className='flex flex-row justify-between'>
                 <div className='flex items-end ml-8'>
-                    <select value={type} onChange={handleChange} className="bg-transparent text-[#EE5566] text-opacity-80 w-32 focus:border-[#EE5566]">
-                        <option value="single" className="bg-[#171719]">Single</option>
-                        {(preData.length == 0) ? "" : <option value="album">Album</option>}
+                    <select value={type} onChange={handleChange} className="bg-transparent text-[#EE5566] text-opacity-80 w-32">
+                        <option value="single" className="bg-[#EE5566] text-white">Single</option>
+                        {(preData.length == 0) ? "" : <option className="bg-[#EE5566] text-white" value="album">Album</option>}
                     </select>
                 </div>
                 <div className='flex flex-row justify-end mr-8 gap-3 mt-5'>

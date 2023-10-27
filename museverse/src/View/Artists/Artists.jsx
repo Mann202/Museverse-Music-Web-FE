@@ -17,7 +17,7 @@ function Artist() {
     const [loading, setLoading] = useState(true)
     const [backgroundColor, setBackgroundColor] = useState('')
     const [image, setImage] = useState('')
-    const [darkerBackgroundColor, setDarkerBackgroundColor] = useState('')
+    const [dark, setDark] = useState(false)
 
     const { artistID } = useParams();
     const imageRef = useRef(null);
@@ -54,8 +54,6 @@ function Artist() {
             console.error(error);
         });
     }, [artistID]);
-
-    console.log(data)
   
     useEffect(() => {
         const colorThief = new ColorThief();
@@ -70,8 +68,11 @@ function Artist() {
                 const color = colorThief.getColor(img);
                 
                 const brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
-                console.log(brightness)
                 
+                if(brightness < 50) {
+                    setDark(true)
+                }
+
                 if (brightness > 160) {
                   const darkenedColor = [
                     Math.max(0, color[0] - 100), 
@@ -129,9 +130,9 @@ function Artist() {
             <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="w-full pt-8 pb-32">
                 <PlayButton />
                 <ArtistTrack id={artistID} />
-                <ArtistAlbum id={artistID} />
+                <ArtistAlbum id={artistID} dark={dark}/>
                 <RelatedArtist id={artistID} />
-                <ArtistAppear id={artistID} />
+                <ArtistAppear id={artistID} dark={dark}/>
             </div>
         </div>
     );

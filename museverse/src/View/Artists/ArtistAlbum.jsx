@@ -7,7 +7,7 @@ import { Spotify } from "../../API/Credentials";
 import ArtistCardAlbum from "./ArtistCardAlbum";
 import RelatedArtist from "./RelatedArtist";
 
-function ArtistAlbum({id}) {
+function ArtistAlbum({id, dark}) {
     const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true)
@@ -101,7 +101,7 @@ function ArtistAlbum({id}) {
                 <button onClick={handleChangeType2} className={`w-20 h-7 rounded-full border-[1px] border-[#EE5566] border-opacity-60 text-[#EE5566] ${(preData.length == 0) ? "hidden" : ""} ${choose ? "" : "bg-[#EE5566] text-white text-opacity-100"}`}>Album</button>
             </div>
             <div className="flex flex-row items-end mr-7">
-                <NavLink to={`/artist/${id}/discovery-all`} className="text-[#EE5566] text-opacity-80">Show all</NavLink>
+                <NavLink to={`/artist/${id}/discovery-all`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
             </div>
         </div>
         <div className="ml-5 mt-5">
@@ -113,6 +113,7 @@ function ArtistAlbum({id}) {
                 name={item.name}
                 release={item.release_date}
                 image={item.images[0].url}
+                dark={dark}
                 />
             ))
         }

@@ -4,7 +4,7 @@ import { BsPlayFill } from 'react-icons/bs';
 
 import { chuyenNgay } from '../Playlist/SplitNumber';
 
-function ArtistCardAlbum({ id, name, release , image }) {
+function ArtistCardAlbum({ id, name, release , image, dark }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate()
 
@@ -15,7 +15,7 @@ function ArtistCardAlbum({ id, name, release , image }) {
 
   return (
     <div
-      className="bg-black bg-opacity-30 h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 hover:bg-opacity-60 cursor-pointer"
+      className={`${dark ? "bg-white bg-opacity-10 hover:bg-opacity-20" : "bg-black bg-opacity-30 hover:bg-opacity-60"} h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 hover:bg-opacity-60 cursor-pointer`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       //onClick={changeRoute}

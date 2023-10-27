@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { AiOutlineLeft, AiOutlineRight} from 'react-icons/ai'
 import { IoIosNotifications } from 'react-icons/io'
@@ -42,7 +42,8 @@ export function LoggedHeader() {
     const [notification, setNotification] = useState(false)
     const [dropdownMenu, setDropdownMenu] = useState(false)
     const [data,setData] = useState([])
-    const navigate = useNavigate()
+
+    const navigate = useNavigate();
     
     const ClientID = Spotify.ClientID
     const ClientSecret = Spotify.ClientSecret
@@ -87,16 +88,16 @@ export function LoggedHeader() {
         setDropdownMenu(!dropdownMenu)
         setNotification(false)
     }
-
+    
     return (
         <>
             <div className="flex justify-between items-center bg-[#171719] h-16 mx-auto">
                 <div className="flex gap-2 ml-4">
-                    <button onClick={()=>{navigate(-1)}} className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
+                    <button onClick={()=>{navigate(-1)}} className={`text-[#EE5566] bg-[#1F1F22] border-[#EE5566] border-[1px] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-lg active:bg-[#EE5566] active:text-white`}>
                         <AiOutlineLeft />
                     </button>
 
-                    <button onClick={()=>{navigate(1)}} className="text-[#EBEBFF0D] bg-[#1F1F22] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-white hover:border-white">
+                    <button onClick={()=>{navigate(1)}} className="text-[#EE5566] bg-[#1F1F22] border-[#EE5566] border-[1px] rounded-full h-10 w-10 flex justify-center items-center hover:border-2 hover:text-lg active:bg-[#EE5566] active:text-white">
                         <AiOutlineRight />
                     </button>
                 </div>

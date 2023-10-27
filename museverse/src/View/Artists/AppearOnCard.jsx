@@ -2,11 +2,11 @@ import React from 'react'
 
 import { chuyenNgay, capitalizeFirstLetter } from '../Playlist/SplitNumber'
 
-function AppearOnCard({id, image, name, type, release}) {
+function AppearOnCard({id, image, name, type, release, dark}) {
   
     return (
         <div
-        className="bg-black bg-opacity-30 h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 hover:bg-opacity-60 cursor-pointer"
+        className={`${dark ? "bg-white bg-opacity-10 hover:bg-opacity-20" : "bg-black bg-opacity-30 hover:bg-opacity-60"} h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 cursor-pointer`}
         //onMouseEnter={() => setIsHovered(true)}
         //onMouseLeave={() => setIsHovered(false)}
         //onClick={changeRoute}

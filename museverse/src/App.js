@@ -13,7 +13,7 @@ import Playlist from "./View/Playlist/Playlist";
 import Artist from "./View/Artists/Artists";
 import Discovery from "./View/Artists/Discovery/Discovery";
 import Related from "./View/Artists/Related";
-import AppearOn from "./View/Artists/AppearOn";
+import AppearOn from "./View/Artists/AppearOn/AppearOn";
 
 function App() {
   const [backGroundColorCatelogy, setBackgroundColorCatelogy] = useState('')
