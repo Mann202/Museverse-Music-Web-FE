@@ -49,9 +49,9 @@ function TopTrack({id, trackData}) {
         <div>
             <div className='flex flex-row gap-2'>
                 <div className='flex items-end'>
-                    <h3 className='text-white text-opacity-90 text-lg'>Top track of </h3>
+                    <h3 className='text-[#EE5566] text-opacity-90 text-lg'>Top track by </h3>
                 </div>
-                <NavLink to={`/artist/${trackData.artists[0].id}`} className='text-white text-opacity-95 text-2xl hover:underline'>{trackData.artists[0].name}</NavLink>
+                <NavLink to={`/artist/${trackData.artists[0].id}`} className='text-[#EE5566] text-opacity-95 text-2xl hover:underline'>{trackData.artists[0].name}</NavLink>
             </div>
             <div className='flex flex-row justify-center mt-5'>
                 <div className='w-11/12'>
@@ -69,7 +69,7 @@ function TopTrack({id, trackData}) {
                     }
                 </div>
             </div>
-            <p onClick={() => {setLimit(limit+5)}} className={`text-white text-opacity-80 ml-14 mt-5 ${(limit < data.length) ? "" : "hidden"}`}>Show more</p>
+            <p onClick={() => {setLimit(limit+5)}} className={`text-[#EE5566] text-opacity-80 ml-14 mt-5 ${(limit < data.length) ? "" : "hidden"}`}>Show more</p>
         </div>
     </div>
   )

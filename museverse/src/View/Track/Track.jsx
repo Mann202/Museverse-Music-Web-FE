@@ -122,7 +122,7 @@ function Track() {
 
     if(loading) return <div><Loading /></div>
     return (
-        <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-32">
+        <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-16">
             <div className="flex flex-col gap-10">
                 <div className='flex flex-row gap-5'>
                     <img src={image} className='ml-8 mt-8 w-56 h-56' alt={data.name}></img>
@@ -142,13 +142,13 @@ function Track() {
                         </div>
                     </div>
                 </div>
-                <div className='bg-black bg-opacity-40'>
+                <div className='bg-black bg-opacity-40 pb-12'>
                   <div className='ml-8 mt-10'>
                     <PlayButton />
                   </div>
                   <div className='flex flex-row justify-between'>
                     <div className='ml-10 mt-3'>
-                      <h2 className='text-white text-2xl font-semibold text-opacity-90'>Lyric</h2>
+                      <h2 className='text-[#EE5566] text-2xl font-semibold text-opacity-90'>Lyric</h2>
                       <div className="mt-5">
                         {
                           lyric.map(item => (
@@ -176,7 +176,7 @@ function Track() {
                       }
                     </div>
                     <div>
-                      <ListAlbumHaveTrack id={trackID} />
+                      <ListAlbumHaveTrack trackID={trackID} artistID={data.artists[0].id}/>
                     </div>
                   </div>
                 </div>

@@ -70,8 +70,6 @@ function TopTrackAnother({id, dark}) {
         });
     }, [id]);
     
-    console.log(artist)
-    
     if(loading) return <div>Loading..</div>
     return (
         <div className='mt-10'>
@@ -81,7 +79,7 @@ function TopTrackAnother({id, dark}) {
                         <img src={artist.images[0].url} className='w-10 h-10 rounded-full'></img>
                     </div>
                     <div className='flex flex-col'>
-                        <p className='text-white text-opacity-60'>Top track of</p>
+                        <p className='text-[#EE5566] text-opacity-80'>Top track by</p>
                         <p className="text-white font-bold text-lg">{artist.name}</p>
                     </div>
                 </div>
