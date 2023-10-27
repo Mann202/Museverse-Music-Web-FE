@@ -14,6 +14,7 @@ import Artist from "./View/Artists/Artists";
 import Discovery from "./View/Artists/Discovery/Discovery";
 import Related from "./View/Artists/Related";
 import AppearOn from "./View/Artists/AppearOn/AppearOn";
+import Track from "./View/Track/Track";
 
 function App() {
   const [backGroundColorCatelogy, setBackgroundColorCatelogy] = useState('')
@@ -36,6 +37,8 @@ function App() {
                 <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
                 <Route path="/artist/:artistID/related-artists" element={<Related />} />
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
+                <Route path="/track" element={<Track />}></Route>
+                <Route path="/track/:trackID" element={<Track />}></Route>
             </Routes>
           </div>
           <div className="xl:sticky relative top-0 h-fit">

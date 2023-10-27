@@ -44,7 +44,7 @@ function PlaylistCard({id, index, name, album, date, duration, image, artist}) {
                     </div>
                     <div>
                         <h3 className="text-white text-opacity-90 font-medium text-base cursor-pointer hover:underline"
-                        onClick={changeRouteTrack}
+                        onClick={()=>{changeRouteTrack()}}
                         >
                             {(name.length > 50) ? name.slice(0,50) + "..." : name}
                         </h3>

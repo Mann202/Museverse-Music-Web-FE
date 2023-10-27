@@ -40,8 +40,6 @@ function AppearOn() {
         });
     }, [artistID]);
 
-    console.log(data)
-
   return (
     <div className='h-screen overflow-y-scroll'>
       <div className='mt-5 ml-8'>

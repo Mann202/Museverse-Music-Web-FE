@@ -104,20 +104,20 @@ function ArtistAlbum({id, dark}) {
                 <NavLink to={`/artist/${id}/discovery-all`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
             </div>
         </div>
-        <div className="ml-5 mt-5">
-        <div className="flex flex-row content-start gap-5 flex-wrap">
-        {
-            data.map(item => (
-                <ArtistCardAlbum 
-                id={item.id}
-                name={item.name}
-                release={item.release_date}
-                image={item.images[0].url}
-                dark={dark}
-                />
-            ))
-        }
-        </div>
+        <div className="mt-5 flex justify-center">
+            <div className="flex flex-row content-start gap-5 flex-wrap">
+            {
+                data.map(item => (
+                    <ArtistCardAlbum 
+                    id={item.id}
+                    name={item.name}
+                    release={item.release_date}
+                    image={item.images[0].url}
+                    dark={dark}
+                    />
+                ))
+            }
+            </div>
         </div>
     </div>
   )
