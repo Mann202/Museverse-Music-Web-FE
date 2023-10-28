@@ -19,7 +19,8 @@ function RelatedArtistCardTrack({id, name, image, dark}) {
         onClick={changeRoute}
          >
         <div className="relative overflow-hidden">
-            <img src={image} alt="" className="rounded-full w-40 h-40 mt-3" />   
+            <img src={image} className="rounded-full w-40 h-40 mt-3" />
+                    
         </div>
         <div className="w-40 pb-4">
             <div className='flex flex-col gap-1 justify-center items-start'>
@@ -31,7 +32,7 @@ function RelatedArtistCardTrack({id, name, image, dark}) {
                 </div>
             </div>
         </div>
-    </div>
+        </div>
   )
 }
 

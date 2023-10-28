@@ -9,7 +9,6 @@ import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
 import {formatNumber} from './SplitNumber'
 import PlaylistCard from './PlaylistCard';
-import Headers from '../Header/Header';
 import {chuyenDoiThoiGian} from './SplitNumber'
 
 function Playlist() {
@@ -102,37 +101,34 @@ function Playlist() {
     const timeinString = chuyenDoiThoiGian(time)
 
     return (
-        <div>
-            <Headers bgColor={backgroundColor}/>
-            <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
-                <div className="flex flex-row items-center gap-5">
-                    <img src={image} alt="Category Icon" className="rounded-lg ml-8 mt-8 w-56 h-56"></img>
-                    <div>
-                        <p className="font-normal text-base text-white">Playlist</p>
-                        <h1 className="text-7xl font-bold text-white">{name}</h1>
-                        <br></br>
-                        <p className="font-normal text-sm text-white">{description}</p>
-                        <p className="font-medium text-sm text-white text-opacity-60 mt-2">{followers} người thích . {totalTrack} bài hát, khoảng {timeinString}</p>
-                    </div>
+        <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
+            <div className="flex flex-row items-center gap-5">
+                <img src={image} alt="Category Icon" className="rounded-lg ml-8 mt-8 w-56 h-56"></img>
+                <div>
+                    <p className="font-normal text-base text-white">Playlist</p>
+                    <h1 className="text-7xl font-bold text-white">{name}</h1>
+                    <br></br>
+                    <p className="font-normal text-sm text-white">{description}</p>
+                    <p className="font-medium text-sm text-white text-opacity-60 mt-2">{followers} người thích . {totalTrack} bài hát, khoảng {timeinString}</p>
                 </div>
-                <PlayButton />
-                <div className="w-full flex flex-row flex-wrap gap-y-2 justify-center items-start pb-36 bg-opacity-30 bg-black pt-12">
-                    <HeaderPlaylist />
+            </div>
+            <PlayButton />
+            <div className="w-full flex flex-row flex-wrap gap-y-2 justify-center items-start pb-36 bg-opacity-30 bg-black pt-12">
+                <HeaderPlaylist />
 
-                    {data.map((item, index) => (
+                {data.map((item, index) => (
 
-                        <PlaylistCard
-                        id={item.track.id} 
-                        index={index}
-                        name={item.track.name}
-                        album={item.track.album.name}
-                        date={item.added_at}
-                        duration={item.track.duration_ms}
-                        image={item.track.album.images[0].url}
-                        artist={item.track.artists}
-                        />
-                    ))}
-                </div>
+                    <PlaylistCard
+                    id={item.track.id} 
+                    index={index}
+                    name={item.track.name}
+                    album={item.track.album.name}
+                    date={item.added_at}
+                    duration={item.track.duration_ms}
+                    image={item.track.album.images[0].url}
+                    artist={item.track.artists}
+                    />
+                ))}
             </div>
         </div>
     )

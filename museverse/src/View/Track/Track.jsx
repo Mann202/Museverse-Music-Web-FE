@@ -8,15 +8,14 @@ import Loading from '../Loading/Loading'
 import { convertMsToMinSec } from '../Playlist/SplitNumber';
 import {BsPlayFill, BsThreeDots} from 'react-icons/bs'
 import {AiOutlineHeart} from 'react-icons/ai'
-import ArtistTrack from './TrackArtist';
-import TopTrack from './TrackTopTrack';
+import ArtistTrack from './ArtistTrack';
+import TopTrack from './TopTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
 import RelatedArtistCard from '../Artists/RelatedArtistCard';
-import RelatedArtistCardTrack from './TrackRelatedArtistCard';
-import Headers from '../Header/Header';
-import RelatedArtistTrack from './TrackRelatedArtist';
-import TopTrackAnother from './TrackTopAnother';
-import ListAlbumHaveTrack from './TrackAlbumHaveTrack';
+import RelatedArtistCardTrack from './RelatedArtistCardTrack';
+import RelatedArtistTrack from './RelatedArtistTrack';
+import TopTrackAnother from './TopTrackAnother';
+import ListAlbumHaveTrack from './ListAlbumHaveTrack';
 
 function Track() {
     const [data,setData] = useState([])
@@ -123,9 +122,7 @@ function Track() {
 
     if(loading) return <div><Loading /></div>
     return (
-        <div>
-          <Headers bgColor={backgroundColor} />
-          <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-16">
+        <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-16">
             <div className="flex flex-col gap-10">
                 <div className='flex flex-row gap-5'>
                     <img src={image} className='ml-8 mt-8 w-56 h-56' alt={data.name}></img>
@@ -185,7 +182,6 @@ function Track() {
                 </div>
             </div>
         </div>
-      </div>
     )
 }
 

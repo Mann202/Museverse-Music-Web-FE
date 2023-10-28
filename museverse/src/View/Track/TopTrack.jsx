@@ -69,7 +69,7 @@ function TopTrack({id, trackData}) {
                     }
                 </div>
             </div>
-            <p onClick={() => {setLimit(limit+5)}} className={`text-[#EE5566] cursor-pointer text-opacity-80 ml-14 mt-5 ${(limit < data.length) ? "" : "hidden"}`}>Show more</p>
+            <p onClick={() => {setLimit(limit+5)}} className={`text-[#EE5566] text-opacity-80 ml-14 mt-5 ${(limit < data.length) ? "" : "hidden"}`}>Show more</p>
         </div>
     </div>
   )

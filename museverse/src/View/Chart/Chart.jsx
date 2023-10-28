@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Spotify } from "../../API/Credentials";
-import CardChart from "./ChartCard";
+import CardChart from "./CardChart";
 import Loading from "../Loading/Loading";
-import Headers from "../Header/Header";
 
 export default function Chart() {
     const [token, setToken] = useState('')
@@ -51,22 +50,19 @@ export default function Chart() {
     }
         return (
             
-            <div>
-                <Headers />
-                <div className="bg-transparent flex flex-col gap-5 h-screen mt-3 pb-24 overflow-y-scroll mx-7">
-                    <HeaderChart />
-                {
-                    data.map(item => {
-                        return(
-                            <CardChart img={item.track.album.images[0].url}
-                                name={item.track.album.name}
-                                artist={item.track.album.artists[0].name}
-                                release_date={item.track.duration_ms}
-                            />
-                        )
-                    })
-                }
-                </div>
+            <div className="bg-transparent flex flex-col gap-5 h-screen mt-3 pb-24 overflow-y-scroll mx-7">
+                <HeaderChart />
+            {
+                data.map(item => {
+                    return(
+                        <CardChart img={item.track.album.images[0].url}
+                            name={item.track.album.name}
+                            artist={item.track.album.artists[0].name}
+                            release_date={item.track.duration_ms}
+                        />
+                    )
+                })
+            }
             </div>
         )
 }
