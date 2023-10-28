@@ -9,6 +9,7 @@ import Loading from '../Loading/Loading';
 import ArtistTrack from './ArtistTrack';
 import ArtistAlbum from './ArtistAlbum';
 import RelatedArtist from './RelatedArtist';
+import Headers from '../Header/Header';
 import ArtistAppear from './ArtistAppear';
 import { formatNumber } from '../Playlist/SplitNumber';
 
@@ -20,10 +21,8 @@ function Artist() {
     const [dark, setDark] = useState(false)
 
     const { artistID } = useParams();
-    const imageRef = useRef(null);
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -33,32 +32,21 @@ function Artist() {
             method: 'POST'
         })
         .then(response => {
-            const token = response.data.access_token;
-            // Gọi Spotify Web API để lấy thông tin về nghệ sĩ
             axios(`https://api.spotify.com/v1/artists/${artistID}`, {
                 method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
+                headers: {'Authorization': 'Bearer ' + response.data.access_token}
             })
             .then(response => {
                 setData(response.data)
                 setImage(response.data.images[0].url)
                 setLoading(false)
             })
-            .catch(error => {
-                console.error(error);
-            });
         })
-        .catch(error => {
-            console.error(error);
-        });
     }, [artistID]);
   
     useEffect(() => {
         const colorThief = new ColorThief();
-        const imageElement = imageRef.current;
-    
+
         const loadImage = async () => {
             try {
               const img = new Image();
@@ -96,7 +84,6 @@ function Artist() {
               console.error('Lỗi tải hình ảnh:', error);
             }
           };
-    
         loadImage();
       }, [image]);
     
@@ -104,35 +91,38 @@ function Artist() {
         return <div><Loading /></div>
     }
     return (
-        <div className="h-screen overflow-y-scroll flex flex-col gap-y-6 pb-20 w-full">
-            <div style={{background: `${backgroundColor}`}} className="flex flex-row gap-10">
-                <div className="flex items-center flex-row ml-7">
-                    <img src={data.images[0].url} className="rounded-full w-60 h-64 my-5"></img>
-                </div>
-                <div className='flex gap-6 items-center flex-col justify-center'>
-                    <div className="flex flex-col gap-1">
-                        <p className="font-medium text-lg text-[white]">Artist</p>
-                        <h1 className="text-5xl text-white font-bold">{data.name}</h1>
-                        <h3 className="text-base text-white text-opacity-80 font-base">{formatNumber(data.followers.total)} người theo dõi</h3>
+        <div>
+            <Headers bgColor={backgroundColor}/>
+            <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll flex flex-col gap-y-6 pb-20 w-full">
+                <div style={{background: `${backgroundColor}`}} className="flex flex-row gap-10">
+                    <div className="flex items-center flex-row ml-7">
+                        <img src={data.images[0].url} alt={data.name} className="rounded-full w-60 h-64 my-5"></img>
                     </div>
-                    <div className='w-full'>
-                        <h2 className="text-base text-white font-base">Genres</h2>
-                        {
-                            data.genres.map(item => (
-                                <p className="text-sm text-white text-opacity-80 font-base">
-                                    {item.charAt(0).toUpperCase() + item.slice(1)}
-                                </p>
-                            ))
-                        }
+                    <div className='flex gap-6 items-center flex-col justify-center'>
+                        <div className="flex flex-col gap-1">
+                            <p className="font-medium text-lg text-[white]">Artist</p>
+                            <h1 className="text-5xl text-white font-bold">{data.name}</h1>
+                            <h3 className="text-base text-white text-opacity-80 font-base">{formatNumber(data.followers.total)} người theo dõi</h3>
+                        </div>
+                        <div className='w-full'>
+                            <h2 className="text-base text-white font-base">Genres</h2>
+                            {
+                                data.genres.map(item => (
+                                    <p className="text-sm text-white text-opacity-80 font-base">
+                                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                                    </p>
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="w-full pt-8 pb-32">
-                <PlayButton />
-                <ArtistTrack id={artistID} />
-                <ArtistAlbum id={artistID} dark={dark}/>
-                <RelatedArtist id={artistID} />
-                <ArtistAppear id={artistID} dark={dark}/>
+                <div className="w-full pb-32">
+                    <PlayButton />
+                    <ArtistTrack id={artistID} />
+                    <ArtistAlbum id={artistID} dark={dark}/>
+                    <RelatedArtist id={artistID} />
+                    <ArtistAppear id={artistID} dark={dark}/>
+                </div>
             </div>
         </div>
     );

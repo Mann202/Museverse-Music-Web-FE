@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from 'react'
-import { Spotify } from '../../API/Credentials';
-import axios from 'axios'
+import React, {useState} from 'react'
 import { NavLink } from 'react-router-dom';
 
 function Notification({notification, data}) {

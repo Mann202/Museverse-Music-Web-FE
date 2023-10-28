@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Loading from '../Loading/Loading';
 
@@ -10,6 +10,13 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
     const [albums, setAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
     const [track, setTrack] = useState([]);
+    const navigate = useNavigate()
+
+    function handleReload(id) {
+        const path =`/track/${id}`
+        navigate(path)
+        window.location.reload()
+    }
 
     useEffect(() => {
         axios('https://accounts.spotify.com/api/token', {
@@ -93,12 +100,13 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
     }, [albums]);
 
     if (loading) return <div><Loading /></div>;
+    console.log(track)
 
     return (
         <div className='mt-10'>
             <div className='flex justify-center'>
                 <div className='w-11/12'>
-                    <div className='flex flex-row gap-2'>
+                    <div className='flex flex-row gap-2 bg-white bg-opacity-10 py-3 px-2 rounded-xl'>
                         <div>
                             <img src={albums[0].images[0].url} className='w-12 h-12' alt={albums[0].name} />
                         </div>
@@ -116,16 +124,16 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
                             <div className='w-11/12'>
                                 <div className='flex flex-row justify-between'>
                                     <div className={`flex flex-row  ${(index >= 9) ? "gap-5" : "gap-6"}`}>
-                                        <div className='flex items-center'>
+                                        <div className='flex items-center py-3 px-3'>
                                             <p className={`text-white text-opacity-75 text-lg font-medium`}>{index+1}</p>
                                         </div>
                                         <div>
-                                            <p className='text-white text-lg font-medium text-opacity-90'>{item.name}</p>
+                                            <NavLink onClick={()=>{handleReload(item.id)}} className='text-white text-lg font-medium text-opacity-90 hover:underline'>{item.name}</NavLink>
                                             <div>
                                                 {
-                                                    item.artists.map(artist => (
-                                                        <NavLink to={`/artist/${item.id}`} className={`text-sm text-white font-normal hover:underline`} key={index}>
-                                                            {artist.name}{index !== item.artists.length - 1 ? `, ` : ' '} 
+                                                    item.artists.map((artist, artistsIndex) => (
+                                                        <NavLink to={`/artist/${artist.id}`} className={`text-sm text-white font-normal hover:underline`} key={index}>
+                                                            {artist.name}{artistsIndex !== item.artists.length - 1 ? `, ` : ' '} 
                                                         </NavLink>
                                                     ))
                                                 }

@@ -7,6 +7,7 @@ import { Spotify } from '../../API/Credentials';
 
 import CatelogyCard from './CatelogyCard';
 import Loading from '../Loading/Loading';
+import Headers from '../Header/Header';
 
 function Catelogy() {
   const [data, setData] = useState([]);
@@ -91,24 +92,27 @@ function Catelogy() {
   }
 
   return (
-    <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
-      <div className="flex flex-row items-center gap-5">
-        <img src={preData.icons[0].url} alt="Category Icon" className="rounded-lg ml-5 mt-5"></img>
-        <div>
-          <p className="font-normal text-base text-white">Catelogy</p>
-          <h1 className="text-7xl font-bold text-white">{preData.name}</h1>
+    <div>
+      <Headers bgColor={backgroundColor} /> 
+      <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
+        <div className="flex flex-row items-center gap-5">
+          <img src={preData.icons[0].url} alt="Category Icon" className="rounded-lg ml-5 mt-5"></img>
+          <div>
+            <p className="font-normal text-base text-white">Catelogy</p>
+            <h1 className="text-7xl font-bold text-white">{preData.name}</h1>
+          </div>
         </div>
-      </div>
-      <div className="w-full flex flex-row flex-wrap gap-5 gap-y-7 justify-center items-start pb-36 bg-opacity-30 bg-black pt-16">
-        {data.map(item => (
-        <CatelogyCard
-            key={item.id} 
-            id={item.id}
-            name={item.name}
-            description={item.description}
-            image={item.images[0].url}
-        />
-        ))}
+        <div className="w-full flex flex-row flex-wrap gap-5 gap-y-7 justify-center items-start pb-36 bg-opacity-30 bg-black pt-16">
+          {data.map(item => (
+          <CatelogyCard
+              key={item.id} 
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              image={item.images[0].url}
+          />
+          ))}
+        </div>
       </div>
     </div>
   );

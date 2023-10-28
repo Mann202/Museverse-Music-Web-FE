@@ -17,14 +17,12 @@ import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
 
 function App() {
-  const [backGroundColorCatelogy, setBackgroundColorCatelogy] = useState('')
 
   return (
       <div className="relative flex">
           <SideBar />
         <div className="flex-1 flex flex-col bg-[#101010]">
           <div className="flex-1 pb-40">
-          <Headers />
             <Routes>
                 <Route path="/" element={<Discover />} />
                 <Route path="/chart" element={<Chart />} />

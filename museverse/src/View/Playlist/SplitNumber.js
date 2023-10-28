@@ -12,7 +12,7 @@ export function formatNumber(number) {
     // Kết hợp phần nguyên và phần thập phân để tạo chuỗi kết quả
     var formattedNumber = integerPart + decimalPart;
     return formattedNumber;
-}
+} 
 
 export function chuyenDoiThoiGian(ms) {
     var phut = Math.floor((ms / (1000 * 60)) % 60); // Lấy phần dư khi chia cho 3600, sau đó chia cho 60 để lấy số phút

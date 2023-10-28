@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { BsPlayFill } from 'react-icons/bs';
 
 import { chuyenNgay } from '../Playlist/SplitNumber';
+import Loading from '../Loading/Loading';
 
 function ArtistTrackCard({index, id, image, name, duration, release_date}) {
     const [focus, setFocus] = useState(false)
@@ -40,11 +41,11 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
             <img src={image} className="w-12 h-12 rounded-lg"></img>
           </div>
           <div className="flex items-center">
-            <h3
+            <NavLink to={`/track/${id}`}
               className="text-white text-opacity-90 font-medium text-base cursor-pointer hover:underline"
             >
               {name.length > 50 ? name.slice(0, 50) + "..." : name}
-            </h3>
+            </NavLink>
           </div>
         </div>
         <div className="flex flex-row w-4/12 gap-32">
