@@ -3,7 +3,7 @@ import {BsFillPlayFill} from 'react-icons/bs'
 import {AiOutlineHeart} from 'react-icons/ai'
 import { useState } from "react";
 
-export default function CardChart({img, name, artist, release_date}) {
+export default function CardChart({img, name, artist, release_date, uri, setPlayingTrack}) {
     const [focus, setFocus] = useState(false)
 
     release_date = release_date * 0.000017
@@ -15,12 +15,17 @@ export default function CardChart({img, name, artist, release_date}) {
         round_duration_second.toString();
         var round_duration_second_text = `0${round_duration_second}`
     }
+
+    function handleClick() {
+        setPlayingTrack(uri)
+    }
     
     return(
         <>
             <div className="flex felx-row justify-between w-full h-28 border-t-[1px] border-[#2C2C2C] pt-3 pb-5 pl-3 hover:bg-[#323232] hover:rounded-lg"
             onMouseEnter={() => {setFocus(true)}}
             onMouseLeave={() => {setFocus(false)}}
+            onClick={handleClick}
             >
                 <div className="flex flex-row gap-8 w-72">
                     <img src={img} className="w-[87px] h-[87px] rounded-lg"></img>

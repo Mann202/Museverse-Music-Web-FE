@@ -5,7 +5,7 @@ import CardChart from "./ChartCard";
 import Loading from "../Loading/Loading";
 import Headers from "../Header/Header";
 
-export default function Chart() {
+export default function Chart({setPlayingTrack}) {
     const [token, setToken] = useState('')
     const [data,setData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -33,7 +33,6 @@ export default function Chart() {
                 }
             })
             .then(json => {
-                console.log(json)
                 setData(json.data.tracks.items); // Lưu dữ liệu từ API vào state
                 setLoading(false)
             })
@@ -45,6 +44,8 @@ export default function Chart() {
             console.error(error);
         });
     }, []);
+
+    console.log(data)
 
     if(loading) {
         return <div><Loading /></div>
@@ -60,8 +61,10 @@ export default function Chart() {
                         return(
                             <CardChart img={item.track.album.images[0].url}
                                 name={item.track.album.name}
+                                uri={item.track.uri}
                                 artist={item.track.album.artists[0].name}
                                 release_date={item.track.duration_ms}
+                                setPlayingTrack={setPlayingTrack}
                             />
                         )
                     })

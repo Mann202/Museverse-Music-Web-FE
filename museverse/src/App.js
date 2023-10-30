@@ -17,6 +17,8 @@ import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
 
 function App() {
+  const [playingTrack, setPlayingTrack] = useState('')
+  console.log(playingTrack)
 
   return (
       <div className="relative flex">
@@ -25,7 +27,7 @@ function App() {
           <div className="flex-1 pb-40">
             <Routes>
                 <Route path="/" element={<Discover />} />
-                <Route path="/chart" element={<Chart />} />
+                <Route path="/chart" element={<Chart setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/search/:catelogyID" element={<Catelogy />} />
                 <Route path="/playlist" element={<Playlist />} />
