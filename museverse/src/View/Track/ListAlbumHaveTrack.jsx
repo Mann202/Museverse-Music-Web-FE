@@ -123,9 +123,9 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
                                             <p className='text-white text-lg font-medium text-opacity-90'>{item.name}</p>
                                             <div>
                                                 {
-                                                    item.artists.map(artist => (
+                                                    item.artists.map((artist, artistIndex) => (
                                                         <NavLink to={`/artist/${item.id}`} className={`text-sm text-white font-normal hover:underline`} key={index}>
-                                                            {artist.name}{index !== item.artists.length - 1 ? `, ` : ' '} 
+                                                            {artist.name}{artistIndex !== item.artists.length - 1 ? `, ` : ' '} 
                                                         </NavLink>
                                                     ))
                                                 }

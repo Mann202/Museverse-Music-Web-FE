@@ -84,7 +84,7 @@ function TopTrackAnother({id, dark}) {
                     </div>
                 </div>
                 <div className='mr-7 flex flex-row items-end'>
-                    <p className={`text-white ${(data.length < 6) ? "hidden" : ""}`}>Show all</p>
+                    <p className={`text-[#EE5566] ${(data.length < 6) ? "hidden" : ""}`}>Show all</p>
                 </div>
             </div>
             <div className={`flex mt-5 ${(data.length < 6) ? "justify-start ml-5" : "justify-center"}`}>

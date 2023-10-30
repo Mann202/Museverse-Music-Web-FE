@@ -13,6 +13,7 @@ import TopTrack from './TopTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
 import RelatedArtistCard from '../Artists/RelatedArtistCard';
 import RelatedArtistCardTrack from './RelatedArtistCardTrack';
+import Headers from '../Header/Header';
 import RelatedArtistTrack from './RelatedArtistTrack';
 import TopTrackAnother from './TopTrackAnother';
 import ListAlbumHaveTrack from './ListAlbumHaveTrack';
@@ -51,8 +52,16 @@ function Track() {
             })
             .then(response => {
                 setData(response.data)
+                axios(`https://api.spotify.com/v1/artists/${response.data.artists[0].id}`, {
+                  method: 'GET',
+                  headers: {'Authorization': 'Bearer ' + token}
+              })
+              .then(artistResponse => {
+                  console.log(artistResponse)
+                  setArtists(artistResponse.data)
+                  setLoading(false)
+              })
                 setImage(response.data.album.images[0].url)
-                setLoading(false)
             })
             .catch(error => {
                 console.error(error);
@@ -122,7 +131,9 @@ function Track() {
 
     if(loading) return <div><Loading /></div>
     return (
-        <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-16">
+        <div>
+          <Headers bgColor={backgroundColor} />
+          <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-16">
             <div className="flex flex-col gap-10">
                 <div className='flex flex-row gap-5'>
                     <img src={image} className='ml-8 mt-8 w-56 h-56' alt={data.name}></img>
@@ -130,14 +141,19 @@ function Track() {
                         <p className='font-medium text-lg text-[white]'>Track</p>
                         <div className='flex flex-col gap-3'>
                           <h2 className='text-5xl text-white font-bold'>{data.name}</h2>
-                            <div className='flex flex-row gap-3'>
-                              <p className="text-white text-opacity-70">{data.artists[0].name}</p>
-                              <p className="text-white text-opacity-70 font-bold">.</p>
-                              <p className="text-white text-opacity-70">{data.album.name}</p>
-                              <p className="text-white text-opacity-70 font-bold">.</p>
-                              <p className="text-white text-opacity-70">{data.album.release_date}</p>
-                              <p className="text-white text-opacity-70 font-bold">.</p>
-                              <p className="text-white text-opacity-70">{convertMsToMinSec(data.duration_ms)}</p>
+                            <div className='flex flex-row gap-2'>
+                              <div className='flex items-center'>
+                                  <img src={artists.images[0].url} className='w-8 h-8 rounded-full' alt=""></img>
+                                </div>
+                              <div className='flex flex-row gap-3 items-center'>
+                                <p className="text-white text-opacity-70">{data.artists[0].name}</p>
+                                <p className="text-white text-opacity-70 font-bold">.</p>
+                                <p className="text-white text-opacity-70">{data.album.name}</p>
+                                <p className="text-white text-opacity-70 font-bold">.</p>
+                                <p className="text-white text-opacity-70">{data.album.release_date}</p>
+                                <p className="text-white text-opacity-70 font-bold">.</p>
+                                <p className="text-white text-opacity-70">{convertMsToMinSec(data.duration_ms)}</p>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -151,6 +167,7 @@ function Track() {
                       <h2 className='text-[#EE5566] text-2xl font-semibold text-opacity-90'>Lyric</h2>
                       <div className="mt-5">
                         {
+                          (lyric.length == 0) ? <div><p className='text-white text-opacity-80 text-xl'>Sorry, lyric of this track is not available</p></div> :
                           lyric.map(item => (
                             <p className='text-white text-opacity-70'>{item.words}</p>
                           ))
@@ -182,6 +199,7 @@ function Track() {
                 </div>
             </div>
         </div>
+      </div>
     )
 }
 

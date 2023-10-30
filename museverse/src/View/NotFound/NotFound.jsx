@@ -1,4 +1,3 @@
-
 export default function NotFound() {
     return(
         <div className="bg-cover bg-center w-full h-[1000px]">
