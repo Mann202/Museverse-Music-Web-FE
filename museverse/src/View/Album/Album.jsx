@@ -16,7 +16,7 @@ const Album = () => {
     const [loading, setLoading] = useState(true)
     const [backgroundColor, setBackgroundColor] = useState('')
     const [image, setImage] = useState('')
-
+    const [dark, setDark] = useState(false)
     const { albumID } = useParams();
 
 
@@ -62,18 +62,41 @@ const Album = () => {
 
         const loadImage = async () => {
             try {
-                const img = new Image();
-                img.crossOrigin = 'Anonymous';
-                img.src = image;
-                img.onload = () => {
-                    const color = colorThief.getColor(img);
-                    const hexColor = `#${color[0].toString(16).padStart(2, '0')}${color[1].toString(16).padStart(2, '0')}${color[2].toString(16).padStart(2, '0')}`;
-                    setBackgroundColor(hexColor);
-                };
+              const img = new Image();
+              img.crossOrigin = 'Anonymous';
+              img.src = image;
+              img.onload = () => {
+                const color = colorThief.getColor(img);
+                
+                const brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
+                
+                if(brightness < 50) {
+                    setDark(true)
+                }
+
+                if (brightness > 160) {
+                  const darkenedColor = [
+                    Math.max(0, color[0] - 100), 
+                    Math.max(0, color[1] - 100), 
+                    Math.max(0, color[2] - 100), 
+                  ];
+                  const hexColor = `#${darkenedColor[0].toString(16).padStart(2, '0')}${darkenedColor[1].toString(16).padStart(2, '0')}${darkenedColor[2].toString(16).padStart(2, '0')}`;
+                  setBackgroundColor(hexColor);
+                } else {
+                  
+                  const darkenedColor = [
+                    Math.max(0, color[0] - 15), 
+                    Math.max(0, color[1] - 15), 
+                    Math.max(0, color[2] - 15), 
+                  ];
+                  const hexColor = `#${darkenedColor[0].toString(16).padStart(2, '0')}${darkenedColor[1].toString(16).padStart(2, '0')}${darkenedColor[2].toString(16).padStart(2, '0')}`;
+                  setBackgroundColor(hexColor);
+                }
+              };
             } catch (error) {
-                console.error('Lỗi tải hình ảnh:', error);
+              console.error('Lỗi tải hình ảnh:', error);
             }
-        };
+          };
 
         loadImage();
     }, [image]);
@@ -118,6 +141,7 @@ const Album = () => {
                 /> */}
                 <AnotherAlbum
                     id={data.artists[0].id}
+                    dark={dark}
                 />
             </div>
         </div>
