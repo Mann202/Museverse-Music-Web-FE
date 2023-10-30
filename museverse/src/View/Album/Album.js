@@ -9,6 +9,7 @@ import Loading from '../Loading/Loading';
 import { formatNumber, chuyenNgay } from '../Playlist/SplitNumber';
 import AlbumTrack from './AlbumTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
+import AnotherAlbum from './AnotherAlbum';
 
 const Album = () => {
     const [data, setData] = useState(null)
@@ -112,9 +113,11 @@ const Album = () => {
                         ))}
                     </div>
                 </div>
-                <ArtistAlbum
+                {/* <ArtistAlbum
                     id={data.artists[0].id}
-                    // name={data.artists[0].name}
+                /> */}
+                <AnotherAlbum
+                    id={data.artists[0].id}
                 />
             </div>
         </div>
@@ -124,7 +127,7 @@ const Album = () => {
 function PlayButton() {
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">
-            <button className="bg-[#1ED760] rounded-full w-12 h-12 flex justify-center items-center">
+            <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
                 <BsPlayFill className="text-black text-3xl" />
             </button>
             <div className='flex items-center'>
