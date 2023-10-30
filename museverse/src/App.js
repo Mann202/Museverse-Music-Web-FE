@@ -15,6 +15,7 @@ import Discovery from "./View/Artists/Discovery/Discovery";
 import Related from "./View/Artists/Related";
 import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
+import Album from "./View/Album/Album";
 
 function App() {
 
@@ -35,6 +36,8 @@ function App() {
                 <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
                 <Route path="/artist/:artistID/related-artists" element={<Related />} />
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
+                <Route path="/album/" element={<Album />} />
+                <Route path="/album/:albumID" element={<Album />} />
                 <Route path="/track" element={<Track />}></Route>
                 <Route path="/track/:trackID" element={<Track />}></Route>
             </Routes>

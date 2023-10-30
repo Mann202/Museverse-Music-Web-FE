@@ -125,7 +125,7 @@ function Playlist() {
                         id={item.track.id} 
                         index={index}
                         name={item.track.name}
-                        album={item.track.album.name}
+                        album={item.track.album}
                         date={item.added_at}
                         duration={item.track.duration_ms}
                         image={item.track.album.images[0].url}
