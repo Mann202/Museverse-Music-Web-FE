@@ -84,6 +84,8 @@ function Track() {
         });
     }, [trackID]);
 
+    console.log(data)
+
     useEffect(() => {
         const colorThief = new ColorThief();
         const imageElement = imageRef.current;

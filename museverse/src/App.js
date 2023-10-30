@@ -37,9 +37,10 @@ function App() {
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
                 <Route path="/track" element={<Track />}></Route>
                 <Route path="/track/:trackID" element={<Track />}></Route>
+                <Route path="/play" element={<Play />} />
             </Routes>
           </div>
-          <div className="xl:sticky relative top-0 h-fit">
+          <div className="fixed bottom-0 w-10/12">
             <Play />
           </div>
         </div>
