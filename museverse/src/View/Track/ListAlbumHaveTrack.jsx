@@ -10,6 +10,7 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
     const [albums, setAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
     const [track, setTrack] = useState([]);
+    const [requestsCompleted, setRequestsCompleted] = useState(0);
 
     useEffect(() => {
         axios('https://accounts.spotify.com/api/token', {
@@ -44,10 +45,10 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
                         const filteredAlbums = albumItems.filter((album, index) => {
                             // Check if the album contains the specified trackID
                             return trackResponses[index].data.items.some(track => track.id === trackID);
+                            setRequestsCompleted(requestsCompleted + 1);
                         });
                         
                         setAlbums(filteredAlbums);
-                        setLoading(false);
                     })
                     .catch(error => {
                         console.error(error);
@@ -82,6 +83,7 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
             .then(response => {
                 setTrack(response.data.items);
                 setLoading(false);
+                setRequestsCompleted(requestsCompleted + 1);
             })
             .catch(error => {
                 console.error(error);
@@ -91,6 +93,12 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
             console.error(error);
         });
     }, [albums]);
+
+    useEffect(() => {
+        if (requestsCompleted === 2) {
+            setLoading(false);
+        }
+    }, [requestsCompleted]);
 
     if (loading) return <div><Loading /></div>;
 

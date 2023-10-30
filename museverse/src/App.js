@@ -18,7 +18,6 @@ import Track from "./View/Track/Track";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('')
-  console.log(playingTrack)
 
   return (
       <div className="relative flex">
@@ -39,11 +38,12 @@ function App() {
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
                 <Route path="/track" element={<Track />}></Route>
                 <Route path="/track/:trackID" element={<Track />}></Route>
-                <Route path="/play" element={<Play />} />
             </Routes>
           </div>
+          <div>
           <div className="fixed bottom-0 w-10/12">
-            <Play />
+            <Play playingTrack={playingTrack}/>
+          </div>
           </div>
         </div>
       </div>

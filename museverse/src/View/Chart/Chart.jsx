@@ -45,8 +45,6 @@ export default function Chart({setPlayingTrack}) {
         });
     }, []);
 
-    console.log(data)
-
     if(loading) {
         return <div><Loading /></div>
     }
@@ -77,7 +75,7 @@ export default function Chart({setPlayingTrack}) {
 function HeaderChart() {
     return(
         <>
-            <p className="text-[#1FD662] font-semibold text-lg">Top Chart</p> 
+            <p className="text-[#EE5566] font-semibold text-lg">Top Chart</p> 
             <div className="flex felx-row justify-between w-full h-28 w-full pl-3 mb-4">
                     <div className="flex flex-row gap-8 w-72">
                         <div>

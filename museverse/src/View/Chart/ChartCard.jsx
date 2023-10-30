@@ -25,7 +25,6 @@ export default function CardChart({img, name, artist, release_date, uri, setPlay
             <div className="flex felx-row justify-between w-full h-28 border-t-[1px] border-[#2C2C2C] pt-3 pb-5 pl-3 hover:bg-[#323232] hover:rounded-lg"
             onMouseEnter={() => {setFocus(true)}}
             onMouseLeave={() => {setFocus(false)}}
-            onClick={handleClick}
             >
                 <div className="flex flex-row gap-8 w-72">
                     <img src={img} className="w-[87px] h-[87px] rounded-lg"></img>
@@ -44,7 +43,7 @@ export default function CardChart({img, name, artist, release_date, uri, setPlay
                     <button className="rounded-full flex justify-center items-center w-10 h-10">
                         <AiOutlineHeart className={` text-3xl ${focus ? "text-white" : "text-transparent"}`}/>
                     </button>
-                    <button className="bg-[#1FD662] w-10 h-10 rounded-full flex justify-center items-center">
+                    <button onClick={handleClick} className="bg-[#EE5566] w-10 h-10 rounded-full flex justify-center items-center">
                         <NavLink >
                             <BsFillPlayFill className="text-white text-2xl"/>
                         </NavLink>
