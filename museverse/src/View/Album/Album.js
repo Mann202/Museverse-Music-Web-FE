@@ -8,7 +8,7 @@ import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
 import { formatNumber, chuyenNgay } from '../Playlist/SplitNumber';
 import AlbumTrack from './AlbumTrack';
-import AnotherAlbum from './AnotherAlbum';
+import ArtistAlbum from '../Artists/ArtistAlbum';
 
 const Album = () => {
     const [data, setData] = useState(null)
@@ -112,7 +112,10 @@ const Album = () => {
                         ))}
                     </div>
                 </div>
-                {/* <AnotherAlbum id={data.artists[0].id} /> */}
+                <ArtistAlbum
+                    id={data.artists[0].id}
+                    // name={data.artists[0].name}
+                />
             </div>
         </div>
     );

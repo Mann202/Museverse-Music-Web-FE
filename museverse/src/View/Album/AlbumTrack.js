@@ -27,12 +27,11 @@ function AlbumTrack({ id }) {
                 axios(`https://api.spotify.com/v1/albums/${id}/tracks?market=VN`, {
                     method: 'GET',
                     headers: {
-                        'Authorization': 'Bearer' + response.data.access_token
+                        'Authorization': 'Bearer ' + response.data.access_token
                     }
                 })
                     .then(json => {
                         setData(json.data.items); // Lưu dữ liệu từ API vào state
-                        console.log(json.data.items);
                         setLoading(false);
                     })
                     .catch(error => {
