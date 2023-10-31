@@ -15,6 +15,7 @@ import Discovery from "./View/Artists/Discovery/Discovery";
 import Related from "./View/Artists/Related";
 import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
+import Album from "./View/Album/Album";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('')
@@ -41,6 +42,8 @@ function App() {
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
                 <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>}></Route>
                 <Route path="/track/:trackID" element={<Track currentPlay={currentPlay}/>}></Route>
+                <Route path="/album/" element={<Album />} />
+                <Route path="/album/:albumID" element={<Album />} />
             </Routes>
           </div>
         </div>
