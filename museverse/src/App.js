@@ -18,33 +18,35 @@ import Track from "./View/Track/Track";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('')
+  const [playingID, setPlayingID] = useState('')
+  const [currentPlay, setCurrentPlay] = useState('')
+  const [trackInAlbum, setTrackInAlbum] = useState(0)
+  console.log(trackInAlbum)
 
   return (
       <div className="relative flex">
           <SideBar />
-        <div className="flex-1 flex flex-col bg-[#101010]">
+        <div className="flex-1 flex flex-col bg-black">
           <div className="flex-1 pb-40">
             <Routes>
                 <Route path="/" element={<Discover />} />
                 <Route path="/chart" element={<Chart setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/search" element={<Search />} />
-                <Route path="/search/:catelogyID" element={<Catelogy />} />
+                <Route path="/search/:catelogyID" element={<Catelogy setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>} />
                 <Route path="/playlist" element={<Playlist />} />
-                <Route path="/playlist/:playlistID" element={<Playlist />} />
+                <Route path="/playlist/:playlistID" element={<Playlist setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} currentPlay={currentPlay} setTrackInAlbum={setTrackInAlbum}/>} />
                 <Route path="/artist/" element={<Artist />} />
                 <Route path="/artist/:artistID" element={<Artist />} />
                 <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
                 <Route path="/artist/:artistID/related-artists" element={<Related />} />
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
-                <Route path="/track" element={<Track />}></Route>
-                <Route path="/track/:trackID" element={<Track />}></Route>
+                <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>}></Route>
+                <Route path="/track/:trackID" element={<Track currentPlay={currentPlay}/>}></Route>
             </Routes>
           </div>
-          <div>
-          <div className="fixed bottom-0 w-10/12">
-            <Play playingTrack={playingTrack}/>
-          </div>
-          </div>
+        </div>
+        <div className="fixed bottom-0 w-full">
+            <Play playingTrack={playingTrack} setCurrentPlay={setCurrentPlay} trackInAlbum={trackInAlbum}/>
         </div>
       </div>
   );

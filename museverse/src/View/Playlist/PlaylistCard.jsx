@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
-import {BsPlayFill} from 'react-icons/bs'
+import {BsPauseFill, BsPlayFill} from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-function PlaylistCard({id, index, name, album, date, duration, image, artist}) {
+function PlaylistCard({id, index, name, album, date, duration, image, artist, currentPlay, setTrackInAlbum}) {
     const [focus, setFocus] = useState(false)
     const navigate = useNavigate()
     
@@ -26,18 +26,28 @@ function PlaylistCard({id, index, name, album, date, duration, image, artist}) {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = dateTime.toLocaleDateString(undefined, options);
 
+    function handleClick() {
+        setTrackInAlbum(index-1)
+    }
+
 
     return(
         <>
-            <div className="flex felx-row w-11/12 gap-7 pl-3 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1 "
+            <div className={`flex felx-row w-11/12 gap-7 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1 ${(currentPlay == id || focus) ? "pl-2" : "pl-3"}`}
             onMouseEnter={() => {setFocus(true)}}
             onMouseLeave={() => {setFocus(false)}}
             >
                 <div className="flex flex-row gap-8 w-5/12">
                     <div className="flex flex-row items-center">
-                        {focus 
-                        ? <BsPlayFill className="text-white opacity-70 text-2xl"/>
-                        : <p className="text-white text-opacity-50 w-5">{index+1}</p> }
+                        {
+                            (currentPlay == id) 
+                            ?
+                            <BsPauseFill className='text-white text-opacity-90 text-2xl' />
+                            :
+                            focus 
+                                ? <button onClick={handleClick}><BsPlayFill className="text-white text-opacity-90 text-2xl" onClick={handleClick}/></button>
+                                : <p className="text-white text-opacity-50 w-5">{index+1}</p> 
+                        }
                     </div>
                     <div className="flex flex-row items-center">
                         <img src={image} className="w-12 h-12 rounded-lg"></img>

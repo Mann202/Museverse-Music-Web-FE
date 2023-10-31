@@ -8,7 +8,7 @@ import { Spotify } from '../../API/Credentials';
 import CatelogyCard from './CatelogyCard';
 import Loading from '../Loading/Loading';
 
-function Catelogy() {
+function Catelogy({setPlayingTrack, setPlayingID, playingID}) {
   const [data, setData] = useState([]);
   const [backgroundColor, setBackgroundColor] = useState('');
   const [preData, setPreData] = useState([]);
@@ -81,7 +81,6 @@ function Catelogy() {
         console.error('Lỗi tải hình ảnh:', error);
       }
     };
-
     loadImage();
   }, [image]);
 
@@ -101,12 +100,14 @@ function Catelogy() {
       </div>
       <div className="w-full flex flex-row flex-wrap gap-5 gap-y-7 justify-center items-start pb-36 bg-opacity-30 bg-black pt-16">
         {data.map(item => (
-        <CatelogyCard
-            key={item.id} 
+        <CatelogyCard 
             id={item.id}
             name={item.name}
             description={item.description}
             image={item.images[0].url}
+            setPlayingTrack={setPlayingTrack}
+            setPlayingID={setPlayingID}
+            playingID={playingID}
         />
         ))}
       </div>

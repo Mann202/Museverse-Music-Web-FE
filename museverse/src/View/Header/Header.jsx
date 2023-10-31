@@ -80,7 +80,7 @@ export function LoggedHeader({bgColor, showHello}) {
     
     return (
         <>
-            <div style={{background: `${bgColor}`}} className="flex justify-between items-center bg-[#171719] h-16 mx-auto">
+            <div style={{background: `${bgColor}`}} className="flex justify-between items-center bg-[#131313] h-16 mx-auto">
                 <div className="flex gap-2 ml-4">
                     <button onClick={()=>{navigate(-1)}} className={`text-[#EE5566] bg-black bg-opacity-80 rounded-full h-10 w-10 flex justify-center items-center hover:text-lg active:bg-[#EE5566] active:text-white`}>
                         <AiOutlineLeft className='text-xl font-semibold'/>

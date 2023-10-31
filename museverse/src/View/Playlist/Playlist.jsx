@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios';
 import ColorThief from 'colorthief';
 
-import { BsPlayFill, BsThreeDots } from 'react-icons/bs';
+import { BsPlayFill, BsThreeDots, BsPauseFill } from 'react-icons/bs';
 
 import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
@@ -11,8 +11,10 @@ import {formatNumber} from './SplitNumber'
 import PlaylistCard from './PlaylistCard';
 import Headers from '../Header/Header';
 import {chuyenDoiThoiGian} from './SplitNumber'
+import { spotifyApi } from 'react-spotify-web-playback';
+import Cookies from 'js-cookie';
 
-function Playlist() {
+function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTrackInAlbum}) {
     const [loading, setLoading] = useState(true)
     const [backgroundColor, setBackgroundColor] = useState('');
     const [token, setToken] = useState('');
@@ -22,6 +24,7 @@ function Playlist() {
     const [name, setName] = useState('')
     const [description,setDescription] = useState('')
     const [totalTrack, setTotalTrack] = useState('')
+
     let time = 0;
 
     const imageRef = useRef(null);
@@ -115,7 +118,7 @@ function Playlist() {
                         <p className="font-medium text-sm text-white text-opacity-60 mt-2">{followers} người thích . {totalTrack} bài hát, khoảng {timeinString}</p>
                     </div>
                 </div>
-                <PlayButton />
+                <PlayButton playingID={playingID} playlistID={playlistID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID}/>
                 <div className="w-full flex flex-row flex-wrap gap-y-2 justify-center items-start pb-36 bg-opacity-30 bg-black pt-12">
                     <HeaderPlaylist />
 
@@ -130,6 +133,10 @@ function Playlist() {
                         duration={item.track.duration_ms}
                         image={item.track.album.images[0].url}
                         artist={item.track.artists}
+                        currentPlay={currentPlay}
+                        setPlayingTrack={setPlayingTrack}
+                        uri={item.track.uri}
+                        setTrackInAlbum={setTrackInAlbum}
                         />
                     ))}
                 </div>
@@ -138,11 +145,59 @@ function Playlist() {
     )
 }
 
-function PlayButton() {
+function PlayButton({playingID, playlistID, setPlayingTrack, setPlayingID}) {
+    const [pause, setPause] = useState(false)
+    function handleClick() {
+        axios('https://accounts.spotify.com/api/token', {
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(Spotify.ClientID + ':' + Spotify.ClientSecret)
+        },
+        data: 'grant_type=client_credentials',
+        method: 'POST'
+      })
+      .then(response => {
+        axios(`https://api.spotify.com/v1/playlists/${playlistID}`, {
+          method: 'GET',
+          headers: {'Authorization': 'Bearer ' + response.data.access_token}
+        })
+        .then(response => {
+          const tracks = response.data.tracks.items.map(album => album.track.uri);
+          setPlayingTrack(tracks);
+          setPlayingID(playlistID)
+        })
+        .catch(error => {
+          console.error('Error fetching playlist tracks:', error);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching access token:', error);
+      });
+    }
+
+    function getDevices(storedToken) {
+        spotifyApi.getDevices(storedToken).then(devices => {
+            return devices.devices[0].id
+        })
+    }
+
+    function handleClickPause() {
+        const storedToken = Cookies.get("spotifyToken");
+        const devicesCurrent = getDevices(storedToken)
+        spotifyApi.pause(storedToken, devicesCurrent)
+        setPause(true)
+    }
+
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">
             <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
-                <BsPlayFill className="text-black text-3xl" />
+                {(playingID==playlistID) ? 
+                pause ? 
+                    <BsPlayFill className="text-black text-3xl" onClick={handleClickPause}/>
+                    :
+                    <BsPauseFill className="text-black text-3xl" onClick={handleClickPause}/>
+                : 
+                <BsPlayFill className="text-black text-3xl" onClick={handleClick}/>}
             </button>
             <div className="flex justify-center items-center">
                 <button>

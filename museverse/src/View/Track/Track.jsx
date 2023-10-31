@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading'
 import { convertMsToMinSec } from '../Playlist/SplitNumber';
-import {BsPlayFill, BsThreeDots} from 'react-icons/bs'
+import {BsPauseFill, BsPlayFill, BsThreeDots} from 'react-icons/bs'
 import {AiOutlineHeart} from 'react-icons/ai'
 import ArtistTrack from './ArtistTrack';
 import TopTrack from './TopTrack';
@@ -17,8 +17,9 @@ import Headers from '../Header/Header';
 import RelatedArtistTrack from './RelatedArtistTrack';
 import TopTrackAnother from './TopTrackAnother';
 import ListAlbumHaveTrack from './ListAlbumHaveTrack';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
-function Track() {
+function Track({currentPlay}) {
     const [data,setData] = useState([])
     const [lyric, setLyric] = useState([])
     const [backgroundColor, setBackgroundColor] = useState('')
@@ -57,7 +58,6 @@ function Track() {
                   headers: {'Authorization': 'Bearer ' + token}
               })
               .then(artistResponse => {
-                  console.log(artistResponse)
                   setArtists(artistResponse.data)
                   setLoading(false)
               })
@@ -83,8 +83,6 @@ function Track() {
             console.error(error);
         });
     }, [trackID]);
-
-    console.log(data)
 
     useEffect(() => {
         const colorThief = new ColorThief();
@@ -131,6 +129,7 @@ function Track() {
         loadImage();
       }, [image]);
 
+
     if(loading) return <div><Loading /></div>
     return (
         <div>
@@ -161,9 +160,17 @@ function Track() {
                     </div>
                 </div>
                 <div className='bg-black bg-opacity-40 pb-12'>
-                  <div className='ml-8 mt-10'>
-                    <PlayButton />
-                  </div>
+                  {
+                    (currentPlay == data.id) 
+                    ?
+                    <div className='ml-8 mt-10'>
+                      <PlayingButton />
+                    </div>
+                    :
+                    <div className='ml-8 mt-10'>
+                      <PlayButton />
+                    </div>
+                  }
                   <div className='flex flex-row justify-between'>
                     <div className='ml-10 mt-3'>
                       <h2 className='text-[#EE5566] text-2xl font-semibold text-opacity-90'>Lyric</h2>
@@ -210,6 +217,26 @@ function PlayButton() {
       <div className="flex flex-row justify-start gap-5 -mt-5">
           <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
               <BsPlayFill className="text-black text-3xl" />
+          </button>
+          <div className="flex justify-center items-center">
+              <button>
+                  <AiOutlineHeart className="text-[#EE5566] text-opacity-80 text-xl"/>
+              </button>
+          </div>
+          <div className="flex justify-center items-center">
+              <button>
+                  <BsThreeDots className="text-[#EE5566] text-opacity-80 text-xl"/>
+              </button>
+          </div>
+      </div>
+    );
+}
+
+function PlayingButton() {
+  return (
+      <div className="flex flex-row justify-start gap-5 -mt-5">
+          <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
+              <BsPauseFill className="text-black text-3xl" />
           </button>
           <div className="flex justify-center items-center">
               <button>

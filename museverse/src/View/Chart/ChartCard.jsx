@@ -2,19 +2,10 @@ import { NavLink } from "react-router-dom";
 import {BsFillPlayFill} from 'react-icons/bs'
 import {AiOutlineHeart} from 'react-icons/ai'
 import { useState } from "react";
+import { convertMsToMinSec } from "../Playlist/SplitNumber";
 
-export default function CardChart({img, name, artist, release_date, uri, setPlayingTrack}) {
+export default function CardChart({img, name, artist, duration_ms, uri, setPlayingTrack, id}) {
     const [focus, setFocus] = useState(false)
-
-    release_date = release_date * 0.000017
-    const duration_minutes = Math.floor(release_date)
-    const duration_second = release_date - duration_minutes
-    const round_duration_second = Math.floor(duration_second * 60)
-
-    if(round_duration_second < 10) {
-        round_duration_second.toString();
-        var round_duration_second_text = `0${round_duration_second}`
-    }
 
     function handleClick() {
         setPlayingTrack(uri)
@@ -26,18 +17,25 @@ export default function CardChart({img, name, artist, release_date, uri, setPlay
             onMouseEnter={() => {setFocus(true)}}
             onMouseLeave={() => {setFocus(false)}}
             >
-                <div className="flex flex-row gap-8 w-72">
+                <div className="flex flex-row gap-8 w-96">
                     <img src={img} className="w-[87px] h-[87px] rounded-lg"></img>
-                    <div>
-                        <h3 className="text-white font-bold text-xl">
+                    <div className="w-72">
+                        <NavLink to={`/track/${id}`} className="text-white font-bold text-xl hover:underline">
                             {(name.length > 50) ? name.slice(0,50) + "..." : name}
-                        </h3>
-                        <p className="text-[#B4B4B4] font-medium text-sm">{artist}</p>
+                        </NavLink>
+                        <div className="flex flex-row">
+                        {
+                            artist.map((item, index) => (
+                                <NavLink to={`/artist/${item.id}`} className={`text-sm text-white font-semibold hover:underline ${focus ? "text-opacity-100" : "text-opacity-50"}`} key={index}>
+                                    {item.name}{index !== artist.length - 1 ? `, ` : ''} 
+                                </NavLink>
+                        ))}
+                        </div>
                     </div>
                 </div>
                 <div>
                     <br></br>
-                    <p className="text-[#B1B1B1] font-medium text-sm">{duration_minutes}:{(round_duration_second < 10) ? round_duration_second_text : round_duration_second}</p>
+                    <p className="text-[#B1B1B1] font-medium text-sm">{convertMsToMinSec(duration_ms)}</p>
                 </div>
                 <div className="flex flex-row gap-5 mr-5 mt-2">
                     <button className="rounded-full flex justify-center items-center w-10 h-10">

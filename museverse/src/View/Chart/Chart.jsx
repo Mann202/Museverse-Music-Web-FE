@@ -48,20 +48,20 @@ export default function Chart({setPlayingTrack}) {
     if(loading) {
         return <div><Loading /></div>
     }
-        return (
-            
+    return (
             <div>
                 <Headers />
-                <div className="bg-transparent flex flex-col gap-5 h-screen mt-3 pb-24 overflow-y-scroll mx-7">
+                <div className="bg-transparent flex flex-col gap-5 h-screen mt-3 pb-40 overflow-y-scroll mx-7">
                     <HeaderChart />
                 {
                     data.map(item => {
                         return(
                             <CardChart img={item.track.album.images[0].url}
+                                id={item.track.id}
                                 name={item.track.album.name}
                                 uri={item.track.uri}
-                                artist={item.track.album.artists[0].name}
-                                release_date={item.track.duration_ms}
+                                artist={item.track.album.artists}
+                                duration_ms={item.track.duration_ms}
                                 setPlayingTrack={setPlayingTrack}
                             />
                         )
@@ -75,9 +75,9 @@ export default function Chart({setPlayingTrack}) {
 function HeaderChart() {
     return(
         <>
-            <p className="text-[#EE5566] font-semibold text-lg">Top Chart</p> 
-            <div className="flex felx-row justify-between w-full h-28 w-full pl-3 mb-4">
-                    <div className="flex flex-row gap-8 w-72">
+            <p className="text-[#EE5566] font-semibold text-xl">Top Chart</p> 
+            <div className="flex felx-row justify-between w-full h-28 pl-3">
+                    <div className="flex flex-row gap-8 w-96">
                         <div>
                             <br></br>
                             <h3 className="text-[#939393] font-medium text-sm">
