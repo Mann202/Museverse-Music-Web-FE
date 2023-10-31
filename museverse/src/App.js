@@ -39,6 +39,8 @@ function App() {
                 <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
                 <Route path="/artist/:artistID/related-artists" element={<Related />} />
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
+                <Route path="/album/" element={<Album />} />
+                <Route path="/album/:albumID" element={<Album />} />
                 <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>}></Route>
                 <Route path="/track/:trackID" element={<Track currentPlay={currentPlay}/>}></Route>
             </Routes>
