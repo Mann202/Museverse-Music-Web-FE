@@ -27,6 +27,7 @@ function Track({currentPlay}) {
     const [loading, setLoading] = useState(true)
     const [artists, setArtists] = useState([])
     const [dark, setDark] = useState(false)
+    const [loadingLyric, setLoadingLyric] = useState(0)
 
     const {trackID} = useParams()
     const imageRef = useRef(null)
@@ -176,8 +177,11 @@ function Track({currentPlay}) {
                       <h2 className='text-[#EE5566] text-2xl font-semibold text-opacity-90'>Lyric</h2>
                       <div className="mt-5">
                         {
-                          (lyric.length == 0) ? <div><p className='text-white text-opacity-80 text-xl'>Sorry, lyric of this track is not available</p></div> :
-                          lyric.map(item => (
+                          (lyric.length == 0) ? 
+                            (loading<5) 
+                              ? <div><p className='text-white text-opacity-80 text-xl'>Loading lyric</p></div> 
+                              : <div><p className='text-white text-opacity-80 text-xl'>Sorry, lyric of this track is not available</p></div> 
+                            : lyric.map(item => (
                             <p className='text-white text-opacity-70'>{item.words}</p>
                           ))
                         }

@@ -43,13 +43,12 @@ const Play = ({ playingTrack, setCurrentPlay, trackInAlbum }) => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (token && trackUri.length > 0) {
-        // Lấy thông tin bài hát đang chơi từ Spotify API
         spotifyApi.getPlaybackState(token, trackUri[0]).then((data) => {
           console.log(data)
           setCurrentPlay(data.item.id);
         });
       }
-    }, 30000); 
+    }, 10000); 
 
     return () => clearInterval(intervalId);
   }, [trackUri]);

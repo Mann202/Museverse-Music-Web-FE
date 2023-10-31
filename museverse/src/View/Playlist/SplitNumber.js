@@ -1,3 +1,5 @@
+import moment from "moment/moment";
+
 export function formatNumber(number) {
     // Chuyển số thành chuỗi và tách phần nguyên và phần thập phân (nếu có)
     var parts = number.toString().split('.');
@@ -48,4 +50,16 @@ export function convertMsToMinSec(ms) {
     const seconds = ((ms % 60000) / 1000).toFixed(0); // Lấy phần dư và chuyển thành giây
 
     return `${minutes}:${(seconds < 10 ? '0' : '')}${seconds}`;
+}
+
+export function getTimeDifference(dateString) {
+    const inputDate = moment(dateString, 'MMMM DD, YYYY');
+    const currentDate = moment();
+    const daysDifference = currentDate.diff(inputDate, 'days');
+  
+    if (daysDifference > 7) {
+      return dateString;
+    } else {
+      return daysDifference === 0 ? 'today' : daysDifference === 1 ? 'yesterday' : `${daysDifference} days ago`;
+    }
 }

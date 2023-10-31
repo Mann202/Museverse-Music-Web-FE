@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { Spotify } from '../../API/Credentials';
 
-function CatelogyCard({ id, name, description, image, setPlayingTrack, setPlayingID, playingID }) {
+function CatelogyCard({ id, name, description, image, setPlayingTrack, setPlayingID, playingID, setTrackInAlbum }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate()
   
@@ -41,6 +41,7 @@ function CatelogyCard({ id, name, description, image, setPlayingTrack, setPlayin
       .catch(error => {
         console.error('Error fetching access token:', error);
       });
+      setTrackInAlbum(0)
   }
 
 

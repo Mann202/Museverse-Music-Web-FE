@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import {BsPauseFill, BsPlayFill} from 'react-icons/bs'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { getTimeDifference } from './SplitNumber'
 
-function PlaylistCard({id, index, name, album, date, duration, image, artist, currentPlay, setTrackInAlbum}) {
+function PlaylistCard({id, index, name, album, date, duration, image, artist, currentPlay, setTrackInAlbum, playingTrack, uri, setPlayingTrack, data}) {
     const [focus, setFocus] = useState(false)
     const navigate = useNavigate()
     
@@ -26,8 +27,16 @@ function PlaylistCard({id, index, name, album, date, duration, image, artist, cu
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     const formattedDate = dateTime.toLocaleDateString(undefined, options);
 
+    const tracks = []
+    data.forEach((item) => {
+        tracks.push(item.track.uri)
+    })
+
     function handleClick() {
-        setTrackInAlbum(index-1)
+        if(playingTrack.length == 0 || playingTrack.length != 0) {
+            setPlayingTrack(tracks)
+        }
+        setTrackInAlbum(index)
     }
 
 
@@ -72,7 +81,7 @@ function PlaylistCard({id, index, name, album, date, duration, image, artist, cu
                         <NavLink className={`text-white font-medium text-sm hover:underline ${focus ? "text-opacity-100" : "text-opacity-50"}`}>{album}</NavLink>
                     </div>
                     <div className="w-60 flex items-center">
-                        <p className="text-white text-opacity-50 font-medium text-sm">{formattedDate}</p>
+                        <p className="text-white text-opacity-50 font-medium text-sm">{getTimeDifference(formattedDate)}</p>
                     </div>
                     <div className="flex items-center w-16 justify-center">
                         <p className="text-white text-opacity-50 font-medium text-sm">{duration_minutes}:{(round_duration_second < 10) ? round_duration_second_text : round_duration_second}</p>

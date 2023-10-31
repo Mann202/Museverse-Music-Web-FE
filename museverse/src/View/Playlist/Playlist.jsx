@@ -14,7 +14,7 @@ import {chuyenDoiThoiGian} from './SplitNumber'
 import { spotifyApi } from 'react-spotify-web-playback';
 import Cookies from 'js-cookie';
 
-function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTrackInAlbum}) {
+function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTrackInAlbum, playingTrack}) {
     const [loading, setLoading] = useState(true)
     const [backgroundColor, setBackgroundColor] = useState('');
     const [token, setToken] = useState('');
@@ -118,12 +118,11 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTra
                         <p className="font-medium text-sm text-white text-opacity-60 mt-2">{followers} người thích . {totalTrack} bài hát, khoảng {timeinString}</p>
                     </div>
                 </div>
-                <PlayButton playingID={playingID} playlistID={playlistID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID}/>
+                <PlayButton playingID={playingID} playlistID={playlistID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum}/>
                 <div className="w-full flex flex-row flex-wrap gap-y-2 justify-center items-start pb-36 bg-opacity-30 bg-black pt-12">
                     <HeaderPlaylist />
 
                     {data.map((item, index) => (
-
                         <PlaylistCard
                         id={item.track.id} 
                         index={index}
@@ -137,6 +136,8 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTra
                         setPlayingTrack={setPlayingTrack}
                         uri={item.track.uri}
                         setTrackInAlbum={setTrackInAlbum}
+                        playingTrack={playingTrack}
+                        data={data}
                         />
                     ))}
                 </div>
@@ -145,7 +146,7 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTra
     )
 }
 
-function PlayButton({playingID, playlistID, setPlayingTrack, setPlayingID}) {
+function PlayButton({playingID, playlistID, setPlayingTrack, setPlayingID, setTrackInAlbum}) {
     const [pause, setPause] = useState(false)
     function handleClick() {
         axios('https://accounts.spotify.com/api/token', {
@@ -165,6 +166,7 @@ function PlayButton({playingID, playlistID, setPlayingTrack, setPlayingID}) {
           const tracks = response.data.tracks.items.map(album => album.track.uri);
           setPlayingTrack(tracks);
           setPlayingID(playlistID)
+          setTrackInAlbum(0)
         })
         .catch(error => {
           console.error('Error fetching playlist tracks:', error);

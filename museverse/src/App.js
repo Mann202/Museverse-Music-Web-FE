@@ -21,8 +21,7 @@ function App() {
   const [playingID, setPlayingID] = useState('')
   const [currentPlay, setCurrentPlay] = useState('')
   const [trackInAlbum, setTrackInAlbum] = useState(0)
-  console.log(trackInAlbum)
-
+  
   return (
       <div className="relative flex">
           <SideBar />
@@ -32,9 +31,9 @@ function App() {
                 <Route path="/" element={<Discover />} />
                 <Route path="/chart" element={<Chart setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/search" element={<Search />} />
-                <Route path="/search/:catelogyID" element={<Catelogy setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>} />
+                <Route path="/search/:catelogyID" element={<Catelogy setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
                 <Route path="/playlist" element={<Playlist />} />
-                <Route path="/playlist/:playlistID" element={<Playlist setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} currentPlay={currentPlay} setTrackInAlbum={setTrackInAlbum}/>} />
+                <Route path="/playlist/:playlistID" element={<Playlist setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} currentPlay={currentPlay} setTrackInAlbum={setTrackInAlbum}/>} />
                 <Route path="/artist/" element={<Artist />} />
                 <Route path="/artist/:artistID" element={<Artist />} />
                 <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
