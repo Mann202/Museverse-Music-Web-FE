@@ -66,9 +66,10 @@ const Play = ({ playingTrack, setCurrentPlay, trackInAlbum }) => {
         <SpotifyPlayer
           hideAttribution={true}
           styles={{
-            bgColor: "#333",
-            color: "#fff",
-            loaderColor: "#fff",
+            bgColor: "#000",
+            sliderHandleColor: "#fff",
+            color: "#EE5566",
+            loaderColor: "#EE5566",
             sliderColor: "#EE5566",
             savedColor: "#fff",
             trackArtistColor: "#ccc",
