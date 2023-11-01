@@ -24,6 +24,7 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(true) //Lấy trạng thái của thanh nghe nhạc (Đang nghe hay đã dừng)
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
   const [play, setPlay] = useState([]) //Cài đặt resume và pause
+  const [playingAlbumID, setPlayingAlbumID] = useState('') //Lưu vào album id đang nghe
 
   return (
       <div className="relative flex">
@@ -43,9 +44,9 @@ function App() {
                 <Route path="/artist/:artistID/related-artists" element={<Related />} />
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
                 <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>}></Route>
-                <Route path="/track/:trackID" element={<Track />}></Route>
+                <Route path="/track/:trackID" element={<Track playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>}></Route>
                 <Route path="/album/" element={<Album />} />
-                <Route path="/album/:albumID" element={<Album />} />
+                <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
             </Routes>
           </div>
         </div>

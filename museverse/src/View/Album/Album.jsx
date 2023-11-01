@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BsPlayFill, BsThreeDots, BsDot, BsHeart } from 'react-icons/bs';
+import { BsPlayFill, BsThreeDots, BsDot, BsHeart, BsPauseFill } from 'react-icons/bs';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ColorThief from 'colorthief'
@@ -11,7 +11,7 @@ import AlbumTrack from './AlbumTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
 import AnotherAlbum from './AnotherAlbum';
 
-const Album = () => {
+const Album = ({playingAlbumID, setPlayingAlbumID, setPlayingTrack, setPlay, play, isPlaying, setTrackInAlbum, playingData}) => {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
     const [backgroundColor, setBackgroundColor] = useState('')
@@ -42,7 +42,6 @@ const Album = () => {
                 })
                     .then(response => {
                         setData(response.data)
-                        console.log(data);
                         setImage(response.data.images[0].url)
                         setLoading(false)
                     })
@@ -127,8 +126,19 @@ const Album = () => {
                 </div>
             </div>
             <div style={{ background: `linear-gradient(${backgroundColor}, black)` }} className="w-full pt-8 pb-32">
-                <PlayButton />
-                <AlbumTrack id={albumID} />
+                <PlayButton isPlaying={isPlaying} play={play} setPlay={setPlay} setPlayingTrack={setPlayingTrack} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID} data={data}/>
+                <AlbumTrack 
+                    id={albumID} 
+                    playingAlbumID={playingAlbumID}
+                    setPlayingAlbumID={setPlayingAlbumID}
+                    setPlayingTrack={setPlayingTrack}
+                    setPlay={setPlay}
+                    play={play}
+                    isPlaying={isPlaying}
+                    setTrackInAlbum={setTrackInAlbum}
+                    playingData={playingData}
+                    AlbumData={data}
+                />
                 <div className='text-[#AFAFAF] text-xs flex flex-col ml-10'>
                     <div className='text-base'>{chuyenNgay(data.release_date)}</div>
                     <div>
@@ -149,12 +159,38 @@ const Album = () => {
     );
 }
 
-function PlayButton() {
+function PlayButton({playingAlbumID, setPlayingAlbumID, data, setPlayingTrack, setPlay, play, isPlaying}) {
+    const {albumID} = useParams()
+
+    function handleClick() {
+        const track = []
+        const tracksData = data.tracks.items
+        setPlayingAlbumID(albumID)
+        tracksData.forEach(item => {
+            track.push(item.uri)
+        })
+        setPlayingTrack(track)
+    }
+
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">
-            <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
-                <BsPlayFill className="text-black text-3xl" />
-            </button>
+            {
+                (albumID == playingAlbumID)
+                ?
+                    isPlaying 
+                    ?
+                        <button onClick={() => {setPlay(false)}} className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
+                            <BsPauseFill className="text-black text-3xl" />
+                        </button>
+                    :
+                        <button onClick={() => {setPlay(true)}} className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
+                            <BsPlayFill className="text-black text-3xl" />
+                        </button>
+                :
+                <button onClick={handleClick} className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
+                    <BsPlayFill className="text-black text-3xl" />
+                </button>
+            }
             <div className='flex items-center'>
                 <BsHeart className="text-[#AFAFAF] text-3xl" />
             </div>

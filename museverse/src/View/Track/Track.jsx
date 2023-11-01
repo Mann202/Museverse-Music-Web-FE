@@ -19,7 +19,7 @@ import TopTrackAnother from './TopTrackAnother';
 import ListAlbumHaveTrack from './ListAlbumHaveTrack';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 
-function Track({currentPlay}) {
+function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     const [data,setData] = useState([])
     const [lyric, setLyric] = useState([])
     const [backgroundColor, setBackgroundColor] = useState('')
@@ -161,17 +161,9 @@ function Track({currentPlay}) {
                     </div>
                 </div>
                 <div className='bg-black bg-opacity-40 pb-12'>
-                  {
-                    (currentPlay == data.id) 
-                    ?
-                    <div className='ml-8 mt-10'>
-                      <PlayingButton />
-                    </div>
-                    :
-                    <div className='ml-8 mt-10'>
-                      <PlayButton />
-                    </div>
-                  }
+                      <div className='ml-8 mt-10'>
+                        <PlayButton setPlayingTrack={setPlayingTrack} playingData={playingData} data={data} isPlaying={isPlaying} setPlay={setPlay}/>
+                      </div>
                   <div className='flex flex-row justify-between'>
                     <div className='ml-10 mt-3'>
                       <h2 className='text-[#EE5566] text-2xl font-semibold text-opacity-90'>Lyric</h2>
@@ -216,12 +208,31 @@ function Track({currentPlay}) {
     )
 }
 
-function PlayButton() {
+function PlayButton({playingData, data, isPlaying, setPlay, setPlayingTrack}) {
+
+  function handleClick() {
+    setPlayingTrack(data.uri)
+  }
+
   return (
       <div className="flex flex-row justify-start gap-5 -mt-5">
-          <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
-              <BsPlayFill className="text-black text-3xl" />
-          </button>
+          {
+            (playingData.name === data.name) 
+            ?
+              isPlaying
+              ?
+                <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
+                  <BsPauseFill onClick={()=> {setPlay(false)}} className="text-black text-3xl" />
+                </button>
+              :
+              <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
+                  <BsPlayFill onClick={()=> {setPlay(true)}} className="text-black text-3xl" />
+                </button>
+            :
+              <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
+                <BsPlayFill onClick={handleClick} className="text-black text-3xl" />
+              </button>
+          }
           <div className="flex justify-center items-center">
               <button>
                   <AiOutlineHeart className="text-[#EE5566] text-opacity-80 text-xl"/>
@@ -236,24 +247,5 @@ function PlayButton() {
     );
 }
 
-function PlayingButton() {
-  return (
-      <div className="flex flex-row justify-start gap-5 -mt-5">
-          <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
-              <BsPauseFill className="text-black text-3xl" />
-          </button>
-          <div className="flex justify-center items-center">
-              <button>
-                  <AiOutlineHeart className="text-[#EE5566] text-opacity-80 text-xl"/>
-              </button>
-          </div>
-          <div className="flex justify-center items-center">
-              <button>
-                  <BsThreeDots className="text-[#EE5566] text-opacity-80 text-xl"/>
-              </button>
-          </div>
-      </div>
-    );
-}
 
 export default Track

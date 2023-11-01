@@ -6,7 +6,7 @@ import AlbumTrackCard from './AlbumTrackCard';
 import { BsFillClockFill } from 'react-icons/bs'
 import Loading from '../Loading/Loading';
 
-function AlbumTrack({ id }) {
+function AlbumTrack({id, playingAlbumID, setPlayingAlbumID, setPlayingTrack, setPlay, play, isPlaying, setTrackInAlbum, playingData, AlbumData}) {
     const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true)
@@ -73,6 +73,15 @@ function AlbumTrack({ id }) {
                             artists={item.artists}
                             name={item.name}
                             duration={item.duration_ms}
+                            playingAlbumID={playingAlbumID}
+                            setPlayingAlbumID={setPlayingAlbumID}
+                            setPlayingTrack={setPlayingTrack}
+                            setPlay={setPlay}
+                            play={play}
+                            isPlaying={isPlaying}
+                            setTrackInAlbum={setTrackInAlbum}
+                            playingData={playingData}
+                            AlbumData={AlbumData}
                         />
                     ))
                 }
