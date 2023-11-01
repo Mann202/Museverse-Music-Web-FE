@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SpotifyPlayer from "react-spotify-web-playback";
+import {MdQueueMusic} from 'react-icons/md'
+import {AiOutlineExpandAlt} from 'react-icons/ai'
+import {RiRestartLine} from 'react-icons/ri'
 import { NavLink } from "react-router-dom";
 import { Spotify } from "../../API/Credentials";
 import Loading from "../Loading/Loading";
@@ -99,7 +102,17 @@ const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlay
           />
       </div>
       <div className="w-2/12 bg-black"> 
-
+            <div className="flex items-center gap-5 justify-center w-full h-full">
+              <button className="text-[#EE5566] font-semibold text-3xl">
+                <RiRestartLine />
+              </button>
+              <button className="text-[#EE5566] font-semibold text-4xl">
+                <MdQueueMusic/>
+              </button>
+              <button className="text-[#EE5566] font-semibold text-3xl">
+                <AiOutlineExpandAlt />
+              </button>
+            </div>
       </div>
     </div>
   );
