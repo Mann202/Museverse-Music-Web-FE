@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import SpotifyPlayer from "react-spotify-web-playback";
-import { spotifyApi } from "react-spotify-web-playback";
+import { NavLink } from "react-router-dom";
+import { Spotify } from "../../API/Credentials";
 import Loading from "../Loading/Loading";
 import Cookies from "js-cookie";
+import PlayArtist from "./PlayArtist";
 
-const Play = ({ playingTrack, setCurrentPlay, trackInAlbum }) => {
+const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play}) => {
   const [token, setToken] = useState(null);
-  const [trackUri, setTrackUri] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTrackUri(playingTrack);
-  }, [playingTrack]);
 
   useEffect(() => {
     const hashParams = {};
@@ -40,47 +38,69 @@ const Play = ({ playingTrack, setCurrentPlay, trackInAlbum }) => {
     }
   }, []);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (token && trackUri.length > 0) {
-        spotifyApi.getPlaybackState(token, trackUri[0]).then((data) => {
-          console.log(data)
-          setCurrentPlay(data.item.id);
-        });
-      }
-    }, 10000); 
-
-    return () => clearInterval(intervalId);
-  }, [trackUri]);
-
   if (!token) {
     return <p>Redirecting to Spotify...</p>;
   }
 
   if (loading) return <Loading />;
+
+  console.log(playingData)
+
+  if(playingTrack.length == 0) return ""
   return (
-    <div>
-      {trackUri.length === 0 ? (
-        ""
-      ) : (
-        <SpotifyPlayer
-          hideAttribution={true}
-          styles={{
-            bgColor: "#000",
-            sliderHandleColor: "#fff",
-            color: "#EE5566",
-            loaderColor: "#EE5566",
-            sliderColor: "#EE5566",
-            savedColor: "#fff",
-            trackArtistColor: "#ccc",
-            trackNameColor: "#fff",
-          }}
-          offset={trackInAlbum}
-          token={token}
-          play={true}
-          uris={trackUri}
-        />
-      )}
+    <div className="flex flex-row">
+      <div className="w-3/12 bg-black"> 
+        {
+          (playingData.length == 0) 
+            ? <p className="text-white">Loading</p>
+            : 
+          <div className="w-full h-full">
+            {
+              (playingData.name === '') ? "" :
+              <div className="flex flex-row gap-2 w-full h-full">
+                <div className="flex items-center pl-2">
+                  <img src={playingData.image} className="w-16 h-16 rounded-lg"></img>
+                </div>
+                <div className="flex items-start flex-col mt-1">
+                  <NavLink to={`/track/${playingData.id}`} className="text-white font-semibold hover:underline">
+                    {playingData.name.length > 40
+                      ? playingData.name.substring(0, 40) + "..."
+                      : playingData.name}
+                  </NavLink>
+                  <PlayArtist playingData={playingData} /> 
+              </div>
+            </div>
+            }
+          </div>
+        }
+      </div>
+      <div className="w-10/12">
+          <SpotifyPlayer
+            hideAttribution={true}
+            styles={{
+              bgColor: "#000",
+              sliderHandleColor: "#fff",
+              color: "#EE5566",
+              loaderColor: "#EE5566",
+              sliderColor: "#EE5566",
+              savedColor: "#fff",
+              trackArtistColor: "#000",
+              trackNameColor: "#000",
+            }}
+            offset={trackInAlbum}
+            hideCoverArt={true}
+            token={token}
+            play={play}
+            uris={playingTrack}
+            callback={(state) => {
+              setIsPlaying(state.isPlaying)
+              setPlayingData(state.track)
+            }}
+          />
+      </div>
+      <div className="w-2/12 bg-black"> 
+
+      </div>
     </div>
   );
 };

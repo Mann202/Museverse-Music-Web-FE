@@ -14,7 +14,7 @@ import {chuyenDoiThoiGian} from './SplitNumber'
 import { spotifyApi } from 'react-spotify-web-playback';
 import Cookies from 'js-cookie';
 
-function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTrackInAlbum, playingTrack}) {
+function Playlist({setPlayingTrack, playingID, setPlayingID, setTrackInAlbum, setIsPlaying, playingTrack, isPlaying, playingData, setPlay}) {
     const [loading, setLoading] = useState(true)
     const [backgroundColor, setBackgroundColor] = useState('');
     const [token, setToken] = useState('');
@@ -53,7 +53,7 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTra
                 }
             })
             .then(json => {
-                setData(json.data.tracks.items) // Lưu dữ liệu từ API vào state
+                setData(json.data.tracks.items) 
                 setLoading(false)
                 setName(json.data.name)
                 setDescription(json.data.description)
@@ -118,7 +118,7 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTra
                         <p className="font-medium text-sm text-white text-opacity-60 mt-2">{followers} người thích . {totalTrack} bài hát, khoảng {timeinString}</p>
                     </div>
                 </div>
-                <PlayButton playingID={playingID} playlistID={playlistID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum}/>
+                <PlayButton setPlay={setPlay} setIsPlaying={setIsPlaying} isPlaying={isPlaying} playingID={playingID} playlistID={playlistID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum}/>
                 <div className="w-full flex flex-row flex-wrap gap-y-2 justify-center items-start pb-36 bg-opacity-30 bg-black pt-12">
                     <HeaderPlaylist />
 
@@ -132,12 +132,15 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTra
                         duration={item.track.duration_ms}
                         image={item.track.album.images[0].url}
                         artist={item.track.artists}
-                        currentPlay={currentPlay}
                         setPlayingTrack={setPlayingTrack}
                         uri={item.track.uri}
                         setTrackInAlbum={setTrackInAlbum}
                         playingTrack={playingTrack}
                         data={data}
+                        playingData={playingData}
+                        isPlaying={isPlaying}
+                        setPlayingID={setPlayingID}
+                        setPlay={setPlay}
                         />
                     ))}
                 </div>
@@ -146,8 +149,9 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, currentPlay, setTra
     )
 }
 
-function PlayButton({playingID, playlistID, setPlayingTrack, setPlayingID, setTrackInAlbum}) {
+function PlayButton({setPlay, playingID, playlistID, setPlayingTrack, setPlayingID, setTrackInAlbum, isPlaying, setIsPlaying}) {
     const [pause, setPause] = useState(false)
+
     function handleClick() {
         axios('https://accounts.spotify.com/api/token', {
       headers: {
@@ -177,27 +181,14 @@ function PlayButton({playingID, playlistID, setPlayingTrack, setPlayingID, setTr
       });
     }
 
-    function getDevices(storedToken) {
-        spotifyApi.getDevices(storedToken).then(devices => {
-            return devices.devices[0].id
-        })
-    }
-
-    function handleClickPause() {
-        const storedToken = Cookies.get("spotifyToken");
-        const devicesCurrent = getDevices(storedToken)
-        spotifyApi.pause(storedToken, devicesCurrent)
-        setPause(true)
-    }
-
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">
             <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
                 {(playingID==playlistID) ? 
-                pause ? 
-                    <BsPlayFill className="text-black text-3xl" onClick={handleClickPause}/>
+                isPlaying ? 
+                    <BsPauseFill className="text-black text-3xl" onClick={() => {setPlay(false)}}/>
                     :
-                    <BsPauseFill className="text-black text-3xl" onClick={handleClickPause}/>
+                    <BsPlayFill className="text-black text-3xl" onClick={() => {setPlay(true)}}/>
                 : 
                 <BsPlayFill className="text-black text-3xl" onClick={handleClick}/>}
             </button>

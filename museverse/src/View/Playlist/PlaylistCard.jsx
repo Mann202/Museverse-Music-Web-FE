@@ -1,31 +1,18 @@
 import React, { useState } from 'react'
 import { BsPauseFill, BsPlayFill } from 'react-icons/bs'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { getTimeDifference } from './SplitNumber'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { convertMsToMinSec, getTimeDifference, chuyenNgay } from './SplitNumber'
 
-function PlaylistCard({ id, index, name, album, date, duration, image, artist, currentPlay, setTrackInAlbum, playingTrack, uri, setPlayingTrack, data }) {
+function PlaylistCard({ id, index, name, album, date, duration, image, artist, currentPlay, setPlay, setTrackInAlbum, playingTrack, setPlayingTrack, data, playingData, isPlaying, setPlayingID}) {
     const [focus, setFocus] = useState(false)
     const navigate = useNavigate()
+
+    const albumID = useParams()
 
     function changeRouteTrack() {
         const path = `/track/${id}`
         navigate(path)
     }
-
-    duration = duration * 0.000017
-    const duration_minutes = Math.floor(duration)
-    const duration_second = duration - duration_minutes
-    const round_duration_second = Math.floor(duration_second * 60)
-
-    if (round_duration_second < 10) {
-        round_duration_second.toString();
-        var round_duration_second_text = `0${round_duration_second}`
-    }
-
-    const dateTimeString = date;
-    const dateTime = new Date(dateTimeString);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const formattedDate = dateTime.toLocaleDateString(undefined, options);
 
     const tracks = []
     data.forEach((item) => {
@@ -33,12 +20,18 @@ function PlaylistCard({ id, index, name, album, date, duration, image, artist, c
     })
 
     function handleClick() {
-        if (playingTrack.length == 0 || playingTrack.length != 0) {
-            setPlayingTrack(tracks)
-        }
+        setPlayingTrack(tracks)
+        setPlayingID(albumID.playlistID)
         setTrackInAlbum(index)
+        setPlay(true)
     }
 
+    function handleFetch() {
+        setPlay(true)
+        setPlayingID(albumID.playlistID)
+        setTrackInAlbum(index)
+        setPlayingTrack(tracks)
+    }
 
     return (
         <>
@@ -49,12 +42,16 @@ function PlaylistCard({ id, index, name, album, date, duration, image, artist, c
                 <div className="flex flex-row gap-8 w-5/12">
                     <div className="flex flex-row items-center">
                         {
-                            (currentPlay == id)
+                            (playingData.name === name)
                                 ?
-                                <BsPauseFill className='text-white text-opacity-90 text-2xl' />
+                                    isPlaying
+                                    ? 
+                                        <button className='-ml-2' onClick={() => {setPlay(false)}}><BsPauseFill className='text-white text-opacity-90 text-2xl' /></button>
+                                    : 
+                                        <button className='-ml-2' onClick={() => {setPlay(true)}}><BsPlayFill className="text-white text-opacity-90 text-2xl" onClick={handleClick} /></button>
                                 :
                                 focus
-                                    ? <button onClick={handleClick}><BsPlayFill className="text-white text-opacity-90 text-2xl" onClick={handleClick} /></button>
+                                    ? <button onClick={handleFetch}><BsPlayFill className="text-white text-opacity-90 text-2xl -ml-1" onClick={handleFetch} /></button>
                                     : <p className="text-white text-opacity-50 w-5">{index + 1}</p>
                         }
                     </div>
@@ -83,10 +80,10 @@ function PlaylistCard({ id, index, name, album, date, duration, image, artist, c
                         </NavLink>
                     </div>
                     <div className="w-60 flex items-center">
-                        <p className="text-white text-opacity-50 font-medium text-sm">{getTimeDifference(formattedDate)}</p>
+                        <p className="text-white text-opacity-50 font-medium text-sm">{getTimeDifference(chuyenNgay(date))}</p>
                     </div>
                     <div className="flex items-center w-16 justify-center">
-                        <p className="text-white text-opacity-50 font-medium text-sm">{duration_minutes}:{(round_duration_second < 10) ? round_duration_second_text : round_duration_second}</p>
+                        <p className="text-white text-opacity-50 font-medium text-sm">{convertMsToMinSec(duration)}</p>
                     </div>
                 </div>
             </div>
