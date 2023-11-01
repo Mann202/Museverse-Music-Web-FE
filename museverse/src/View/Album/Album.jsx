@@ -10,6 +10,7 @@ import { formatNumber, chuyenNgay } from '../Playlist/SplitNumber';
 import AlbumTrack from './AlbumTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
 import AnotherAlbum from './AnotherAlbum';
+import Headers from '../Header/Header';
 
 const Album = () => {
     const [data, setData] = useState(null)
@@ -18,7 +19,7 @@ const Album = () => {
     const [image, setImage] = useState('')
     const [dark, setDark] = useState(false)
     const { albumID } = useParams();
-    
+
     const imageRef = useRef(null);
 
     useEffect(() => {
@@ -105,46 +106,49 @@ const Album = () => {
     }
 
     return (
-        <div className="h-screen overflow-y-scroll flex flex-col gap-y-10 pb-20 w-full">
-            <div style={{ background: `${backgroundColor}` }} className="flex flex-row gap-10">
-                <div className="h-[22rem] flex items-center flex-row ml-7">
-                    <img src={data.images[0].url} className="rounded-full w-60 h-64"></img>
-                </div>
-                <div className='flex gap-6 items-center flex-col justify-center'>
-                    <div>
-                        <p className="font-medeium text-lg text-white capitalize">{data.album_type}</p>
-                        <div className='w-full overflow-hidden'>
-                            <h1 className="whitespace-nowrap text-ellipsis overflow-hidden text-white font-bold text-[3vw]">{data.name}</h1>
+        <div>
+            <Headers bgColor={backgroundColor}/>
+            <div className="h-screen overflow-y-scroll flex flex-col gap-y-10 pb-20 w-full">
+                <div style={{ background: `${backgroundColor}` }} className="flex flex-row gap-10">
+                    <div className="h-[22rem] flex items-center flex-row ml-7">
+                        <img src={data.images[0].url} className="rounded-full w-60 h-64"></img>
+                    </div>
+                    <div className='flex gap-6 items-center flex-col justify-center'>
+                        <div>
+                            <p className="font-medeium text-lg text-white capitalize">{data.album_type}</p>
+                            <div className='w-full overflow-hidden'>
+                                <h1 className="whitespace-nowrap text-ellipsis overflow-hidden text-white font-bold text-[3vw]">{data.name}</h1>
+                            </div>
+                            <h3 className="text-base text-white text-opacity-80 font-base flex items-center">
+                                {data.artists[0].name}
+                                <BsDot />
+                                {new Date(data.release_date).getFullYear()}
+                                <BsDot />
+                                {formatNumber(data.total_tracks)} bài hát
+                            </h3>
                         </div>
-                        <h3 className="text-base text-white text-opacity-80 font-base flex items-center">
-                            {data.artists[0].name}
-                            <BsDot />
-                            {new Date(data.release_date).getFullYear()}
-                            <BsDot />
-                            {formatNumber(data.total_tracks)} bài hát
-                        </h3>
                     </div>
                 </div>
-            </div>
-            <div style={{ background: `linear-gradient(${backgroundColor}, black)` }} className="w-full pt-8 pb-32">
-                <PlayButton />
-                <AlbumTrack id={albumID} />
-                <div className='text-[#AFAFAF] text-xs flex flex-col ml-10'>
-                    <div className='text-base'>{chuyenNgay(data.release_date)}</div>
-                    <div>
-                        {data.copyrights.map((item, index) => (
-                            <div key={index}>{item.text}</div>
-                        ))}
+                <div style={{ background: `linear-gradient(${backgroundColor}, black)` }} className="w-full pt-8 pb-32">
+                    <PlayButton />
+                    <AlbumTrack id={albumID} />
+                    <div className='text-[#AFAFAF] text-xs flex flex-col ml-10'>
+                        <div className='text-base'>{chuyenNgay(data.release_date)}</div>
+                        <div>
+                            {data.copyrights.map((item, index) => (
+                                <div key={index}>{item.text}</div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-                {/* <ArtistAlbum
+                    {/* <ArtistAlbum
                     id={data.artists[0].id}
                 /> */}
-                <AnotherAlbum
-                    id={data.artists[0].id}
-                    name={data.artists[0].name}
-                    dark={dark}
-                />
+                    <AnotherAlbum
+                        id={data.artists[0].id}
+                        name={data.artists[0].name}
+                        dark={dark}
+                    />
+                </div>
             </div>
         </div>
     );
