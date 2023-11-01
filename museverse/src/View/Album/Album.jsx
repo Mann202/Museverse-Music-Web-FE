@@ -142,6 +142,7 @@ const Album = () => {
                 /> */}
                 <AnotherAlbum
                     id={data.artists[0].id}
+                    name={data.artists[0].name}
                     dark={dark}
                 />
             </div>

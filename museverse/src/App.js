@@ -16,6 +16,8 @@ import Related from "./View/Artists/Related";
 import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
 import Album from "./View/Album/Album";
+import NewRelease from "./View/NewRelease/NewRelease";
+import AllNewReleases from "./View/NewRelease/AllNewReleases";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('')
@@ -44,6 +46,8 @@ function App() {
                 <Route path="/track/:trackID" element={<Track currentPlay={currentPlay}/>}></Route>
                 <Route path="/album/" element={<Album />} />
                 <Route path="/album/:albumID" element={<Album />} />
+                <Route path="/newrelease/" element={<NewRelease />} />
+                <Route path="/allnewrelease/" element={<AllNewReleases />} />
             </Routes>
           </div>
         </div>

@@ -1,23 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { BsPlayFill, BsThreeDots, BsDot, BsHeart } from 'react-icons/bs';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ColorThief from 'colorthief'
 
 import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
-import { formatNumber, chuyenNgay } from '../Playlist/SplitNumber';
 import Headers from '../Header/Header';
+import NewReleases from './NewReleases';
 
-const NewRelease = (id) => {
+const NewRelease = () => {
     const [data, setData] = useState(null)
-    const [loading, setLoading] = useState(true)
-    const [backgroundColor, setBackgroundColor] = useState('')
-    const [image, setImage] = useState('')
-    const [dark, setDark] = useState(false)
-    const { albumID } = useParams();
-
-    const imageRef = useRef(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // Gọi API để lấy token
@@ -32,16 +23,14 @@ const NewRelease = (id) => {
             .then(response => {
                 const token = response.data.access_token;
                 // Gọi Spotify Web API để lấy thông tin về album
-                axios(`https://api.spotify.com/v1/albums/0FZXUfdUtrkzNyzmT1VLlB`, {
+                axios(`https://api.spotify.com/v1/browse/new-releases?country=VN`, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + token
                     }
                 })
                     .then(response => {
-                        setData(response.data)
-                        console.log(data);
-                        setImage(response.data.images[0].url)
+                        setData(response.data.albums)
                         setLoading(false)
                     })
                     .catch(error => {
@@ -51,29 +40,7 @@ const NewRelease = (id) => {
             .catch(error => {
                 console.error(error);
             });
-    }, [albumID]);
-
-    useEffect(() => {
-        const colorThief = new ColorThief();
-        const imageElement = imageRef.current;
-    
-        const loadImage = async () => {
-          try {
-            const img = new Image();
-            img.crossOrigin = 'Anonymous';
-            img.src = image;
-            img.onload = () => {
-              const color = colorThief.getColor(img);
-              const hexColor = `#${color[0].toString(16).padStart(2, '0')}${color[1].toString(16).padStart(2, '0')}${color[2].toString(16).padStart(2, '0')}`;
-              setBackgroundColor('#eaafc8');
-            };
-          } catch (error) {
-            console.error('Lỗi tải hình ảnh:', error);
-          }
-        };
-    
-        loadImage();
-      }, [image]);
+    });
 
     if (loading) {
         return <div><Loading /></div>
@@ -81,12 +48,15 @@ const NewRelease = (id) => {
 
     return (
         <div className="h-screen overflow-y-scroll flex flex-col w-full">
-            <Headers bgColor={backgroundColor}/>
-            <div className="flex flex-col gap-10 h-1/4" style={{background: `linear-gradient(${backgroundColor}, #654ea3)`}}>                
+            <Headers bgColor='#eaafc8' />
+            <div className="flex flex-col gap-10 h-1/4" style={{ background: `linear-gradient(#eaafc8, #654ea3)` }}>
                 <div className='flex h-full items-center text-[90px] font-bold text-white ml-5'>Mới phát hành</div>
             </div>
-            <div className="flex flex-col gap-10 h-1/3" style={{background: `linear-gradient( #55428a, black)`}}>   
-                <div className='text-white text-2xl font-bold mt-8 ml-5'>Những bản phát hành mới hay nhất</div>
+            <div className="flex flex-col h-2/4" style={{ background: 'linear-gradient(#403267, #201934 )' }}>
+                <div className='text-white text-xl font-bold mt-8 ml-5'>Những bản phát hành mới hay nhất</div>
+            </div>
+            <div style={{ background: 'linear-gradient(#201934, black )' }}>
+                <NewReleases />
             </div>
         </div>
     );
