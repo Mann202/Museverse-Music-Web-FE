@@ -99,7 +99,7 @@ export function LoggedHeader({bgColor, showHello}) {
                     <button onClick={HandleClickDropdown}>
                         <img src={avatar} className='rounded-full w-10 h-10' alt="Museverse"></img>
                     </button>
-                    <button onClick={HandleClickNotification} className="bg-black bg-opacity-80 text-white rounded-lg w-10 h-10 flex justify-center items-center hover:bg-[#323232]">
+                    <button onClick={HandleClickNotification} className="bg-black bg-opacity-80 text-[#EE5566] rounded-lg w-10 h-10 flex justify-center items-center hover:bg-[#323232]">
                         {notification ? <MdNotificationsActive className="text-xl"/> : <IoIosNotifications className="text-xl"/>}
                     </button>
                 </div>
