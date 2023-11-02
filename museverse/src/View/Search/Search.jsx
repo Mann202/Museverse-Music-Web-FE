@@ -9,7 +9,7 @@ import Headers from '../Header/Header'
 import { useParams } from 'react-router'
 import Searching from './Searching'
 
-const Search = () => {
+const Search = ({setPlayingTrack, playingData, isPlaying, setPlay}) => {
     const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true)
@@ -58,7 +58,7 @@ const Search = () => {
         <div>
             <Headers />
             <div>
-                <Searching searching={searching}/>
+                <Searching setPlay={setPlay} searching={searching} setPlayingTrack={setPlayingTrack} playingData={playingData} isPlaying={isPlaying}/>
             </div>
         </div>
     )

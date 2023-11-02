@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate  } from 'react-router-dom'
 
 import { AiOutlineSearch } from "react-icons/ai";
@@ -14,12 +14,23 @@ export default function SearchBar() {
         navigate(path);
     }
 
-    function handleChange(event) {
-        const value = event.target.value;
-        setInputValue(value);
-        let path = `/search/${value}`;
-        navigate(path);
+    useEffect(() => {
+      let timer;
+      if (inputValue) {
+        timer = setTimeout(() => {
+          let path = `/search/${inputValue}`;
+          navigate(path);
+        }, 500); // Chờ 1 giây sau khi người dùng ngưng nhập liệu
       }
+      return () => {
+        clearTimeout(timer); // Xóa timer khi giá trị inputValue thay đổi
+      };
+    }, [inputValue, navigate]);
+  
+    function handleChange(event) {
+      const value = event.target.value;
+      setInputValue(value);
+    }
     
       return (
         <>

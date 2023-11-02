@@ -35,7 +35,7 @@ function App() {
                 <Route path="/" element={<Discover />} />
                 <Route path="/chart" element={<Chart setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/search" element={<Search />} />
-                <Route path="/search/:searching" element={<Search />} />
+                <Route path="/search/:searching" element={<Search setPlay={setPlay} setPlayingTrack={setPlayingTrack} isPlaying={isPlaying} playingData={playingData}/>} />
                 <Route path="/catelogy/:catelogyID" element={<Catelogy setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
                 <Route path="/playlist" element={<Playlist />} />
                 <Route path="/playlist/:playlistID" element={<Playlist setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />

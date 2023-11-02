@@ -4,12 +4,12 @@ import axios from 'axios'
 import { Spotify } from '../../API/Credentials'
 import Loading from '../Loading/Loading';
 import SearchingTrackCard from './SearchingTrackCard';
-import { BsPlayFill } from 'react-icons/bs';
+import { BsPauseFill, BsPlayFill } from 'react-icons/bs';
 import SearchingAlbumCard from './SearchingAlbumCard';
 import SearchingPlaylistCard from './SearchingPlaylistCard';
 import SearchingArtistsCard from './SearchingArtistsCard';
 
-function Searching({searching}) {
+function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}) {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [searchData, setSearchData] = useState([])
@@ -80,7 +80,9 @@ function Searching({searching}) {
         })
     }, [searching]);
 
-    const sortedData = data.sort((a, b) => b.popularity - a.popularity);
+    function handleClick() {
+        setPlayingTrack(searchData[0].uri)
+    }
 
     if (loading) return <Loading />;
 
@@ -108,7 +110,17 @@ function Searching({searching}) {
                                 </div>
                                 <div className='mt-2 mr-2'>
                                     <button className='w-12 h-12 rounded-full bg-[#EE5566] flex justify-center items-center'>
-                                        <BsPlayFill className='text-white text-3xl'/>
+                                        {
+                                            (playingData.name === searchData[0].name) 
+                                            ?
+                                            (isPlaying)
+                                                ? 
+                                                <BsPauseFill onClick={()=>{setPlay(false)}} className='text-black text-3xl' />
+                                                :
+                                                <BsPlayFill onClick={()=>{setPlay(true)}} className='text-black text-3xl'/>
+                                            :
+                                            <BsPlayFill onClick={handleClick} className='text-black text-3xl'/>
+                                        }
                                     </button>
                                 </div>
                             </div>
@@ -120,7 +132,7 @@ function Searching({searching}) {
                     <div>
                         <h1 className='text-white font-bold text-2xl'>Tracks</h1>
                     </div>
-                    <div className='flex flex-col gap-3 mt-2'>
+                    <div className='flex flex-col gap-1 mt-2'>
                         {
                             data.slice(0,4).map(item => (
                                 <SearchingTrackCard 
@@ -128,6 +140,11 @@ function Searching({searching}) {
                                     duration={item.duration_ms}
                                     artists={item.artists}
                                     img={item.album.images[0].url} 
+                                    setPlayingTrack={setPlayingTrack} 
+                                    isPlaying={isPlaying} 
+                                    playingData={playingData} 
+                                    setPlay={setPlay}
+                                    uri={item.uri}
                                 />
                             ))
                         }

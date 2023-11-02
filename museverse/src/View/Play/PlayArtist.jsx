@@ -23,8 +23,8 @@ function PlayArtist({playingData}) {
     return (
         <div className="flex flex-row"> 
             {
-                artists.map(item => (
-                    <NavLink to={`/artist/${item.id}`} className="text-white text-sm hover:underline">{item.name}</NavLink>
+                artists.map((item,index) => (
+                    <NavLink to={`/artist/${item.id}`} className="text-white text-sm hover:underline">{item.name}{index !== artists.length - 1 ? ", " : " "}</NavLink>
                 ))
             }
         </div>
