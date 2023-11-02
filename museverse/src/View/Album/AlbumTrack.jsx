@@ -54,10 +54,10 @@ function AlbumTrack({id, playingAlbumID, setPlayingAlbumID, setPlayingTrack, set
     return (
         <div className='flex justify-evenly my-4'>
             <div className='w-full items-center justify-center flex flex-col'>
-                <div className="text-[#AFAFAF] text-opacity-90 text-bold text-xl flex items-center justify-between w-11/12">
+                <div className="text-[#AFAFAF] text-opacity-90 text-bold text-xl flex items-center justify-between w-11/12 mb-5">
                     <div className='flex ml-10'>
                         <span >#</span>
-                        <span className='ml-10'>Tiêu đề</span>
+                        <span className='ml-10'>Title</span>
                     </div>
                     <div className='flex gap-10 mr-14'>
                         <span><BsFillClockFill /></span>

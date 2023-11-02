@@ -4,10 +4,11 @@ import React from 'react'
 import axios from "axios";
 
 import { Spotify } from "../../API/Credentials";
-import ArtistCardAlbum from "../Artists/ArtistCardAlbum";
+import NewReleasesCard from "./NewReleasesCard";
 import Loading from "../Loading/Loading";
+import Headers from "../Header/Header";
 
-function AnotherAlbum({ id, name, dark }) {
+const AllNewReleases = () => {
     const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true)
@@ -24,16 +25,16 @@ function AnotherAlbum({ id, name, dark }) {
         })
             .then(response => {
                 setToken(response.data.access_token);
-
                 // Gọi API Spotify ngay sau khi nhận được token
-                axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=album,single&market=VN&limit=6`, {
+                axios(`https://api.spotify.com/v1/browse/new-releases?country=VN`, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + response.data.access_token
                     }
                 })
                     .then(json => {
-                        setData(json.data.items); // Lưu dữ liệu từ API vào state
+                        setData(json.data.albums.items); // Lưu dữ liệu từ API vào state
+                        console.log(json.data.albums.items);
                         setLoading(false)
                     })
                     .catch(error => {
@@ -45,29 +46,24 @@ function AnotherAlbum({ id, name, dark }) {
             });
     }, [setToken, setData]);
 
-    if (loading)
-        return <Loading />
+    if(loading)
+        return <Loading/>
 
     return (
-        <div className="mt-10">
-            <div className="flex flex-row justify-between">
-                <div className="flex flex-row gap-5 ml-5">
-                    <NavLink to={`/artist/${id}/all-albums`} className='text-[#EE5566] ml-5 text-xl font-bold hover:underline'>Another album of {name}</NavLink>
-                </div>
-                <div className="flex flex-row items-end mr-7">
-                    <NavLink to={`/artist/${id}/all-albums`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
-                </div>
+        <div className="h-screen overflow-y-scroll flex flex-col w-full bg-[#171719]">
+            <Headers bgColor={'#171719'}/>            
+            <div className="flex flex-row gap-5 ml-5 mt-5">
+                <p className='text-[#EE5566] font-bold text-xl'>Hand-picked new releases</p>
             </div>
-            <div className="mt-5 flex justify-center">
-                <div className="flex flex-row content-start gap-5 flex-wrap">
+            <div className="m-5 flex justify-center">
+                <div className="flex content-start gap-5 flex-wrap">
                     {
                         data.map(item => (
-                            <ArtistCardAlbum
+                            <NewReleasesCard
                                 id={item.id}
                                 name={item.name}
-                                release={item.release_date}
+                                artists={item.artists}
                                 image={item.images[0].url}
-                                dark={dark}
                             />
                         ))
                     }
@@ -77,4 +73,4 @@ function AnotherAlbum({ id, name, dark }) {
     )
 }
 
-export default AnotherAlbum
+export default AllNewReleases
