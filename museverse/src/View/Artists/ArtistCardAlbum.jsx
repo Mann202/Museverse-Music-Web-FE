@@ -25,17 +25,6 @@ function ArtistCardAlbum({ id, name, release, image, dark }) {
     navigate(path)
   } */
 
-  const [routeChanged, setRouteChanged] = useState(false);
-  useEffect(() => {
-    if (routeChanged) {
-      window.location.reload();
-    }
-  }, [routeChanged]);
-  function changeRouteAlbum() {
-    const path = `/album/${id}`
-    navigate(path)
-    setRouteChanged(true);
-  }
 
   return (
     <div
