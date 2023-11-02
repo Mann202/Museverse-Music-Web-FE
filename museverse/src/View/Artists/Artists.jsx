@@ -96,7 +96,13 @@ function Artist() {
             <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll flex flex-col gap-y-6 pb-20 w-full">
                 <div style={{background: `${backgroundColor}`}} className="flex flex-row gap-10">
                     <div className="flex items-center flex-row ml-7">
-                        <img src={data.images[0].url} alt={data.name} className="rounded-full w-60 h-64 my-5"></img>
+                        {
+                            (data.images.length == 0) 
+                            ?
+                            <img src="https://i.scdn.co/image/ab6761610000e5eb1020c22e0ce742eca7166e65" alt="" className='rounded-full w-60 h-64 my-5'></img>
+                            :
+                            <img src={data.images[0].url} alt={data.name} className="rounded-full w-60 h-64 my-5"></img>
+                        }
                     </div>
                     <div className='flex gap-6 items-center flex-col justify-center'>
                         <div className="flex flex-col gap-1">

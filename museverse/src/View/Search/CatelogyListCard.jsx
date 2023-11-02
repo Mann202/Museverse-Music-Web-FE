@@ -9,7 +9,7 @@ function CatelogyListCard({ name, image, id }) {
 
   
   const routeChange = () =>{ 
-      let path = `/search/${id}`; 
+      let path = `/catelogy/${id}`; 
       navigate(path);
     }
   

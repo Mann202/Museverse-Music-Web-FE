@@ -6,6 +6,8 @@ import { Spotify } from '../../API/Credentials'
 import CatelogyListCard from './CatelogyListCard'
 import Loading from '../Loading/Loading'
 import Headers from '../Header/Header'
+import { useParams } from 'react-router'
+import Searching from './Searching'
 
 const Search = () => {
     const [token, setToken] = useState('');
@@ -13,6 +15,9 @@ const Search = () => {
     const [loading, setLoading] = useState(true)
     const ClientID = Spotify.ClientID;
     const ClientSecret = Spotify.ClientSecret;
+
+    const {searching} = useParams() 
+    const {catelogyID} = useParams()
 
     useEffect(() => {
         // Gọi API để lấy token
@@ -26,7 +31,6 @@ const Search = () => {
         })
         .then(response => {
             setToken(response.data.access_token);
-            // Gọi API Spotify ngay sau khi nhận được token
             axios('https://api.spotify.com/v1/browse/categories?country=VN&offset=0&limit=50', {
                 method: 'GET',
                 headers: {
@@ -34,7 +38,7 @@ const Search = () => {
                 }
             })
             .then(json => {
-                setData(json.data.categories.items); // Lưu dữ liệu từ API vào state
+                setData(json.data.categories.items); 
                 setLoading(false)
             })
             .catch(error => {
@@ -49,6 +53,16 @@ const Search = () => {
     if(loading) {
         return <div><Loading /></div>
     } 
+
+    if(searching != undefined) return (
+        <div>
+            <Headers />
+            <div>
+                <Searching searching={searching}/>
+            </div>
+        </div>
+    )
+
     return (
     <div>
         <Headers />
