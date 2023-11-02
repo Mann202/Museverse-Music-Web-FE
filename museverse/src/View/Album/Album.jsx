@@ -160,6 +160,7 @@ const Album = ({ playingAlbumID, setPlayingAlbumID, setPlayingTrack, setPlay, pl
                 /> */}
                     <AnotherAlbum
                         id={data.artists[0].id}
+                        name={data.artists[0].name}
                         dark={dark}
                     />
                 </div>

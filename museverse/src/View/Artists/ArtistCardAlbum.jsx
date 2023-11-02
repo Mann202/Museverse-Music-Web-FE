@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom' 
+import React, { useState, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom'
 import { BsPlayFill } from 'react-icons/bs';
 
 import { chuyenNgay } from '../Playlist/SplitNumber';
 
-function ArtistCardAlbum({ id, name, release , image, dark }) {
+function ArtistCardAlbum({ id, name, release, image, dark }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate()
 
@@ -13,16 +13,29 @@ function ArtistCardAlbum({ id, name, release , image, dark }) {
     navigate(path)
   } */
 
+  const [routeChanged, setRouteChanged] = useState(false);
+  useEffect(() => {
+    if (routeChanged) {
+      window.location.reload();
+    }
+  }, [routeChanged]);
+  function changeRouteAlbum() {
+    const path = `/album/${id}`
+    navigate(path)
+    setRouteChanged(true);
+  }
+
   return (
     <div
+      onClick={changeRouteAlbum}
       className={`${dark ? "bg-white bg-opacity-10 hover:bg-opacity-20" : "bg-black bg-opacity-30 hover:bg-opacity-60"} h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 cursor-pointer`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      //onClick={changeRoute}
+    //onClick={changeRoute}
     >
       <div className="relative overflow-hidden">
         <img src={image} className="rounded-xl w-40 h-40 mt-3" alt={name} />
-        { isHovered ?
+        {isHovered ?
           <div className={`absolute bottom-0 right-0 p-2 transtion-all overflow-hidden`}>
             <ButtonPlay />
           </div> : ""
