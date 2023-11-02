@@ -5,6 +5,7 @@ import { Spotify } from '../../API/Credentials';
 import ArtistAlbum from '../Artists/ArtistAlbum';
 
 import { chuyenNgay } from '../Playlist/SplitNumber';
+import { NavLink } from 'react-router-dom';
 
 function TopTrackAnother({id, dark}) {
     const [data, setData] = useState([])
@@ -80,11 +81,11 @@ function TopTrackAnother({id, dark}) {
                     </div>
                     <div className='flex flex-col'>
                         <p className='text-[#EE5566] text-opacity-80'>Top track by</p>
-                        <p className="text-white font-bold text-lg">{artist.name}</p>
+                        <NavLink to={`/artist/${artist.id}`} className="hover:underline text-white font-bold text-lg">{artist.name}</NavLink>
                     </div>
                 </div>
                 <div className='mr-7 flex flex-row items-end'>
-                    <p className={`text-[#EE5566] ${(data.length < 6) ? "hidden" : ""}`}>Show all</p>
+                    <NavLink to={`/artist/${id}/discovery-all`} className={`hover:underline text-[#EE5566] ${(data.length < 6) ? "hidden" : ""}`}>Show all</NavLink>
                 </div>
             </div>
             <div className={`flex mt-5 ${(data.length < 6) ? "justify-start ml-5" : "justify-center"}`}>
