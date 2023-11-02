@@ -96,7 +96,7 @@ function AnotherAlbum({id, dark}) {
     <div className="mt-10">
         <div className="flex flex-row justify-between">
             <div className="flex flex-row gap-5 ml-5">
-                <p className='text-[#EE5566] ml-5'>Album khác</p>
+                <p className='text-[#EE5566] ml-5'>Another Album</p>
             </div>
             <div className="flex flex-row items-end mr-7">
                 <NavLink to={`/artist/${id}/discovery-all`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
