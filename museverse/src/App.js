@@ -16,7 +16,12 @@ import Related from "./View/Artists/Related";
 import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
 import Album from "./View/Album/Album";
+<<<<<<< HEAD
 import AllAnotherAlbum from "./View/Album/AllAnotherAlbum";
+=======
+import NewRelease from "./View/NewRelease/NewRelease";
+import AllNewReleases from "./View/NewRelease/AllNewReleases";
+>>>>>>> 6fc33c44221679aa6cac1450c10442245519a0e1
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -48,7 +53,13 @@ function App() {
                 <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>}></Route>
                 <Route path="/track/:trackID" element={<Track playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>}></Route>
                 <Route path="/album/" element={<Album />} />
+<<<<<<< HEAD
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
+=======
+                <Route path="/album/:albumID" element={<Album />} />
+                <Route path="/newrelease/" element={<NewRelease />} />
+                <Route path="/allnewrelease/" element={<AllNewReleases />} />
+>>>>>>> 6fc33c44221679aa6cac1450c10442245519a0e1
             </Routes>
           </div>
         </div>

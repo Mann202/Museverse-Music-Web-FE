@@ -8,6 +8,18 @@ function ArtistCardAlbum({ id, name, release, image, dark }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate()
 
+  const [routeChanged, setRouteChanged] = useState(false);
+  useEffect(() => {
+    if (routeChanged) {
+      window.location.reload();
+    }
+  }, [routeChanged]);
+  function changeRouteAlbum() {
+    const path = `/album/${id}`
+    navigate(path)
+    setRouteChanged(true);
+  }
+
   /* function changeRoute() {
     const path = `/playlist/${id}`
     navigate(path)

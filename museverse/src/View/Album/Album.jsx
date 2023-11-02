@@ -10,7 +10,7 @@ import { formatNumber, chuyenNgay } from '../Playlist/SplitNumber';
 import AlbumTrack from './AlbumTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
 import AnotherAlbum from './AnotherAlbum';
-import Headers from '../Header/Header'
+import Headers from '../Header/Header';
 
 const Album = ({ playingAlbumID, setPlayingAlbumID, setPlayingTrack, setPlay, play, isPlaying, setTrackInAlbum, playingData }) => {
     const [data, setData] = useState(null)
