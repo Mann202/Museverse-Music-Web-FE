@@ -16,6 +16,7 @@ import Related from "./View/Artists/Related";
 import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
 import Album from "./View/Album/Album";
+import Profile from "./View/Profile";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -47,6 +48,7 @@ function App() {
                 <Route path="/track/:trackID" element={<Track playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>}></Route>
                 <Route path="/album/" element={<Album />} />
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
+                <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>
