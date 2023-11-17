@@ -17,6 +17,8 @@ import AppearOn from "./View/Artists/AppearOn/AppearOn";
 import Track from "./View/Track/Track";
 import Album from "./View/Album/Album";
 import Profile from "./View/Profile";
+import Show from "./View/Show/Show";
+
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -26,6 +28,8 @@ function App() {
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
   const [play, setPlay] = useState([]) //Cài đặt resume và pause
   const [playingAlbumID, setPlayingAlbumID] = useState('') //Lưu vào album id đang nghe
+  const [playingShowID, setPlayingShowID] = useState('') //Lưu vào album id đang nghe
+
 
   return (
       <div className="relative flex">
@@ -49,6 +53,8 @@ function App() {
                 <Route path="/album/" element={<Album />} />
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/show/:showID" element={<Show playingData={playingData} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingShowID} setPlayingAlbumID={setPlayingShowID}/>} />
+
             </Routes>
           </div>
         </div>
