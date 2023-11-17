@@ -176,7 +176,7 @@ function ProfileEditor(props) {
                 type="checkbox"
                 name="share-info"
                 value="1"
-                className="form-tick appearance-none h-4 w-4 border border-gray-300 rounded-md checked:bg-green-600 checked:border-transparent focus:outline-none "
+                className="form-tick appearance-none h-4 w-4 border border-gray-300 rounded-md checked:bg-[#EE5566] checked:border-transparent focus:outline-none "
               />
               <small className="font-medium">
                 Chia sẻ dữ liệu đang ký của tôi với các nhà cung cấp nội dung
