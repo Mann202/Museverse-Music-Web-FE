@@ -19,7 +19,7 @@ import Album from "./View/Album/Album";
 import AllAnotherAlbum from "./View/Album/AllAnotherAlbum";
 import NewRelease from "./View/NewRelease/NewRelease";
 import AllNewReleases from "./View/NewRelease/AllNewReleases";
-
+import Profile from "./View/Profile/Profile";
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
   const [playingID, setPlayingID] = useState('') //Lưu vào Playlist ID của playlist đang được phát
@@ -54,6 +54,7 @@ function App() {
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
                 <Route path="/newrelease/" element={<NewRelease />} />
                 <Route path="/allnewrelease/" element={<AllNewReleases />} />
+                <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>
