@@ -1,21 +1,27 @@
-import React, { useState } from 'react';
-import { bgImage } from '../assets/bg-image.png'
-import { logo_txt } from '../assets/logo_txt.png'
+import React, { useState, useContext } from 'react';
+import bgImage from '../../assets/bg-image.png'
+import logo_txt from '../../assets/logo_txt.png'
 import UsePasswordToggle from './UsePasswordToggle';
 import { FcGoogle } from "react-icons/fc"
 import { FaFacebook } from "react-icons/fa6";
 import { useGoogleLogin } from '@react-oauth/google';
+import { Link, useNavigate, useLocation, json, NavLink } from 'react-router-dom';
+import { LoggedContext } from './LoggedContext';
 
 const SignIn = () => {
+    const { logged, setLogged } = useContext(LoggedContext);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+
     const [PasswordInputType, ToggleIcon, change] = UsePasswordToggle();
     const login = useGoogleLogin({
         onSuccess: tokenResponse => console.log(tokenResponse),
     });
     const [formData, setFormData] = useState({
         username: '',
-        email: '',
         password: ''
-        // confirmPassword: ''
     })
 
     const [errors, setErrors] = useState({})
@@ -26,17 +32,12 @@ const SignIn = () => {
             ...formData, [name]: value
         })
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const validationErrors = {}
+
         if (!formData.username.trim()) {
             validationErrors.username = "Email or username is required"
-        }
-
-        if (!formData.email.trim()) {
-            validationErrors.email = "Email is required"
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            validationErrors.email = "Email is not valid"
         }
 
         if (!formData.password.trim()) {
@@ -45,14 +46,31 @@ const SignIn = () => {
             validationErrors.password = "Password should be at least 6 char"
         }
 
-        // if (formData.confirmPassword !== formData.password) {
-        //     validationErrors.confirmPassword = "password not matched"
-        // }
-
         setErrors(validationErrors)
 
         if (Object.keys(validationErrors).length === 0) {
-            alert("Form Submitted successfully")
+            let item = { username: formData.username, password: formData.password };
+            let result = await fetch("http://localhost:8000/api/signin", {
+                method: 'POST',
+                body: JSON.stringify(item),
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Accept": 'application/json'
+                }
+            })
+            result = await result.json()
+            console.log("result", result);
+
+            if (result.hasOwnProperty('error')) {
+                const Errors = {};
+                Errors.notmatch = result['error'];
+                setErrors(Errors);
+            } else {
+                localStorage.setItem('user', JSON.stringify(item));
+                setLogged(true);
+                navigate('/');
+            }
+
         }
 
     }
@@ -68,7 +86,7 @@ const SignIn = () => {
 
             <div className='flex flex-col p-10 w-[60%] h-full bg-[#1F1F22] items-center font-mont justify-center'>
                 <form onSubmit={handleSubmit} className='flex flex-col items-center'>
-                    <h1 className='text-[#1FD662] text-5xl font-bold mb-20'>Log in to Museverse</h1>
+                    <h1 className='text-[#EE5566] text-5xl font-bold mb-20'>Log in to Museverse</h1>
                     <div className='w-[300px] h-[35px] relative mb-2 text-lg text-white mb-5'>
                         <input
                             type='button'
@@ -97,6 +115,7 @@ const SignIn = () => {
                             <input
                                 type="text"
                                 placeholder='Email or username'
+                                name="username"
                                 className='w-[400px] h-[35px] flex-col bg-transparent outline-none'
                                 onChange={handleChange}
                             />
@@ -109,6 +128,7 @@ const SignIn = () => {
                                 type={PasswordInputType}
                                 placeholder='Password'
                                 id='pass'
+                                name='password'
                                 className='w-[400px] h-[35px] flex-col bg-transparent outline-none'
                                 onChange={handleChange}
                             />
@@ -119,7 +139,10 @@ const SignIn = () => {
                         <div className='text-red-600'>
                             {errors.password && <span>{errors.password}</span>}
                         </div>
-                        <div class="w-[400px] p-0 text-center text-white text-xl font-semibold bg-[#1FD662] rounded-lg mb-1">
+                        <div className='text-red-600' id='error_signin'>
+                            {errors.notmatch && <span>{errors.notmatch}</span>}
+                        </div>
+                        <div class="w-[400px] p-0 text-center text-white text-xl font-semibold bg-[#EE5566] rounded-lg mb-1">
                             <button type='submit' className=' w-full h-full p-2 rounded-lg'>Log in</button >
                         </div>
 
@@ -131,8 +154,8 @@ const SignIn = () => {
 
 
                 <div className='text-xl font-medium text-white mt-14'>
-                    Don't have an account?
-                    <span className="text-[#1FD662] underline">Sign up now</span>
+                    Don't have an account? 
+                    <NavLink to={'/signup'} className="text-[#EE5566] hover:underline cursor-pointer" > Sign up now</NavLink>
                 </div>
             </div>
         </div>

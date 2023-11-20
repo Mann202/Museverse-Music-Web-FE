@@ -29,4 +29,11 @@
     background: #555;
 }
 
+input:-webkit-autofill {
+    /* CSS properties for autofill */
+    color: #fff !important; /* Màu chữ */
+    background-color: #000 !important; /* Màu nền */
+    /* Thêm các thuộc tính CSS khác tùy ý */
+  }
+
 html, body {margin: 0; height: 100%; overflow: hidden}

@@ -1,20 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import SpotifyPlayer from "react-spotify-web-playback";
-import {MdQueueMusic} from 'react-icons/md'
-import {AiOutlineExpandAlt} from 'react-icons/ai'
-import {VscDebugRestart} from 'react-icons/vsc'
-import { NavLink } from "react-router-dom";
+import { MdQueueMusic } from 'react-icons/md'
+import { AiOutlineExpandAlt } from 'react-icons/ai'
+import { VscDebugRestart } from 'react-icons/vsc'
+import { NavLink, Navigate, useNavigate, useNavigation } from "react-router-dom";
 import { Spotify } from "../../API/Credentials";
 import Loading from "../Loading/Loading";
 import Cookies from "js-cookie";
 import PlayArtist from "./PlayArtist";
+import Swal from "sweetalert2";
 
-const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play}) => {
+const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play, logged }) => {
+
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
+    // let user = localStorage.getItem('user');
+    // let result = await fetch("http://localhost:8000/api/checkrole", {
+    //   method: 'POST',
+    //   body: JSON.stringify(),
+    //   headers: {
+    //     "Content-Type": 'application/json',
+    //     "Accept": 'application/json'
+    //   }
+    // })
+    // result = await result.json()
+    // console.log("result", result);
+
+    // if (result.hasOwnProperty('error')) {
+    //   const Errors = {};
+    //   Errors.notmatch = result['error'];
+    //   setErrors(Errors);
+    // }
+
     const hashParams = {};
     const regex = /([^&;=]+)=?([^&;]*)/g;
     const hash = window.location.hash.substring(1);
@@ -47,72 +69,103 @@ const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlay
 
   if (loading) return <Loading />;
 
-  if(playingTrack.length == 0) return ""
+  if (playingTrack.length == 0) return "";
+
+  // if (!logged && !flag) {
+  //   console.log("play is called");
+  //   (async () => {
+  //     const result = await Swal.fire({
+  //       background: "#1F1F22",
+  //       color: '#EE5566',
+  //       title: "Start listening by signing in to our website",
+  //       confirmButtonText: "Sign in",
+  //       confirmButtonColor: '#EE5566',
+  //       showDenyButton: true,
+  //       denyButtonText: `Sign Up`,
+  //       denyButtonColor: 'black',
+  //       showCancelButton: false
+  //     });
+
+  //     if (result.isConfirmed) {
+  //       navigate('/signin');
+  //       setFlag(true);
+  //     } else if (result.isDenied) {
+  //       navigate('/signup');
+  //       setFlag(true);
+  //     }
+
+  //     Swal.close();
+  //   })();
+  // }
+  // if (flag || !logged)
+  //   return "";
+
   return (
     <div className="flex flex-row">
-      <div className="w-3/12 bg-black"> 
+      <div div className="w-3/12 bg-black" >
         {
-          (playingData.length == 0) 
+          (playingData.length == 0)
             ? <p className="text-white">Loading</p>
-            : 
-          <div className="w-full h-full">
-            {
-              (playingData.name === '') ? "" :
-              <div className="flex flex-row gap-2 w-full h-full">
-                <div className="flex items-center pl-2">
-                  <img src={playingData.image} className="w-16 h-16 rounded-lg"></img>
-                </div>
-                <div className="flex items-start flex-col mt-1">
-                  <NavLink to={`/track/${playingData.id}`} className="text-white font-semibold hover:underline">
-                    {playingData.name.length > 40
-                      ? playingData.name.substring(0, 40) + "..."
-                      : playingData.name}
-                  </NavLink>
-                  <PlayArtist playingData={playingData} /> 
-              </div>
+            :
+            <div className="w-full h-full">
+              {
+                (playingData.name === '') ? "" :
+                  <div className="flex flex-row gap-2 w-full h-full">
+                    <div className="flex items-center pl-2">
+                      <img src={playingData.image} className="w-16 h-16 rounded-lg"></img>
+                    </div>
+                    <div className="flex items-start flex-col mt-1">
+                      <NavLink to={`/track/${playingData.id}`} className="text-white font-semibold hover:underline">
+                        {playingData.name.length > 40
+                          ? playingData.name.substring(0, 40) + "..."
+                          : playingData.name}
+                      </NavLink>
+                      <PlayArtist playingData={playingData} />
+                    </div>
+                  </div>
+              }
             </div>
-            }
-          </div>
         }
-      </div>
+      </div >
       <div className="w-10/12">
-          <SpotifyPlayer
-            hideAttribution={true}
-            styles={{
-              bgColor: "#000",
-              sliderHandleColor: "#fff",
-              color: "#EE5566",
-              loaderColor: "#EE5566",
-              sliderColor: "#EE5566",
-              savedColor: "#fff",
-              trackArtistColor: "#000",
-              trackNameColor: "#000",
-            }}
-            offset={trackInAlbum}
-            hideCoverArt={true}
-            token={token}
-            play={play}
-            uris={playingTrack}
-            callback={(state) => {
-              setIsPlaying(state.isPlaying)
-              setPlayingData(state.track)
-            }}
-          />
+        <SpotifyPlayer
+          hideAttribution={true}
+          styles={{
+            bgColor: "#000",
+            sliderHandleColor: "#fff",
+            color: "#EE5566",
+            loaderColor: "#EE5566",
+            sliderColor: "#EE5566",
+            savedColor: "#fff",
+            trackArtistColor: "#000",
+            trackNameColor: "#000",
+          }}
+          offset={trackInAlbum}
+          hideCoverArt={true}
+          token={token}
+          play={play}
+          uris={playingTrack}
+          callback={(state) => {
+            setIsPlaying(state.isPlaying)
+            setPlayingData(state.track)
+          }}
+        />
       </div>
-      <div className="w-2/12 bg-black"> 
-            <div className="flex items-center gap-5 justify-center w-full h-full">
-              <button className="text-[#EE5566] font-semibold text-3xl">
-                <VscDebugRestart />
-              </button>
-              <button className="text-[#EE5566] font-semibold text-4xl">
-                <MdQueueMusic/>
-              </button>
-              <button className="text-[#EE5566] font-semibold text-3xl">
-                <AiOutlineExpandAlt />
-              </button>
-            </div>
+      <div className="w-2/12 bg-black">
+        <div className="flex items-center gap-5 justify-center w-full h-full">
+          <button className="text-[#EE5566] font-semibold text-3xl">
+            <VscDebugRestart />
+          </button>
+          <button className="text-[#EE5566] font-semibold text-4xl">
+            <MdQueueMusic />
+          </button>
+          <button className="text-[#EE5566] font-semibold text-3xl">
+            <AiOutlineExpandAlt />
+          </button>
+        </div>
       </div>
-    </div>
+    </div >
+
   );
 };
 

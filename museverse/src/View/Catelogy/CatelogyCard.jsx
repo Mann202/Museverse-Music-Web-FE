@@ -9,7 +9,6 @@ function CatelogyCard({ id, name, description, image, setPlayingTrack, setPlayin
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate()
   
-
   function changeRoute() {
     const path = `/playlist/${id}`
     navigate(path)
