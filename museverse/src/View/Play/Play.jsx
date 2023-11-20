@@ -4,39 +4,52 @@ import SpotifyPlayer from "react-spotify-web-playback";
 import { MdQueueMusic } from 'react-icons/md'
 import { AiOutlineExpandAlt } from 'react-icons/ai'
 import { VscDebugRestart } from 'react-icons/vsc'
-import { NavLink, Navigate, useNavigate, useNavigation } from "react-router-dom";
+import { NavLink, Navigate, useLocation, useNavigate, useNavigation } from "react-router-dom";
 import { Spotify } from "../../API/Credentials";
 import Loading from "../Loading/Loading";
 import Cookies from "js-cookie";
 import PlayArtist from "./PlayArtist";
 import Swal from "sweetalert2";
+import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
-const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play, logged }) => {
+const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
 
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const [flag, setFlag] = useState(false);
+  const { logged, setLogged } = useContext(LoggedContext);
+  const location = useLocation();
+  const checkLogged = (async () => {
+    if (!localStorage.getItem('user')) {
+
+    } else {
+      const user = JSON.parse(localStorage.getItem('user'));
+      console.log("user", user.user_id);
+      let result = await fetch("http://localhost:8000/api/checkrole", {
+        method: 'POST',
+        body: JSON.stringify(user),
+        headers: {
+          "Content-Type": 'application/json',
+          "Accept": 'application/json'
+        }
+      })
+      result = await result.json()
+      console.log("result", result.role_id);
+      if (result.role_id == 3) //checkrole
+      {
+      }
+    }
+
+  })
+  checkLogged();
 
   useEffect(() => {
-    // let user = localStorage.getItem('user');
-    // let result = await fetch("http://localhost:8000/api/checkrole", {
-    //   method: 'POST',
-    //   body: JSON.stringify(),
-    //   headers: {
-    //     "Content-Type": 'application/json',
-    //     "Accept": 'application/json'
-    //   }
-    // })
-    // result = await result.json()
-    // console.log("result", result);
-
-    // if (result.hasOwnProperty('error')) {
-    //   const Errors = {};
-    //   Errors.notmatch = result['error'];
-    //   setErrors(Errors);
-    // }
-
+    if (location.pathname === '/signin' || location.pathname === '/signup') {
+      Swal.close();
+    }
+  }, [location]);
+  useEffect(() => {
     const hashParams = {};
     const regex = /([^&;=]+)=?([^&;]*)/g;
     const hash = window.location.hash.substring(1);
@@ -71,34 +84,31 @@ const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlay
 
   if (playingTrack.length == 0) return "";
 
-  // if (!logged && !flag) {
-  //   console.log("play is called");
-  //   (async () => {
-  //     const result = await Swal.fire({
-  //       background: "#1F1F22",
-  //       color: '#EE5566',
-  //       title: "Start listening by signing in to our website",
-  //       confirmButtonText: "Sign in",
-  //       confirmButtonColor: '#EE5566',
-  //       showDenyButton: true,
-  //       denyButtonText: `Sign Up`,
-  //       denyButtonColor: 'black',
-  //       showCancelButton: false
-  //     });
+  if (!logged) {
+    (async () => {
+      const result = await Swal.fire({
+        background: "#1F1F22",
+        color: '#EE5566',
+        title: "Start listening by signing in to our website",
+        confirmButtonText: "Sign in",
+        confirmButtonColor: '#EE5566',
+        showDenyButton: true,
+        denyButtonText: `Sign Up`,
+        denyButtonColor: 'black',
+        showCancelButton: false
+      });
 
-  //     if (result.isConfirmed) {
-  //       navigate('/signin');
-  //       setFlag(true);
-  //     } else if (result.isDenied) {
-  //       navigate('/signup');
-  //       setFlag(true);
-  //     }
+      if (result.isConfirmed) {
+        navigate('/signin');
+      } else if (result.isDenied) {
+        navigate('/signup');
+      }
 
-  //     Swal.close();
-  //   })();
-  // }
-  // if (flag || !logged)
-  //   return "";
+      Swal.close();
+    })();
+  }
+  if (!logged)
+    return "";
 
   return (
     <div className="flex flex-row">

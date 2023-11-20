@@ -7,7 +7,7 @@ import { LoggedContext } from './LoggedContext';
 import Swal from 'sweetalert2'
 
 export default function SignUp() {
-    const [logged, setLogged] = useContext(LoggedContext);
+    const { logged, setLogged } = useContext(LoggedContext);
     const navigate = useNavigate();
     const [PasswordInputType, ToggleIcon, change] = UsePasswordToggle();
 
@@ -74,7 +74,7 @@ export default function SignUp() {
                     iconColor: '#EE5566'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        localStorage.setItem('user', JSON.stringify(item));
+                        localStorage.setItem('user', JSON.stringify(result));
                         setLogged(true);
                         navigate('/');
                     }

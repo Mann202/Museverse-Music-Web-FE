@@ -66,7 +66,7 @@ const SignIn = () => {
                 Errors.notmatch = result['error'];
                 setErrors(Errors);
             } else {
-                localStorage.setItem('user', JSON.stringify(item));
+                localStorage.setItem('user', JSON.stringify(result));
                 setLogged(true);
                 navigate('/');
             }
