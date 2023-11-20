@@ -23,7 +23,6 @@ const Album = ({ playingAlbumID, setPlayingAlbumID, setPlayingTrack, setPlay, pl
     const imageRef = useRef(null);
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -34,7 +33,6 @@ const Album = ({ playingAlbumID, setPlayingAlbumID, setPlayingTrack, setPlay, pl
         })
             .then(response => {
                 const token = response.data.access_token;
-                // Gọi Spotify Web API để lấy thông tin về album
                 axios(`https://api.spotify.com/v1/albums/${albumID}`, {
                     method: 'GET',
                     headers: {

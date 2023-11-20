@@ -78,8 +78,6 @@ function DiscoveryCatelogy() {
         });
     }, []);
 
-    console.log(vietNam)
-
     return (
         <div>
             <div className='pt-8'>

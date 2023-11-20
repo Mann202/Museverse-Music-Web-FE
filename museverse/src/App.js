@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Headers from "./View/Header/Header";
 import SideBar from "./View/SideBar/SideBar";
@@ -19,6 +19,8 @@ import Album from "./View/Album/Album";
 import AllAnotherAlbum from "./View/Album/AllAnotherAlbum";
 import NewRelease from "./View/NewRelease/NewRelease";
 import AllNewReleases from "./View/NewRelease/AllNewReleases";
+import axios from "axios";
+import History from "./History/History";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -28,6 +30,17 @@ function App() {
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
   const [play, setPlay] = useState([]) //Cài đặt resume và pause
   const [playingAlbumID, setPlayingAlbumID] = useState('') //Lưu vào album id đang nghe
+
+  const userID = 1
+  useEffect(() => {
+    if (playingData.length!=0 && playingData.id !== "") {
+      console.log("lưu");
+      axios.post(`http://127.0.0.1:8000/api/history`, {
+        user_id: userID,
+        track: playingData.id
+      })
+    }
+  }, [playingData, userID]);
 
   return (
       <div className="relative flex">
@@ -54,6 +67,7 @@ function App() {
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
                 <Route path="/newrelease/" element={<NewRelease />} />
                 <Route path="/allnewrelease/" element={<AllNewReleases />} />
+                <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
             </Routes>
           </div>
         </div>

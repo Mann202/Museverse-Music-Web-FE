@@ -25,12 +25,10 @@ const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlay
     }
 
     if (hashParams.access_token) {
-      // Lưu token vào cookie với tên "spotifyToken" và hạn sử dụng là 1 giờ (hoặc thời gian mong muốn)
-      Cookies.set("spotifyToken", hashParams.access_token, { expires: 1 / 24 }); // 1 giờ
+      Cookies.set("spotifyToken", hashParams.access_token, { expires: 1 / 24 }); 
       setToken(hashParams.access_token);
       setLoading(false);
     } else {
-      // Kiểm tra xem có token trong cookie không
       const storedToken = Cookies.get("spotifyToken");
       if (storedToken) {
         setToken(storedToken);

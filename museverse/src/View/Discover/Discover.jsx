@@ -21,10 +21,14 @@ export default function Discover() {
                         <DiscoveryRecentlyPlayed />
                     </div>
                     <div>
-                        <DiscoveryCatelogy />
+                        <></>
                     </div>
+                    {//<div>
+                        //<DiscoveryRecommendBaseArtist />
+                    //</div>
+                    }
                     <div>
-                        
+                        <DiscoveryCatelogy />
                     </div>
                 </div>
             </div>

@@ -56,7 +56,6 @@ const DiscoveryRecentlyPlayed = () => {
         fetchHistory();
       }, []);
       
-    console.log(data)
     if(loading) return <Loading />
 
     return (
