@@ -11,7 +11,7 @@ const links = [
     {name: "Playlist", to:"/playlist", icon: BiSolidPlaylist},
     {name: "Albums", to: "/albums", icon: IoIosAlbums},
     {name: "Tracks", to: "/tracks", icon: BsMusicNoteBeamed},
-    {name: "Artists", to: "/artists", icon: GiMicrophone},
+    {name: "Artists", to: "/followedArtists", icon: GiMicrophone},
 ]
 
 const mainLinks = [

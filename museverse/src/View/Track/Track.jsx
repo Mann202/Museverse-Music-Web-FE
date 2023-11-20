@@ -11,13 +11,10 @@ import {AiOutlineHeart} from 'react-icons/ai'
 import ArtistTrack from './ArtistTrack';
 import TopTrack from './TopTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
-import RelatedArtistCard from '../Artists/RelatedArtistCard';
-import RelatedArtistCardTrack from './RelatedArtistCardTrack';
 import Headers from '../Header/Header';
 import RelatedArtistTrack from './RelatedArtistTrack';
 import TopTrackAnother from './TopTrackAnother';
 import ListAlbumHaveTrack from './ListAlbumHaveTrack';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     const [data,setData] = useState([])
@@ -27,7 +24,6 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     const [loading, setLoading] = useState(true)
     const [artists, setArtists] = useState([])
     const [dark, setDark] = useState(false)
-    const [loadingLyric, setLoadingLyric] = useState(0)
 
     const {trackID} = useParams()
     const imageRef = useRef(null)
@@ -76,9 +72,6 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
             .then(response => {
                 setLyric(response.data.lines)
             })
-            .catch(error => {
-                console.error(error);
-            });
         })
         .catch(error => {
             console.error(error);

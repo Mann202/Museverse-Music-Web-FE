@@ -33,7 +33,6 @@ function HistoryCard({track_id, currentPlay, setPlay, setTrackInAlbum, playingTr
                         'Authorization': 'Bearer ' + token
                     }
                 }).then(response => {
-                    console.log(response.data)
                     setData(response.data)
                     setLoading(false)
                 })

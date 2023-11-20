@@ -3,16 +3,40 @@ import axios from "axios";
 import SpotifyPlayer from "react-spotify-web-playback";
 import {MdQueueMusic} from 'react-icons/md'
 import {AiOutlineExpandAlt} from 'react-icons/ai'
-import {VscDebugRestart} from 'react-icons/vsc'
-import { NavLink } from "react-router-dom";
-import { Spotify } from "../../API/Credentials";
+import { CiRepeat, CiShuffle } from "react-icons/ci";
+import { NavLink, useNavigate } from "react-router-dom";
+import { PiQueueFill } from "react-icons/pi";
+import { spotifyApi } from 'react-spotify-web-playback';
 import Loading from "../Loading/Loading";
 import Cookies from "js-cookie";
 import PlayArtist from "./PlayArtist";
 
-const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play}) => {
+const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play}) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isPlay, setIsPlay] = useState(false)
+  const [repeat, setRepeat] = useState('off')
+  const navigate = useNavigate()
+
+  function handleExpand() {
+    const path=`/track/${playingData.id}/lyric`
+    navigate(path)
+  }
+
+  function handleRepeat() {
+    spotifyApi.repeat(token, 'track', device)
+    setRepeat('track')
+  }
+
+  function handleShuffle() {
+    spotifyApi.repeat(token, 'off', device)
+    setRepeat('off')
+  }
+
+  function handleQueue() {
+    const path=`/queue/`
+    navigate(path)
+  }
 
   useEffect(() => {
     const hashParams = {};
@@ -92,20 +116,27 @@ const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlay
             play={play}
             uris={playingTrack}
             callback={(state) => {
+              setIsPlay(state.isPlaying)
               setIsPlaying(state.isPlaying)
               setPlayingData(state.track)
+              setProgressMs(state.progressMs)
+              setDevice(state.currentDeviceId)
             }}
           />
       </div>
       <div className="w-2/12 bg-black"> 
-            <div className="flex items-center gap-5 justify-center w-full h-full">
-              <button className="text-[#EE5566] font-semibold text-3xl">
-                <VscDebugRestart />
+            <div className="flex items-center gap-5 justify-center w-full h-full"> 
+              
+                {
+                  (repeat === 'track') 
+                  ? <button onClick={handleShuffle} className="text-[#EE5566] font-semibold text-3xl"><CiShuffle /></button>
+                  : <button onClick={handleRepeat} className="text-[#EE5566] font-semibold text-3xl"><CiRepeat /></button>
+                }
+              
+              <button onClick={handleQueue} className="text-[#EE5566] font-semibold text-4xl">
+                <PiQueueFill/>
               </button>
-              <button className="text-[#EE5566] font-semibold text-4xl">
-                <MdQueueMusic/>
-              </button>
-              <button className="text-[#EE5566] font-semibold text-3xl">
+              <button onClick={handleExpand} className="text-[#EE5566] font-semibold text-3xl">
                 <AiOutlineExpandAlt />
               </button>
             </div>

@@ -13,7 +13,6 @@ function History({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPlayin
     useEffect(() => {
         axios.get(`http://127.0.0.1:8000/api/allHistory?user_id=${userID}`)
         .then(response => {
-            console.log(response.data); 
             setData(response.data); 
         })
     }, []);

@@ -21,6 +21,9 @@ import NewRelease from "./View/NewRelease/NewRelease";
 import AllNewReleases from "./View/NewRelease/AllNewReleases";
 import axios from "axios";
 import History from "./History/History";
+import FollowedArtist from "./View/FollowedArtist/FollowedArtist";
+import Lyric from "./View/Lyric/Lyric";
+import Queue from "./View/Queue/Queue";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -30,11 +33,14 @@ function App() {
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
   const [play, setPlay] = useState([]) //Cài đặt resume và pause
   const [playingAlbumID, setPlayingAlbumID] = useState('') //Lưu vào album id đang nghe
+  const [progressMs, setProgressMs] = useState(0) //Luu vao thoi gian nghe nhac
+  const [device, setDevice] = useState('')
+  const [repeat, isRepeat] = useState('')
+  const [queueID, setQueueID] = useState([])
 
   const userID = 1
   useEffect(() => {
     if (playingData.length!=0 && playingData.id !== "") {
-      console.log("lưu");
       axios.post(`http://127.0.0.1:8000/api/history`, {
         user_id: userID,
         track: playingData.id
@@ -52,7 +58,7 @@ function App() {
                 <Route path="/chart" element={<Chart setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/search/:searching" element={<Search setPlay={setPlay} setPlayingTrack={setPlayingTrack} isPlaying={isPlaying} playingData={playingData}/>} />
-                <Route path="/catelogy/:catelogyID" element={<Catelogy setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
+                <Route path="/catelogy/:catelogyID" element={<Catelogy setQueueID={setQueueID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
                 <Route path="/playlist" element={<Playlist />} />
                 <Route path="/playlist/:playlistID" element={<Playlist setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/artist/" element={<Artist />} />
@@ -67,12 +73,15 @@ function App() {
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
                 <Route path="/newrelease/" element={<NewRelease />} />
                 <Route path="/allnewrelease/" element={<AllNewReleases />} />
+                <Route path="/followedArtists" element={<FollowedArtist />} />
                 <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
+                <Route path="/track/:trackID/lyric" element={<Lyric isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
+                <Route path="/queue/" element={<Queue queueID={queueID}/>} /> 
             </Routes>
           </div>
         </div>
         <div className="fixed bottom-0 w-full">
-            <Play playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
+            <Play isRepeat={isRepeat} device={device} setDevice={setDevice} setProgressMs={setProgressMs} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
         </div>
       </div>
   );
