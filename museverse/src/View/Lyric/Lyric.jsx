@@ -8,9 +8,8 @@ import { Spotify } from '../../API/Credentials';
 import { spotifyApi } from 'react-spotify-web-playback';
 import Cookies from 'js-cookie';
 
-function Lyric({isPlaying, progressMs, device }) {
+function Lyric({isPlaying, progressMs, device, setProgressMs }) {
     const [lyric, setLyric] = useState([]);
-    const [progress, setProgress] = useState(0)
     const [loading, setLoading] = useState(true);
     const { trackID } = useParams();
     const [dark, setDark] = useState(false);
@@ -26,29 +25,9 @@ function Lyric({isPlaying, progressMs, device }) {
         return () => {
             const spotifyToken = Cookies.get('spotifyToken');
             spotifyApi.seek(spotifyToken, startTimeMs, device);
-            setProgress(parseInt(startTimeMs))
+            setProgressMs(parseInt(startTimeMs))
         };
     }
-
-    useEffect(() => {
-        setProgress(progressMs)
-    }, [progressMs])
-
-    useEffect(() => {
-        let progressInterval;
-    
-        if (isPlaying) {
-            progressInterval = setInterval(() => {
-                setProgress(prevProgressMs => prevProgressMs + 500); 
-            }, 500);
-        } else {
-            clearInterval(progressInterval);
-        }
-    
-        return () => {
-            clearInterval(progressInterval);
-        };
-    }, [isPlaying]);
 
     useEffect(() => {
         axios(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?url=https://open.spotify.com/track/${trackID}?autoplay=true`, {
@@ -127,8 +106,28 @@ function Lyric({isPlaying, progressMs, device }) {
     }, [image]);
 
     useEffect(() => {
+        const storedToken = Cookies.get("spotifyToken");
+        
+        const fetchPlaybackState = async () => {
+          try {
+            const response = await spotifyApi.getPlaybackState(storedToken);
+            setProgressMs(response.progress_ms);
+          } catch (error) {
+            console.error("Error fetching playback state:", error);
+          }
+        };
+      
+        const intervalId = setInterval(fetchPlaybackState, 500);
+      
+        return () => {
+          clearInterval(intervalId);
+        };
+      }, []);
+      
+
+    useEffect(() => {
         const checkLyricMatch = () => {
-            const currentProgressMs = progress;
+            const currentProgressMs = progressMs;
 
             for (let i = 0; i < lyric.length; i++) {
                 const item = lyric[i];
@@ -152,7 +151,7 @@ function Lyric({isPlaying, progressMs, device }) {
         };
 
         checkLyricMatch();
-    }, [progress, lyric]);
+    }, [progressMs, lyric]);
 
     if (loading) return <Loading />;
     return (

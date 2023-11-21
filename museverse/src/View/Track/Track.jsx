@@ -7,7 +7,7 @@ import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading'
 import { convertMsToMinSec } from '../Playlist/SplitNumber';
 import {BsPauseFill, BsPlayFill, BsThreeDots} from 'react-icons/bs'
-import {AiOutlineHeart} from 'react-icons/ai'
+import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai'
 import ArtistTrack from './ArtistTrack';
 import TopTrack from './TopTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
@@ -30,7 +30,6 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
 
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -41,7 +40,6 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
         })
         .then(response => {
             const token = response.data.access_token;
-            // Gọi Spotify Web API để lấy thông tin về nghệ sĩ
             axios(`https://api.spotify.com/v1/tracks/${trackID}?market=VN`, {
                 method: 'GET',
                 headers: {
@@ -64,7 +62,6 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
                 console.error(error);
             });
 
-            //Lay lyric
             axios(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?url=https://open.spotify.com/track/${trackID}?autoplay=true`, {
                 method: 'GET',
                 headers: {}
@@ -155,7 +152,7 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
                 </div>
                 <div className='bg-black bg-opacity-40 pb-12'>
                       <div className='ml-8 mt-10'>
-                        <PlayButton setPlayingTrack={setPlayingTrack} playingData={playingData} data={data} isPlaying={isPlaying} setPlay={setPlay}/>
+                        <PlayButton trackID={trackID} setPlayingTrack={setPlayingTrack} playingData={playingData} data={data} isPlaying={isPlaying} setPlay={setPlay}/>
                       </div>
                   <div className='flex flex-row justify-between'>
                     <div className='ml-10 mt-3'>
@@ -201,11 +198,56 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     )
 }
 
-function PlayButton({playingData, data, isPlaying, setPlay, setPlayingTrack}) {
+function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingTrack}) {
+  const userId = 1
+  const [saved, setSaved] = useState(false);
+
+    useEffect(() => {
+        async function checkSaveStatus() {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/getLikedSongID?user_id=${userId}&track_id=${trackID}`);
+                if (response.data === "Yes") {
+                    setSaved(true);
+                } else {
+                    setSaved(false);
+                }
+            } catch (error) {
+                console.error('Error checking follow status:', error);
+            }
+        }
+
+        checkSaveStatus();
+    }, [trackID]); 
 
   function handleClick() {
     setPlayingTrack(data.uri)
   }
+
+  async function handleSave() {
+    try {
+        const data = {
+            user_id: 1,
+            track_id: trackID
+        };
+        await axios.post('http://127.0.0.1:8000/api/saveLikedSong', data);
+        setSaved(true);
+    } catch (error) {
+        console.error('Error following artist:', error);
+    }
+}
+
+async function handleUnsave() {
+    try {
+        const data = {
+            user_id: 1,
+            track_id: trackID
+        };
+        await axios.get('http://127.0.0.1:8000/api/unsaveSong', { params: data });
+        setSaved(false); 
+    } catch (error) {
+        console.error('Error unfollowing artist:', error);
+    }
+}
 
   return (
       <div className="flex flex-row justify-start gap-5 -mt-5">
@@ -227,9 +269,10 @@ function PlayButton({playingData, data, isPlaying, setPlay, setPlayingTrack}) {
               </button>
           }
           <div className="flex justify-center items-center">
-              <button>
-                  <AiOutlineHeart className="text-[#EE5566] text-opacity-80 text-xl"/>
-              </button>
+                  {(!saved) ?
+                  <button onClick={handleSave}><AiOutlineHeart className="text-[#EE5566] text-opacity-80 text-3xl"/></button>
+                  : <button onClick={handleUnsave}><AiFillHeart className="text-[#EE5566] text-opacity-80 text-3xl"/></button>
+                  }
           </div>
           <div className="flex justify-center items-center">
               <button>

@@ -24,6 +24,7 @@ import History from "./History/History";
 import FollowedArtist from "./View/FollowedArtist/FollowedArtist";
 import Lyric from "./View/Lyric/Lyric";
 import Queue from "./View/Queue/Queue";
+import LikedTrack from "./View/LikedTrack/LikedTrack";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -75,8 +76,9 @@ function App() {
                 <Route path="/allnewrelease/" element={<AllNewReleases />} />
                 <Route path="/followedArtists" element={<FollowedArtist />} />
                 <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
-                <Route path="/track/:trackID/lyric" element={<Lyric isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
-                <Route path="/queue/" element={<Queue queueID={queueID}/>} /> 
+                <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
+                <Route path="/queue/" element={<Queue queueID={queueID}/>} />
+                <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} /> 
             </Routes>
           </div>
         </div>
