@@ -142,7 +142,7 @@ export default function SignUp() {
 
                         <div className='text-xl font-medium text-white'>
                             Already have an account ?
-                            <span className="text-[#EE5566] underline">Login here</span>
+                            <NavLink to={'/signin'} className="text-[#EE5566] hover:underline cursor-pointer"> Login here</NavLink>
                         </div>
                     </div>
                 </form>

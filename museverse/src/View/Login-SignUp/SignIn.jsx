@@ -152,7 +152,7 @@ const SignIn = () => {
 
                 <div className='text-xl font-medium text-white mt-14'>
                     Don't have an account?
-                    <span className="text-[#EE5566] underline">Sign up now</span>
+                    <NavLink to={'/signup'} className="text-[#EE5566] hover:underline cursor-pointer" > Sign up now</NavLink>
                 </div>
             </div>
         </div>
