@@ -8,7 +8,7 @@ import { Spotify } from '../../API/Credentials';
 import CatelogyCard from './CatelogyCard';
 import Loading from '../Loading/Loading';
 
-function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, setQueueID}) {
+function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
   const [data, setData] = useState([]);
   const [backgroundColor, setBackgroundColor] = useState('');
   const [preData, setPreData] = useState([]);
@@ -109,7 +109,6 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, se
             setPlayingID={setPlayingID}
             playingID={playingID}
             setTrackInAlbum={setTrackInAlbum}
-            setQueueID={setQueueID}
         />
         ))}
       </div>

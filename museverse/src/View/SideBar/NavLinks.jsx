@@ -10,8 +10,8 @@ const links = [
     {name: "Mixes and Radio", to: "/mix&radio", icon: BiRadio},
     {name: "Playlist", to:"/playlist", icon: BiSolidPlaylist},
     {name: "Albums", to: "/albums", icon: IoIosAlbums},
-    {name: "Tracks", to: "/likedTracks", icon: BsMusicNoteBeamed},
-    {name: "Artists", to: "/followedArtists", icon: GiMicrophone},
+    {name: "Tracks", to: "/tracks", icon: BsMusicNoteBeamed},
+    {name: "Artists", to: "/artists", icon: GiMicrophone},
 ]
 
 const mainLinks = [

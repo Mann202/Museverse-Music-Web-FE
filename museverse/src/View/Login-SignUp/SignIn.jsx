@@ -1,6 +1,6 @@
-import React, { useContext, useState } from 'react';
-import  bgImage from '../../assets/bg-image.png'
-import  logo_txt  from '../../assets/logo_txt.png'
+import React, { useState, useContext } from 'react';
+import bgImage from '../../assets/bg-image.png'
+import logo_txt from '../../assets/logo_txt.png'
 import UsePasswordToggle from './UsePasswordToggle';
 import { FcGoogle } from "react-icons/fc"
 import { FaFacebook } from "react-icons/fa6";
@@ -139,6 +139,9 @@ const SignIn = () => {
                         <div className='text-red-600'>
                             {errors.password && <span>{errors.password}</span>}
                         </div>
+                        <div className='text-red-600' id='error_signin'>
+                            {errors.notmatch && <span>{errors.notmatch}</span>}
+                        </div>
                         <div class="w-[400px] p-0 text-center text-white text-xl font-semibold bg-[#EE5566] rounded-lg mb-1">
                             <button type='submit' className=' w-full h-full p-2 rounded-lg'>Log in</button >
                         </div>
@@ -151,8 +154,8 @@ const SignIn = () => {
 
 
                 <div className='text-xl font-medium text-white mt-14'>
-                    Don't have an account?
-                    <span className="text-[#EE5566] underline">Sign up now</span>
+                    Don't have an account? 
+                    <NavLink to={'/signup'} className="text-[#EE5566] hover:underline cursor-pointer" > Sign up now</NavLink>
                 </div>
             </div>
         </div>

@@ -3,9 +3,7 @@ import axios from "axios";
 import SpotifyPlayer from "react-spotify-web-playback";
 import { MdQueueMusic } from 'react-icons/md'
 import { AiOutlineExpandAlt } from 'react-icons/ai'
-import { CiRepeat, CiShuffle } from "react-icons/ci";
-import { PiQueueFill } from "react-icons/pi";
-import { spotifyApi } from 'react-spotify-web-playback';
+import { VscDebugRestart } from 'react-icons/vsc'
 import { NavLink, Navigate, useLocation, useNavigate, useNavigation } from "react-router-dom";
 import { Spotify } from "../../API/Credentials";
 import Loading from "../Loading/Loading";
@@ -14,38 +12,17 @@ import PlayArtist from "./PlayArtist";
 import Swal from "sweetalert2";
 import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
-const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
+const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
 
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [flag, setFlag] = useState(false);
   const { logged, setLogged } = useContext(LoggedContext);
   const location = useLocation();
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isPlay, setIsPlay] = useState(false)
-  const [repeat, setRepeat] = useState('off')
-  const navigate = useNavigate()
-
-  function handleExpand() {
-    const path = `/track/${playingData.id}/lyric`
-    navigate(path)
-  }
-
-  function handleRepeat() {
-    spotifyApi.repeat(token, 'track', device)
-    setRepeat('track')
-  }
-
-  function handleShuffle() {
-    spotifyApi.repeat(token, 'off', device)
-    setRepeat('off')
-  }
-
-  function handleQueue() {
-    const path = `/queue/`
-    navigate(path)
-  }
   const checkLogged = (async () => {
     if (!localStorage.getItem('user')) {
+
     } else {
       const user = JSON.parse(localStorage.getItem('user'));
       console.log("user", user.user_id);
@@ -83,10 +60,12 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
     }
 
     if (hashParams.access_token) {
-      Cookies.set("spotifyToken", hashParams.access_token, { expires: 1 / 24 });
+      // Lưu token vào cookie với tên "spotifyToken" và hạn sử dụng là 1 giờ (hoặc thời gian mong muốn)
+      Cookies.set("spotifyToken", hashParams.access_token, { expires: 1 / 24 }); // 1 giờ
       setToken(hashParams.access_token);
       setLoading(false);
     } else {
+      // Kiểm tra xem có token trong cookie không
       const storedToken = Cookies.get("spotifyToken");
       if (storedToken) {
         setToken(storedToken);
@@ -177,38 +156,26 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
           play={play}
           uris={playingTrack}
           callback={(state) => {
-            setIsPlay(state.isPlaying)
             setIsPlaying(state.isPlaying)
             setPlayingData(state.track)
-            setProgressMs(state.progressMs)
-            setDevice(state.currentDeviceId)
           }}
         />
       </div>
-      {
-        isPlay
-          ?
-          <div className="w-2/12 bg-black">
-            <div className="flex items-center gap-5 justify-center w-full h-full">
+      <div className="w-2/12 bg-black">
+        <div className="flex items-center gap-5 justify-center w-full h-full">
+          <button className="text-[#EE5566] font-semibold text-3xl">
+            <VscDebugRestart />
+          </button>
+          <button className="text-[#EE5566] font-semibold text-4xl">
+            <MdQueueMusic />
+          </button>
+          <button className="text-[#EE5566] font-semibold text-3xl">
+            <AiOutlineExpandAlt />
+          </button>
+        </div>
+      </div>
+    </div >
 
-              {
-                (repeat === 'track')
-                  ? <button onClick={handleShuffle} className="text-[#EE5566] font-semibold text-3xl"><CiShuffle /></button>
-                  : <button onClick={handleRepeat} className="text-[#EE5566] font-semibold text-3xl"><CiRepeat /></button>
-              }
-
-              <button onClick={handleQueue} className="text-[#EE5566] font-semibold text-4xl">
-                <PiQueueFill />
-              </button>
-              <button onClick={handleExpand} className="text-[#EE5566] font-semibold text-3xl">
-                <AiOutlineExpandAlt />
-              </button>
-            </div>
-          </div>
-          :
-          ""
-      }
-    </div>
   );
 };
 

@@ -32,6 +32,7 @@ function PlaylistCard({ id, index, name, album, date, duration, image, artist, c
         setTrackInAlbum(index)
         setPlayingTrack(tracks)
     }
+    console.log(playingData)
 
     return (
         <>
