@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
-import bgImage from '../../assets/bg-image.png'
-import logo_txt from '../../assets/logo_txt.png'
+import bgImage  from '../../assets/bg-image.png'
+import logo_txt  from '../../assets/logo_txt.png'
 import UsePasswordToggle from './UsePasswordToggle';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
@@ -142,7 +142,7 @@ export default function SignUp() {
 
                         <div className='text-xl font-medium text-white'>
                             Already have an account ?
-                            <NavLink to={'/signin'} className="text-[#EE5566] hover:underline cursor-pointer"> Login here</NavLink>
+                            <span className="text-[#EE5566] underline">Login here</span>
                         </div>
                     </div>
                 </form>

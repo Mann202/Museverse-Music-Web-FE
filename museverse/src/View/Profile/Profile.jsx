@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Headers from "../Header/Header";
 
 const gender = [
   { gender: "Nam", value: "male" },
@@ -52,7 +53,9 @@ function ProfileEditor(props) {
   };
 
   return (
-    <div className="container mx-auto p-4 text-white">
+    <div className="h-screen overflow-y-scroll pb-48">
+      <Headers />
+    <div className="container mx-auto p-4 text-white pt-16">
       <div className="md:w-7/12 w-12/12 mx-auto">
         <div className="shadow-md rounded">
           <h1 className="mb-10 text-5xl font-semibold">Chỉnh sửa hồ sơ</h1>
@@ -176,11 +179,10 @@ function ProfileEditor(props) {
                 type="checkbox"
                 name="share-info"
                 value="1"
-                className="form-tick appearance-none h-4 w-4 border border-gray-300 rounded-md checked:bg-green-600 checked:border-transparent focus:outline-none "
+                className="form-tick appearance-none h-4 w-4 border border-gray-300 rounded-md checked:bg-[#EE5566] checked:border-transparent focus:outline-none "
               />
               <small className="font-medium">
-                Chia sẻ dữ liệu đang ký của tôi với các nhà cung cấp nội dung
-                Spotify cho mục đích tiếp thị.
+                Accept our tern and condition 
               </small>
             </label>
           </div>
@@ -203,6 +205,7 @@ function ProfileEditor(props) {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }
