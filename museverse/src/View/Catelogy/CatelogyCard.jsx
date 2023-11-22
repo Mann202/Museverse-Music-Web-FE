@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { Spotify } from '../../API/Credentials';
 
-function CatelogyCard({ id, name, description, image, setPlayingTrack, setPlayingID, playingID, setTrackInAlbum }) {
+function CatelogyCard({ id, name, description, image, setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, setQueueID }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate()
   
@@ -31,6 +31,8 @@ function CatelogyCard({ id, name, description, image, setPlayingTrack, setPlayin
         })
         .then(response => {
           const tracks = response.data.tracks.items.map(album => album.track.uri);
+          const tracksId = response.data.tracks.items.map(album => album.track.id);
+          setQueueID(tracksId)
           setPlayingTrack(tracks);
           setPlayingID(id)
         })

@@ -7,12 +7,10 @@ import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading'
 import { convertMsToMinSec } from '../Playlist/SplitNumber';
 import {BsPauseFill, BsPlayFill, BsThreeDots} from 'react-icons/bs'
-import {AiOutlineHeart} from 'react-icons/ai'
+import {AiFillHeart, AiOutlineHeart} from 'react-icons/ai'
 import ArtistTrack from './ArtistTrack';
 import TopTrack from './TopTrack';
 import ArtistAlbum from '../Artists/ArtistAlbum';
-import RelatedArtistCard from '../Artists/RelatedArtistCard';
-import RelatedArtistCardTrack from './RelatedArtistCardTrack';
 import Headers from '../Header/Header';
 import RelatedArtistTrack from './RelatedArtistTrack';
 import TopTrackAnother from './TopTrackAnother';
@@ -26,14 +24,12 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     const [loading, setLoading] = useState(true)
     const [artists, setArtists] = useState([])
     const [dark, setDark] = useState(false)
-    const [loadingLyric, setLoadingLyric] = useState(0)
 
     const {trackID} = useParams()
     const imageRef = useRef(null)
 
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -44,7 +40,6 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
         })
         .then(response => {
             const token = response.data.access_token;
-            // Gọi Spotify Web API để lấy thông tin về nghệ sĩ
             axios(`https://api.spotify.com/v1/tracks/${trackID}?market=VN`, {
                 method: 'GET',
                 headers: {
@@ -66,14 +61,14 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
             .catch(error => {
                 console.error(error);
             });
-            
+
             const storedToken = "BQCuwAJpxUKpGOslaujZOkU5fMe3-YYQ0En9eCGVVrUg0KuScNiyyE5mabYxgzGu5ZYhLijrhqkTkcVrBQb2ET5a5cEK5T7pdgyRREBxviUc-G7TBo8zM-iUwuJ20sGP4iENrQILNn-KZCOCPsHzTWaPbImYAVin30oScdR8w6MKq4ILVSV79Bd2WLmCjTls875W3rJaZRMJZlu_WES6f_rI5qp3N4ZbUjyuuDgszalvtI6oSpsff0xGeizAsq93-4vEzCYwFg85vF9XBjMxRGD169SscBOZfngpIPN79AimeRYTbY7yWtiXq1897l-TpXPSplwx3tQ82WV8LHsxgs4kZebC8Gt4";
             //Lay lyric 
             axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${trackID}/image/https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b27325e6b25d49687cd63f7a034e?format=json&vocalRemoval=false&market=from_token`, {
                 headers: {
                     "App-platform": "WebPlayer",
                     "Authorization": `Bearer ${storedToken}`,
-                    "Client-Token": "AAAwI79d32WyBjFrdflL0R8hi8xKGtMuL7iSLF7AoVKNuKEpkYhZKIiLeyoCExMuyVYL7orOgBaDNL37MVg1+pgO5pA4uu1LEq0LxIgtaREqzi7HLeSdXodKX1GMa6J9SrwHqqQ3sWjotZGv1GJWMquHm8VYFnFhlIun1/Yf2RXT+xr+nQmVatov1rPo/WpCFXrOGh6CEqpFMh5JOlGHxcFI1Fbp0pu4YZvQ0G6+U4+V34ZQ4FjYy79icaxrD1m0EVQDYvpXkTrhtko+G2GlDtixmaNW47YSCEpT5IDGD3KQnncz"
+                    "Client-Token": "AAAx6DaZrQcDZhwL1iDl4fHVROgUuanebp5okN4f4ybRbZJfJ2wwwXoq88mvHIAc7mGxhxPh8842Ppm7ZNhnLufmTT/GW62P5srJVXAJMbhv5dUIcbxuRnsSuIbwQCGaNVyg99YNypUgV4y6KWIVc8NfgLwEyE8ZBjG+iFkhxIYiVykExXFghgEyw1V9Qkc3kN1JjjEqOizEUYsX3I7wDgkdfkAiAhuas+iWk8/lEgscBlH2ODyehfmYk1gfZ7xg3DJrrd4NfHuyTtY1dna4kAH1iY63D6ZX+RnUX+nUKkHfa9I="
                 }
             })
             .then(response => {
@@ -162,7 +157,7 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
                 </div>
                 <div className='bg-black bg-opacity-40 pb-12'>
                       <div className='ml-8 mt-10'>
-                        <PlayButton setPlayingTrack={setPlayingTrack} playingData={playingData} data={data} isPlaying={isPlaying} setPlay={setPlay}/>
+                        <PlayButton trackID={trackID} setPlayingTrack={setPlayingTrack} playingData={playingData} data={data} isPlaying={isPlaying} setPlay={setPlay}/>
                       </div>
                   <div className='flex flex-row justify-between'>
                     <div className='ml-10 mt-3'>
@@ -208,11 +203,56 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     )
 }
 
-function PlayButton({playingData, data, isPlaying, setPlay, setPlayingTrack}) {
+function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingTrack}) {
+  const userId = 1
+  const [saved, setSaved] = useState(false);
+
+    useEffect(() => {
+        async function checkSaveStatus() {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/getLikedSongID?user_id=${userId}&track_id=${trackID}`);
+                if (response.data === "Yes") {
+                    setSaved(true);
+                } else {
+                    setSaved(false);
+                }
+            } catch (error) {
+                console.error('Error checking follow status:', error);
+            }
+        }
+
+        checkSaveStatus();
+    }, [trackID]); 
 
   function handleClick() {
     setPlayingTrack(data.uri)
   }
+
+  async function handleSave() {
+    try {
+        const data = {
+            user_id: 1,
+            track_id: trackID
+        };
+        await axios.post('http://127.0.0.1:8000/api/saveLikedSong', data);
+        setSaved(true);
+    } catch (error) {
+        console.error('Error following artist:', error);
+    }
+}
+
+async function handleUnsave() {
+    try {
+        const data = {
+            user_id: 1,
+            track_id: trackID
+        };
+        await axios.get('http://127.0.0.1:8000/api/unsaveSong', { params: data });
+        setSaved(false); 
+    } catch (error) {
+        console.error('Error unfollowing artist:', error);
+    }
+}
 
   return (
       <div className="flex flex-row justify-start gap-5 -mt-5">
@@ -234,9 +274,10 @@ function PlayButton({playingData, data, isPlaying, setPlay, setPlayingTrack}) {
               </button>
           }
           <div className="flex justify-center items-center">
-              <button>
-                  <AiOutlineHeart className="text-[#EE5566] text-opacity-80 text-xl"/>
-              </button>
+                  {(!saved) ?
+                  <button onClick={handleSave}><AiOutlineHeart className="text-[#EE5566] text-opacity-80 text-3xl"/></button>
+                  : <button onClick={handleUnsave}><AiFillHeart className="text-[#EE5566] text-opacity-80 text-3xl"/></button>
+                  }
           </div>
           <div className="flex justify-center items-center">
               <button>

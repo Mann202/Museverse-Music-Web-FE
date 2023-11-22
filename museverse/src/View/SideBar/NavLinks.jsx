@@ -5,17 +5,13 @@ import  {BsMusicNoteBeamed } from 'react-icons/bs'
 import {GiMicrophone} from 'react-icons/gi'
 import { useContext } from 'react';
 import { SideBarContext } from './SideBar';
-import {FaPodcast} from 'react-icons/fa'
-
 
 const links = [
     {name: "Mixes and Radio", to: "/mix&radio", icon: BiRadio},
     {name: "Playlist", to:"/playlist", icon: BiSolidPlaylist},
     {name: "Albums", to: "/albums", icon: IoIosAlbums},
-    {name: "Tracks", to: "/tracks", icon: BsMusicNoteBeamed},
-    {name: "Artists", to: "/artists", icon: GiMicrophone},
-    {name: "Podcast", to: "/shows", icon: FaPodcast},
-
+    {name: "Tracks", to: "/likedTracks", icon: BsMusicNoteBeamed},
+    {name: "Artists", to: "/followedArtists", icon: GiMicrophone},
 ]
 
 const mainLinks = [

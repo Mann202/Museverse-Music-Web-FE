@@ -123,7 +123,7 @@ function Artist() {
                     </div>
                 </div>
                 <div className="w-full pb-32">
-                    <PlayButton />
+                    <PlayButton artistID={artistID}/>
                     <ArtistTrack id={artistID} />
                     <ArtistAlbum id={artistID} dark={dark}/>
                     <RelatedArtist id={artistID} />
@@ -134,14 +134,64 @@ function Artist() {
     );
 }
 
-function PlayButton() {
+function PlayButton({artistID}) {
+    const [followed, setFollowed] = useState(false);
+
+    useEffect(() => {
+        async function checkFollowStatus() {
+            try {
+                const response = await axios.get(`http://127.0.0.1:8000/api/artistById?user_id=1&artist_id=${artistID}`);
+                if (response.data === "Yes") {
+                    setFollowed(true);
+                } else {
+                    setFollowed(false);
+                }
+            } catch (error) {
+                console.error('Error checking follow status:', error);
+            }
+        }
+
+        checkFollowStatus();
+    }, [artistID]); 
+
+    async function handleClick() {
+        try {
+            const data = {
+                user_id: 1,
+                artist_id: artistID
+            };
+            await axios.post('http://127.0.0.1:8000/api/followArtist', data);
+            setFollowed(true);
+        } catch (error) {
+            console.error('Error following artist:', error);
+        }
+    }
+
+    async function handleUnfollow() {
+        try {
+            const data = {
+                user_id: 1,
+                artist_id: artistID
+            };
+            await axios.get('http://127.0.0.1:8000/api/unfollowArtist', { params: data });
+            setFollowed(false); 
+        } catch (error) {
+            console.error('Error unfollowing artist:', error);
+        }
+    }
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">
             <button className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center">
                 <BsPlayFill className="text-white text-3xl" />
             </button>
             <div className='flex items-center'>
-                <button className='w-28 h-8 rounded-full border-solid border-[1px] border-[#EE5566] border-opacity-50 bg-[#EE5566] bg-opacity-80 text-white'>Follow</button>
+                {
+                    (!followed) 
+                    ?
+                    <button onClick={handleClick} className='w-28 h-8 rounded-full border-solid border-[1px] border-[#EE5566] border-opacity-50 bg-[#EE5566] bg-opacity-80 text-white'>Follow</button>
+                    :
+                    <button onClick={handleUnfollow} className='w-28 h-8 rounded-full border-solid border-[1px] border-[#EE5566] border-opacity-50 bg-[#EE5566] bg-opacity-80 text-white'>Followed</button>
+                }
             </div>
             <div className="flex justify-center items-center">
                 <button>
