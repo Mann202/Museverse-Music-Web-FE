@@ -62,12 +62,17 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
                 console.error(error);
             });
 
-            axios(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?url=https://open.spotify.com/track/${trackID}?autoplay=true`, {
-                method: 'GET',
-                headers: {}
+            const storedToken = "BQCuwAJpxUKpGOslaujZOkU5fMe3-YYQ0En9eCGVVrUg0KuScNiyyE5mabYxgzGu5ZYhLijrhqkTkcVrBQb2ET5a5cEK5T7pdgyRREBxviUc-G7TBo8zM-iUwuJ20sGP4iENrQILNn-KZCOCPsHzTWaPbImYAVin30oScdR8w6MKq4ILVSV79Bd2WLmCjTls875W3rJaZRMJZlu_WES6f_rI5qp3N4ZbUjyuuDgszalvtI6oSpsff0xGeizAsq93-4vEzCYwFg85vF9XBjMxRGD169SscBOZfngpIPN79AimeRYTbY7yWtiXq1897l-TpXPSplwx3tQ82WV8LHsxgs4kZebC8Gt4";
+            //Lay lyric 
+            axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${trackID}/image/https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b27325e6b25d49687cd63f7a034e?format=json&vocalRemoval=false&market=from_token`, {
+                headers: {
+                    "App-platform": "WebPlayer",
+                    "Authorization": `Bearer ${storedToken}`,
+                    "Client-Token": "AAAx6DaZrQcDZhwL1iDl4fHVROgUuanebp5okN4f4ybRbZJfJ2wwwXoq88mvHIAc7mGxhxPh8842Ppm7ZNhnLufmTT/GW62P5srJVXAJMbhv5dUIcbxuRnsSuIbwQCGaNVyg99YNypUgV4y6KWIVc8NfgLwEyE8ZBjG+iFkhxIYiVykExXFghgEyw1V9Qkc3kN1JjjEqOizEUYsX3I7wDgkdfkAiAhuas+iWk8/lEgscBlH2ODyehfmYk1gfZ7xg3DJrrd4NfHuyTtY1dna4kAH1iY63D6ZX+RnUX+nUKkHfa9I="
+                }
             })
             .then(response => {
-                setLyric(response.data.lines)
+                setLyric(response.data.lyrics.lines)
             })
         })
         .catch(error => {

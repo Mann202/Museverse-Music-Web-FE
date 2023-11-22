@@ -124,7 +124,10 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
             }}
           />
       </div>
-      <div className="w-2/12 bg-black"> 
+      {
+        isPlay 
+        ?
+        <div className="w-2/12 bg-black"> 
             <div className="flex items-center gap-5 justify-center w-full h-full"> 
               
                 {
@@ -141,6 +144,9 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
               </button>
             </div>
       </div>
+      :
+      ""
+      }
     </div>
   );
 };
