@@ -17,7 +17,6 @@ import Headers from '../Header/Header';
 import RelatedArtistTrack from './RelatedArtistTrack';
 import TopTrackAnother from './TopTrackAnother';
 import ListAlbumHaveTrack from './ListAlbumHaveTrack';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     const [data,setData] = useState([])
@@ -67,18 +66,19 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
             .catch(error => {
                 console.error(error);
             });
-
-            //Lay lyric
-            axios(`https://spotify-lyric-api-984e7b4face0.herokuapp.com/?url=https://open.spotify.com/track/${trackID}?autoplay=true`, {
-                method: 'GET',
-                headers: {}
+            
+            const storedToken = "BQCuwAJpxUKpGOslaujZOkU5fMe3-YYQ0En9eCGVVrUg0KuScNiyyE5mabYxgzGu5ZYhLijrhqkTkcVrBQb2ET5a5cEK5T7pdgyRREBxviUc-G7TBo8zM-iUwuJ20sGP4iENrQILNn-KZCOCPsHzTWaPbImYAVin30oScdR8w6MKq4ILVSV79Bd2WLmCjTls875W3rJaZRMJZlu_WES6f_rI5qp3N4ZbUjyuuDgszalvtI6oSpsff0xGeizAsq93-4vEzCYwFg85vF9XBjMxRGD169SscBOZfngpIPN79AimeRYTbY7yWtiXq1897l-TpXPSplwx3tQ82WV8LHsxgs4kZebC8Gt4";
+            //Lay lyric 
+            axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${trackID}/image/https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b27325e6b25d49687cd63f7a034e?format=json&vocalRemoval=false&market=from_token`, {
+                headers: {
+                    "App-platform": "WebPlayer",
+                    "Authorization": `Bearer ${storedToken}`,
+                    "Client-Token": "AAAwI79d32WyBjFrdflL0R8hi8xKGtMuL7iSLF7AoVKNuKEpkYhZKIiLeyoCExMuyVYL7orOgBaDNL37MVg1+pgO5pA4uu1LEq0LxIgtaREqzi7HLeSdXodKX1GMa6J9SrwHqqQ3sWjotZGv1GJWMquHm8VYFnFhlIun1/Yf2RXT+xr+nQmVatov1rPo/WpCFXrOGh6CEqpFMh5JOlGHxcFI1Fbp0pu4YZvQ0G6+U4+V34ZQ4FjYy79icaxrD1m0EVQDYvpXkTrhtko+G2GlDtixmaNW47YSCEpT5IDGD3KQnncz"
+                }
             })
             .then(response => {
-                setLyric(response.data.lines)
+                setLyric(response.data.lyrics.lines)
             })
-            .catch(error => {
-                console.error(error);
-            });
         })
         .catch(error => {
             console.error(error);

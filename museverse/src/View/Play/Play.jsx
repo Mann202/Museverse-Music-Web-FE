@@ -47,8 +47,6 @@ const Play = ({ playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlay
 
   if (loading) return <Loading />;
 
-  console.log(playingData)
-
   if(playingTrack.length == 0) return ""
   return (
     <div className="flex flex-row">

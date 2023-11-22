@@ -18,6 +18,7 @@ import Track from "./View/Track/Track";
 import Album from "./View/Album/Album";
 import Profile from "./View/Profile";
 import Show from "./View/Show/Show";
+import Episode from "./View/Episode/Episode";
 
 
 function App() {
@@ -54,7 +55,7 @@ function App() {
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/show/:showID" element={<Show playingData={playingData} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingShowID} setPlayingAlbumID={setPlayingShowID}/>} />
-
+                <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
             </Routes>
           </div>
         </div>

@@ -9,6 +9,7 @@ import Loading from '../Loading/Loading'
 
 import ShowAbout from './ShowAbout'
 import ShowTrack from './ShowTrack'
+import Headers from '../Header/Header'
 
 const Show = ({
   playingAlbumID,
@@ -31,7 +32,6 @@ const Show = ({
   console.log(data, image, backgroundColor)
 
   useEffect(() => {
-    // Gọi API để lấy token
     axios('https://accounts.spotify.com/api/token', {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -42,7 +42,6 @@ const Show = ({
     })
       .then((response) => {
         const token = response.data.access_token
-        // Gọi Spotify Web API để lấy thông tin về album
         axios(`https://api.spotify.com/v1/shows/${showID}`, {
           method: 'GET',
           headers: {
@@ -55,13 +54,6 @@ const Show = ({
             setImage(response.data.images[0].url)
             setLoading(false)
           })
-          
-          .catch((error) => {
-            console.error(error)
-          })
-      })
-      .catch((error) => {
-        console.error(error)
       })
   }, [showID])
 
@@ -119,48 +111,40 @@ const Show = ({
 
   if (loading) {
     return (
-      <div>
+      <div >
         <Loading />
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col w-full h-screen pb-20 overflow-y-scroll">
+    <div>
+      <Headers bgColor={backgroundColor}/>
+      <div className="flex flex-col w-full h-screen overflow-y-scroll" style={{ background: `linear-gradient(${backgroundColor}, black)` }}>
       <div style={{ background: `${backgroundColor}` }} className="flex flex-row gap-10">
         <div className="h-[22rem] flex items-center flex-row ml-7">
-          <img src={data?.images[0]?.url} className="h-64 rounded-full w-60"></img>
+          <img src={data?.images[0]?.url} className="h-64 rounded-lg w-60"></img>
         </div>
         <div className="flex flex-col items-center justify-center gap-6">
           <div>
             <p className="text-lg text-white capitalize font-medeium">
-              {data?.album_type}
+              Podcast
             </p>
             <div className="w-full overflow-hidden">
               <h1 className="whitespace-nowrap text-ellipsis overflow-hidden text-white font-bold text-[3vw]">
                 {data?.name}
               </h1>
             </div>
-            <h3 className="flex items-center text-base text-white text-opacity-80 font-base">
+            <h3 className="flex items-center text-xl text-white text-opacity-80 font-bold">
               {data?.publisher}
             </h3>
           </div>
         </div>
       </div>
       <div
-        style={{ background: `linear-gradient(${backgroundColor}, black)` }}
-        className="flex flex-col w-full pt-4 pb-32"
+        className="flex flex-row w-full pb-32 mt-10 gap-5"
       >
-        <ShowAbout desc={data?.description} />
-        <PlayButton
-          isPlaying={isPlaying}
-          play={play}
-          setPlay={setPlay}
-          setPlayingTrack={setPlayingTrack}
-          playingAlbumID={playingAlbumID}
-          setPlayingAlbumID={setPlayingAlbumID}
-          data={data}
-        />
+        
         <ShowTrack
           publisher={data?.publisher}
           id={showID}
@@ -173,71 +157,9 @@ const Show = ({
           playingData={playingData}
           AlbumData={data}
         />
+        <ShowAbout desc={data?.description} />
       </div>
     </div>
-  )
-}
-
-function PlayButton({
-  playingAlbumID,
-  setPlayingAlbumID,
-  data,
-  setPlayingTrack,
-  setPlay,
-  play,
-  isPlaying,
-}) {
-  const { showID } = useParams()
-
-  function handleClick() {
-    const track = []
-    console.log(data)
-    // const tracksData = data.items
-    // setPlayingAlbumID(showID)
-    // tracksData.forEach((item) => {
-    //   track.push(item.uri)
-    // })
-    // setPlayingTrack(track)
-  }
-
-  return (
-    <div className="flex flex-row gap-5 ml-10 -mt-5">
-      {showID === playingAlbumID ? (
-        isPlaying ? (
-          <button
-            onClick={() => {
-              setPlay(false)
-            }}
-            className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center"
-          >
-            <BsPauseFill className="text-3xl text-black" />
-          </button>
-        ) : (
-          <button
-            onClick={() => {
-              setPlay(true)
-            }}
-            className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center"
-          >
-            <BsPlayFill className="text-3xl text-black" />
-          </button>
-        )
-      ) : (
-        <button
-          onClick={handleClick}
-          className="bg-[#EE5566] rounded-full w-12 h-12 flex justify-center items-center"
-        >
-          <BsPlayFill className="text-3xl text-black" />
-        </button>
-      )}
-      <div className="flex items-center">
-        <BsHeart className="text-[#AFAFAF] text-3xl" />
-      </div>
-      <div className="flex items-center justify-center">
-        <button>
-          <BsThreeDots className="text-[#AFAFAF] text-xl" />
-        </button>
-      </div>
     </div>
   )
 }
