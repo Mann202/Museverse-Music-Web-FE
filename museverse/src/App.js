@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import SignIn from "../src/View/Login-SignUp/SignIn"
 import SignUp from "../src/View/Login-SignUp/SignUp"
@@ -24,6 +24,12 @@ import AllNewReleases from "./View/NewRelease/AllNewReleases";
 import Profile from "./View/Profile/Profile";
 import Show from "./View/Show/Show";
 import Episode from "./View/Episode/Episode";
+import History from "./History/History";
+import FollowedArtist from "./View/FollowedArtist/FollowedArtist";
+import Lyric from "./View/Lyric/Lyric";
+import Queue from "./View/Queue/Queue";
+import LikedTrack from "./View/LikedTrack/LikedTrack"; 
+import axios from "axios";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -33,6 +39,20 @@ function App() {
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
   const [play, setPlay] = useState([]) //Cài đặt resume và pause
   const [playingAlbumID, setPlayingAlbumID] = useState('') //Lưu vào album id đang nghe
+  const [progressMs, setProgressMs] = useState(0) //Luu vao thoi gian nghe nhac
+  const [device, setDevice] = useState('')
+  const [repeat, isRepeat] = useState('')
+  const [queueID, setQueueID] = useState([])
+
+  const userID = 1
+  useEffect(() => {
+    if (playingData.length!=0 && playingData.id !== "") {
+      axios.post(`http://127.0.0.1:8000/api/history`, {
+        user_id: userID,
+        track: playingData.id
+      })
+    }
+  }, [playingData, userID]);
 
   return (
       <div className="relative flex">
@@ -61,12 +81,17 @@ function App() {
                 <Route path="/allnewrelease/" element={<AllNewReleases />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/show/:showID" element={<Show playingData={playingData} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
+                <Route path="/followedArtists" element={<FollowedArtist />} />
+                <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
+                <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
+                <Route path="/queue/" element={<Queue queueID={queueID}/>} />
+                <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
             </Routes>
           </div>
         </div>
         <div className="fixed bottom-0 w-full">
-            <Play playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
+            <Play setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
         </div>
       </div>
   );
