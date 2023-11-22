@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { bgImage } from '../assets/bg-image.png'
-import { logo_txt } from '../assets/logo_txt.png'
+import bgImage  from '../../assets/bg-image.png'
+import logo_txt  from '../../assets/logo_txt.png'
 import UsePasswordToggle from './UsePasswordToggle';
 
 export default function SignUp() {
@@ -61,7 +61,7 @@ export default function SignUp() {
 
             <div className='flex flex-col p-10 w-[60%] h-full bg-[#1F1F22] items-center font-mont justify-center'>
                 <form onSubmit={handleSubmit} className='flex flex-col items-center'>
-                    <h1 className='text-[#1FD662] text-5xl font-bold mb-7'>Sign Up</h1>
+                    <h1 className='text-[#EE5566] text-5xl font-bold mb-7'>Sign Up</h1>
                     <div className='flex-col text-lg'>
                         <div className='relative text-[#FFFFFF] border-b border-white mb-6'>
                             <input
@@ -100,13 +100,13 @@ export default function SignUp() {
                         <div className='text-red-600'>
                             {errors.password && <span>{errors.password}</span>}
                         </div>
-                        <div class="w-[400px] p-0 text-center text-white text-xl font-semibold bg-[#1FD662] rounded-lg mb-1">
+                        <div class="w-[400px] p-0 text-center text-white text-xl font-semibold bg-[#EE5566] rounded-lg mb-1">
                             <button type='submit' className=' w-full h-full p-2 rounded-lg'>Create Account</button >
                         </div>
 
                         <div className='text-xl font-medium text-white'>
                             Already have an account ?
-                            <span className="text-[#1FD662] underline">Login here</span>
+                            <span className="text-[#EE5566] underline">Login here</span>
                         </div>
                     </div>
                 </form>

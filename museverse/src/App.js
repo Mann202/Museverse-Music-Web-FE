@@ -1,6 +1,8 @@
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useState } from "react";
 
+import SignIn from "../src/View/Login-SignUp/SignIn"
+import SignUp from "../src/View/Login-SignUp/SignUp"
 import Headers from "./View/Header/Header";
 import SideBar from "./View/SideBar/SideBar";
 import Discover from "./View/Discover/Discover";
