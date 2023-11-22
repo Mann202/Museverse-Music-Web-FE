@@ -19,7 +19,6 @@ function Related() {
     }
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -30,7 +29,6 @@ function Related() {
         })
         .then(response => {
             const token = response.data.access_token;
-            // Gọi Spotify Web API để lấy thông tin về nghệ sĩ
             axios(`https://api.spotify.com/v1/artists/${artistID}/related-artists`, {
                 method: 'GET',
                 headers: {
@@ -49,7 +47,6 @@ function Related() {
             console.error(error);
         });
     }, [artistID]);
-    console.log(data)
 
     if(loading) return <div><Loading /></div>
     return (

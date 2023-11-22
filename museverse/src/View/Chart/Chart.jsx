@@ -14,7 +14,6 @@ export default function Chart({setPlayingTrack}) {
     const ClientSecret = Spotify.ClientSecret
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -25,7 +24,6 @@ export default function Chart({setPlayingTrack}) {
         })
         .then(response => {
             setToken(response.data.access_token);
-            // Gọi API Spotify ngay sau khi nhận được token
             axios('https://api.spotify.com/v1/playlists/37i9dQZEVXbLdGSmz6xilI?market=VN', {
                 method: 'GET',
                 headers: {
@@ -33,16 +31,10 @@ export default function Chart({setPlayingTrack}) {
                 }
             })
             .then(json => {
-                setData(json.data.tracks.items); // Lưu dữ liệu từ API vào state
+                setData(json.data.tracks.items); 
                 setLoading(false)
             })
-            .catch(error => {
-                console.error(error);
-            });
         })
-        .catch(error => {
-            console.error(error);
-        });
     }, []);
 
     if(loading) {
