@@ -5,7 +5,9 @@ import HistoryCard from './HistoryCard';
 import { chuyenNgay } from '../View/Playlist/SplitNumber';
 
 function History({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPlayingTrack, playingData, isPlaying, setPlayingID}) {
-    const userID = 1
+    const user = localStorage.getItem('user')
+    const userJson = JSON.parse(user);
+    const userID = userJson.user_id;
     const [groupedData, setGroupedData] = useState({});
     const [renderPlaceholder, setRenderPlaceholder] = useState(false);
     const [data, setData] = useState([])

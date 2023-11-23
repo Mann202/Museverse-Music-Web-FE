@@ -24,8 +24,10 @@ const DiscoveryRecentlyPlayed = () => {
     useEffect(() => {
         const fetchHistory = async () => {
           try {
-            const id = 1;
-            const { data } = await axios.get(`http://127.0.0.1:8000/api/history?id=${id}`);
+            const user = localStorage.getItem('user')
+            const userJson = JSON.parse(user);
+            const userID = userJson.user_id;
+            const { data } = await axios.get(`http://127.0.0.1:8000/api/history?id=${userID}`);
             const songIds = data.map(item => item.song_id);
       
             const tokenResponse = await axios('https://accounts.spotify.com/api/token', {
@@ -45,7 +47,6 @@ const DiscoveryRecentlyPlayed = () => {
                 return trackResponse.data;
               })
             );
-      
             setData(trackData);
             setLoading(false);
           } catch (error) {
@@ -58,6 +59,11 @@ const DiscoveryRecentlyPlayed = () => {
       
     if(loading) return <Loading />
 
+    if(data.length == 0) return(
+      <div className='pt-5'>
+            <div>{chaoTheoThoiGian()}</div>
+      </div>
+    )
     return (
         <div className='pt-5'>
             <div>{chaoTheoThoiGian()}</div>

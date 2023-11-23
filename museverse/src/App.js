@@ -32,6 +32,7 @@ import Lyric from "./View/Lyric/Lyric";
 import Queue from "./View/Queue/Queue";
 import LikedTrack from "./View/LikedTrack/LikedTrack"; 
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -63,17 +64,24 @@ function App() {
   const [progressMs, setProgressMs] = useState(0) //Luu vao thoi gian nghe nhac
   const [device, setDevice] = useState('')
   const [repeat, isRepeat] = useState('')
+  const [ids, setIDs] = useState([])
 
-  const userID = 1
+  let userID = 0
+  const user = localStorage.getItem('user')
+  if(user != null) {
+    const userJson = JSON.parse(user);
+    console.log(userJson.user_id)
+    userID = userJson.user_id;
+  }
+
   useEffect(() => {
-    if (playingData.length!=0 && playingData.id !== "") {
+    if (playingData.length!=0 && playingData.id !== "" && userID != 0) {
       axios.post(`http://127.0.0.1:8000/api/history`, {
         user_id: userID,
         track: playingData.id
       })
     }
   }, [playingData, userID]);
-
 
   return (
       <div className="relative flex">
@@ -95,6 +103,7 @@ function App() {
                 <Route path="/artist/:artistID/all-albums" element={<AllAnotherAlbum />} />
                 <Route path="/artist/:artistID/related-artists" element={<Related />} />
                 <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
+                <Route path="/chart/" element={<Chart setPlayingTrack={setPlayingTrack} />} />
                 <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>}></Route>
                 <Route path="/track/:trackID" element={<Track playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>}></Route>
                 <Route path="/album/" element={<Album />} />
@@ -104,7 +113,7 @@ function App() {
                 <Route path="/followedArtists" element={<FollowedArtist />} />
                 <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/track/lyric" element={<Lyric playingData={playingData} setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
-                <Route path="/queue/" element={<Queue next={next} setNext={setNext} playingData={playingData} playingTrack={playingTrack} setQueue={setQueue} setPlayingTrack={setPlayingTrack} device={device}/>} />
+                <Route path="/queue/" element={<Queue setIDs={setIDs} ids={ids} queue={queue} next={next} setNext={setNext} playingData={playingData} playingTrack={playingTrack} setQueue={setQueue} setPlayingTrack={setPlayingTrack} device={device}/>} />
                 <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
             </Routes>

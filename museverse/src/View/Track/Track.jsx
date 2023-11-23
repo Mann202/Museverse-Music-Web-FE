@@ -201,13 +201,15 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
 }
 
 function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingTrack}) {
-  const userId = 1
+  const user = localStorage.getItem('user')
+  const userJson = JSON.parse(user);
+  const userID = userJson.user_id;
   const [saved, setSaved] = useState(false);
 
     useEffect(() => {
         async function checkSaveStatus() {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/getLikedSongID?user_id=${userId}&track_id=${trackID}`);
+                const response = await axios.get(`http://127.0.0.1:8000/api/getLikedSongID?user_id=${userID}&track_id=${trackID}`);
                 if (response.data === "Yes") {
                     setSaved(true);
                 } else {
@@ -228,7 +230,7 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
   async function handleSave() {
     try {
         const data = {
-            user_id: 1,
+            user_id: userID,
             track_id: trackID
         };
         await axios.post('http://127.0.0.1:8000/api/saveLikedSong', data);
