@@ -46,7 +46,10 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
   }
   const checkLogged = (async () => {
     if (!localStorage.getItem('user')) {
-    } else {
+      // setLogged(false);
+      console.log("chua dang nhap");
+    } 
+    else {
       const user = JSON.parse(localStorage.getItem('user'));
       console.log("user", user.user_id);
       let result = await fetch("http://localhost:8000/api/checkrole", {
@@ -61,6 +64,7 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
       console.log("result", result.role_id);
       if (result.role_id == 3) //checkrole
       {
+        // setLogged(false);
       }
     }
 
@@ -106,6 +110,7 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
   if (playingTrack.length == 0) return "";
 
   if (!logged) {
+    console.log("can dang nhap");
     (async () => {
       const result = await Swal.fire({
         background: "#1F1F22",
@@ -124,8 +129,6 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
       } else if (result.isDenied) {
         navigate('/signup');
       }
-
-      Swal.close();
     })();
   }
   if (!logged)

@@ -1,13 +1,14 @@
 import React, { useContext, useState } from 'react';
-import  bgImage from '../../assets/bg-image.png'
-import  logo_txt  from '../../assets/logo_txt.png'
+import bgImage from '../../assets/bg-image.png'
+import logo_txt from '../../assets/logo_txt.png'
 import UsePasswordToggle from './UsePasswordToggle';
 import { FcGoogle } from "react-icons/fc"
 import { FaFacebook } from "react-icons/fa6";
 import { useGoogleLogin } from '@react-oauth/google';
 import { Link, useNavigate, useLocation, json, NavLink } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
-
+import { jwtDecode } from 'jwt-decode';
+import axios from 'axios';
 const SignIn = () => {
     const { logged, setLogged } = useContext(LoggedContext);
 
@@ -15,10 +16,40 @@ const SignIn = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
+
     const [PasswordInputType, ToggleIcon, change] = UsePasswordToggle();
     const login = useGoogleLogin({
-        onSuccess: tokenResponse => console.log(tokenResponse),
+        onSuccess: async (response) => {
+            try {
+                const res = await axios.get(
+                    "https:www.googleapis.com/oauth2/v2/userinfo",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${response.access_token}`,
+                        },
+                    }
+                );
+                console.log('User log in with google: ', res.data);
+                let result = await fetch("http://localhost:8000/api/signingoogle", {
+                    method: 'POST',
+                    body: JSON.stringify(res.data),
+                    headers: {
+                        "Content-Type": 'application/json',
+                        "Accept": 'application/json'
+                    }
+                })
+                result = await result.json()
+                console.log("signin with google: ", result);
+                localStorage.setItem('user', JSON.stringify(result));
+                setLogged(true);
+                navigate(-1);
+            } catch (error) {
+                console.log(error);
+            }
+        },
+        onError: (error) => console.log(error),
     });
+
     const [formData, setFormData] = useState({
         username: '',
         password: ''
@@ -42,9 +73,10 @@ const SignIn = () => {
 
         if (!formData.password.trim()) {
             validationErrors.password = "Password is required"
-        } else if (formData.password.length < 6) {
-            validationErrors.password = "Password should be at least 6 char"
         }
+        // else if (formData.password.length < 6) {
+        //     validationErrors.password = "Password should be at least 6 char"
+        // }
 
         setErrors(validationErrors)
 
@@ -59,7 +91,7 @@ const SignIn = () => {
                 }
             })
             result = await result.json()
-            console.log("result", result);
+            console.log("sign in result", result);
 
             if (result.hasOwnProperty('error')) {
                 const Errors = {};
@@ -68,7 +100,7 @@ const SignIn = () => {
             } else {
                 localStorage.setItem('user', JSON.stringify(result));
                 setLogged(true);
-                navigate('/');
+                navigate(-1);
             }
 
         }
@@ -142,7 +174,9 @@ const SignIn = () => {
                         <div class="w-[400px] p-0 text-center text-white text-xl font-semibold bg-[#EE5566] rounded-lg mb-1">
                             <button type='submit' className=' w-full h-full p-2 rounded-lg'>Log in</button >
                         </div>
-
+                        <div className='text-red-600'>
+                            {errors.notmatch && <span>{errors.notmatch}</span>}
+                        </div>
                         <div className='text-xl font-medium text-white underline'>
                             Forgot your password?
                         </div>
