@@ -7,7 +7,6 @@ import { FaFacebook } from "react-icons/fa6";
 import { useGoogleLogin } from '@react-oauth/google';
 import { Link, useNavigate, useLocation, json, NavLink } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
-import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 const SignIn = () => {
     const { logged, setLogged } = useContext(LoggedContext);

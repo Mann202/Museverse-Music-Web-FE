@@ -8,10 +8,9 @@ import { Spotify } from '../../API/Credentials';
 import { spotifyApi } from 'react-spotify-web-playback';
 import Cookies from 'js-cookie';
 
-function Lyric({isPlaying, progressMs, device, setProgressMs }) {
+function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
     const [lyric, setLyric] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { trackID } = useParams();
     const [dark, setDark] = useState(false);
     const [track, setTrack] = useState([]);
     const [backgroundColor, setBackgroundColor] = useState('');
@@ -32,7 +31,7 @@ function Lyric({isPlaying, progressMs, device, setProgressMs }) {
     useEffect(() => {
             
             axios.get(`http://127.0.0.1:8000/api/getToken`).then(response => {
-                axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${trackID}?format=json&vocalRemoval=false&market=from_token`, {
+                axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${playingData.id}?format=json&vocalRemoval=false&market=from_token`, {
                 headers: {
                     "App-platform": "WebPlayer",
                     "Authorization": `Bearer ${response.data.accessToken}`,
@@ -53,7 +52,7 @@ function Lyric({isPlaying, progressMs, device, setProgressMs }) {
         })
         .then(response => {
             const token = response.data.access_token;
-            axios(`https://api.spotify.com/v1/tracks/${trackID}?market=VN`, {
+            axios(`https://api.spotify.com/v1/tracks/${playingData.id}?market=VN`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + token
@@ -62,9 +61,11 @@ function Lyric({isPlaying, progressMs, device, setProgressMs }) {
                 setTrack(response.data);
                 setImage(response.data.album.images[0].url);
                 setLoading(false);
+                setProgressMs(0)
+                setCurrentIndex(0)
             });
         });
-    }, [trackID]);
+    }, [playingData.id]);
 
     useEffect(() => {
         const colorThief = new ColorThief();
@@ -162,6 +163,20 @@ function Lyric({isPlaying, progressMs, device, setProgressMs }) {
     return (
         <div style={{ background: `linear-gradient(${backgroundColor}, black)` }} className='h-screen overflow-y-auto pb-32 '>
             <Headers bgColor={backgroundColor} />
+            <div className='flex flex-row gap-3 mt-8 ml-12 pl-1'>
+                <img src={playingData.image} className='w-32 h-32 rounded-lg'></img>
+                <div>
+                    <p className='text-white text-2xl font-medium'>{playingData.name}</p>
+                    <div className='flex flex-row'>
+                        {playingData.artists.map((item, index) => (
+                            <React.Fragment key={item.id}>
+                            <p className='text-white text-opacity-80'>{item.name}</p>
+                            {index < playingData.artists.length - 1 && <span className='text-white'>, </span>}
+                            </React.Fragment>
+                        ))}
+                    </div>
+                </div>
+            </div>
             <div className='flex justify-center pt-10'>
                 <div className='w-11/12'>
                     <div>

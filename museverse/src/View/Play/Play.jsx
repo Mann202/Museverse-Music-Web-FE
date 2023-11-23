@@ -26,7 +26,7 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
   const navigate = useNavigate()
 
   function handleExpand() {
-    const path = `/track/${playingData.id}/lyric`
+    const path = `/track/lyric`
     navigate(path)
   }
 
@@ -44,32 +44,10 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
     const path = `/queue/`
     navigate(path)
   }
-  const checkLogged = (async () => {
-    if (!localStorage.getItem('user')) {
-      // setLogged(false);
-      console.log("chua dang nhap");
-    } 
-    else {
-      const user = JSON.parse(localStorage.getItem('user'));
-      console.log("user", user.user_id);
-      let result = await fetch("http://localhost:8000/api/checkrole", {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-          "Content-Type": 'application/json',
-          "Accept": 'application/json'
-        }
-      })
-      result = await result.json()
-      console.log("result", result.role_id);
-      if (result.role_id == 3) //checkrole
-      {
-        // setLogged(false);
-      }
-    }
 
-  })
-  checkLogged();
+  useEffect(()=>{
+      setFlag(true)
+  }, [isPlay])
 
   useEffect(() => {
     if (location.pathname === '/signin' || location.pathname === '/signup') {
@@ -110,7 +88,6 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
   if (playingTrack.length == 0) return "";
 
   if (!logged) {
-    console.log("can dang nhap");
     (async () => {
       const result = await Swal.fire({
         background: "#1F1F22",
@@ -190,7 +167,7 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
         />
       </div>
       {
-        isPlay
+        flag
           ?
           <div className="w-2/12 bg-black">
             <div className="flex items-center gap-5 justify-center w-full h-full">

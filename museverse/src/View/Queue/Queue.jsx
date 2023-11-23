@@ -25,6 +25,12 @@ function Queue({ setQueue, device, playingTrack, playingData, next, setNext }) {
         }
     },[playingData])
 
+    useEffect(()=>{
+      
+          const updatedItems = items.filter((item) => item.id !== playingData.id);
+          setItems(updatedItems);
+      
+  },[playingData])
 
     const onDragStart = (e, index) => {
         e.dataTransfer.setData('index', index);
@@ -58,9 +64,10 @@ function Queue({ setQueue, device, playingTrack, playingData, next, setNext }) {
 
       return (
         <div>
-            <h1 className='text-white'>Playing track</h1>
+          <Headers />
+          <h1 className='text-white text-xl font-bold'>Currently playing track</h1>
             
-          <h1 className='text-white'>Drag and Drop Queue</h1>
+          <h1 className=' text-white text-xl font-bold'>Queue</h1>
           <ul>
             {items.map((item, index) => (
               <li
