@@ -83,10 +83,9 @@ function App() {
                 <Route path="/" element={<Discover />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
-                <Route path="/chart" element={<Chart setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/search" element={<Search />} />
                 <Route path="/search/:searching" element={<Search setPlay={setPlay} setPlayingTrack={setPlayingTrack} isPlaying={isPlaying} playingData={playingData}/>} />
-                <Route path="/catelogy/:catelogyID" element={<Catelogy setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
+                <Route path="/catelogy/:catelogyID" element={<Catelogy setQueueID={setQueueID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
                 <Route path="/playlist" element={<Playlist />} />
                 <Route path="/playlist/:playlistID" element={<Playlist setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/artist/" element={<Artist />} />
@@ -101,8 +100,6 @@ function App() {
                 <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
                 <Route path="/newrelease/" element={<NewRelease />} />
                 <Route path="/allnewrelease/" element={<AllNewReleases />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/show/:showID" element={<Show playingData={playingData} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
                 <Route path="/followedArtists" element={<FollowedArtist />} />
                 <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />

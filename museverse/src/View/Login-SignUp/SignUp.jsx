@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
-import bgImage  from '../../assets/bg-image.png'
-import logo_txt  from '../../assets/logo_txt.png'
+import bgImage from '../../assets/bg-image.png'
+import logo_txt from '../../assets/logo_txt.png'
 import UsePasswordToggle from './UsePasswordToggle';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
@@ -40,9 +40,10 @@ export default function SignUp() {
 
         if (!formData.password.trim()) {
             validationErrors.password = "Password is required"
-        } else if (formData.password.length < 6) {
-            validationErrors.password = "Password should be at least 6 char"
-        }
+        } 
+        // else if (formData.password.length < 6) {
+        //     validationErrors.password = "Password should be at least 6 char"
+        // }
 
         setErrors(validationErrors)
 
@@ -57,7 +58,7 @@ export default function SignUp() {
                 }
             })
             result = await result.json()
-            console.log("result", result);
+            console.log("sign up result", result);
 
             if (result.hasOwnProperty('error')) {
                 const Errors = {};
@@ -72,8 +73,12 @@ export default function SignUp() {
                     confirmButtonText: "Go to HomePage",
                     confirmButtonColor: '#EE5566',
                     iconColor: '#EE5566'
-                }).then((result) => {
-                    if (result.isConfirmed) {
+                }).then((res) => {
+                    if (res.isConfirmed) {
+                        localStorage.setItem('user', JSON.stringify(result));
+                        setLogged(true);
+                        navigate('/');
+                    }else{
                         localStorage.setItem('user', JSON.stringify(result));
                         setLogged(true);
                         navigate('/');
@@ -139,7 +144,9 @@ export default function SignUp() {
                         <div class="w-[400px] p-0 text-center text-white text-xl font-semibold bg-[#EE5566] rounded-lg mb-1">
                             <button type='submit' className=' w-full h-full p-2 rounded-lg'>Create Account</button >
                         </div>
-
+                        <div className='text-red-600'>
+                            {errors.notmatch && <span>{errors.notmatch}</span>}
+                        </div>
                         <div className='text-xl font-medium text-white'>
                             Already have an account ?
                             <NavLink to={'/signin'} className="text-[#EE5566] hover:underline cursor-pointer"> Login here</NavLink>
