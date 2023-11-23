@@ -35,6 +35,24 @@ import axios from "axios";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
+  const [queue, setQueue] = useState('')
+  const [status, setStatus] = useState([])
+  const [next, setNext] = useState(false)
+  const [a, setA] = useState([])
+  if(a.length === 0 && status.length > 0) {
+    setA(status)
+  }
+
+  useEffect(() => {
+    if(a.length > 0) {
+      console.log(status[0].name)
+      if(a[0].name != status[0].name && queue != '') {
+        setPlayingTrack(queue)
+        setNext(true)
+      }
+    }
+  }, [status])
+  
   const [playingID, setPlayingID] = useState('') //Lưu vào Playlist ID của playlist đang được phát
   const [trackInAlbum, setTrackInAlbum] = useState(0) //Lưu vào thứ tự phát của album khi được bấm (dùng để queue bài hát)
   const [isPlaying, setIsPlaying] = useState(true) //Lấy trạng thái của thanh nghe nhạc (Đang nghe hay đã dừng)
@@ -45,7 +63,6 @@ function App() {
   const [progressMs, setProgressMs] = useState(0) //Luu vao thoi gian nghe nhac
   const [device, setDevice] = useState('')
   const [repeat, isRepeat] = useState('')
-  const [queueID, setQueueID] = useState([])
 
   const userID = 1
   useEffect(() => {
@@ -89,14 +106,14 @@ function App() {
                 <Route path="/followedArtists" element={<FollowedArtist />} />
                 <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
-                <Route path="/queue/" element={<Queue queueID={queueID}/>} />
+                <Route path="/queue/" element={<Queue next={next} setNext={setNext} playingData={playingData} playingTrack={playingTrack} setQueue={setQueue} setPlayingTrack={setPlayingTrack} device={device}/>} />
                 <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
             </Routes>
           </div>
         </div>
         <div className="fixed bottom-0 w-full">
-            <Play setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
+            <Play setStatus={setStatus} setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
         </div>
       </div>
   );

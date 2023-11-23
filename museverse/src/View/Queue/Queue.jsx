@@ -4,53 +4,79 @@ import { spotifyApi } from 'react-spotify-web-playback';
 import Cookies from 'js-cookie';
 import axios from 'axios'; 
 import { Spotify } from '../../API/Credentials';
+import Loading from '../Loading/Loading';
 
-function Queue({ queueID }) {
-    const [data, setData] = useState([]);
+function Queue({ setQueue, device, playingTrack, playingData, next, setNext }) {
+    const [items, setItems] = useState([]);
+    const [loading, setLoading] = useState(true)
+    const [play, setPlay] = useState([])
 
-    useEffect(() => {
-        axios('https://accounts.spotify.com/api/token', {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + btoa(Spotify.ClientID + ':' + Spotify.ClientSecret)
-            },
-            data: 'grant_type=client_credentials',
-            method: 'POST'
+    useEffect(()=>{
+        spotifyApi.getQueue(Cookies.get('spotifyToken')).then(
+            response=> {setItems(response.queue)}
+        )
+    },[])
+
+    useEffect(()=>{
+        if(next) {
+            const updatedItems = items.filter((item) => item.id !== playingData.id);
+            setItems(updatedItems);
+            setNext(false)
+        }
+    },[playingData])
+
+
+    const onDragStart = (e, index) => {
+        e.dataTransfer.setData('index', index);
+      };
+    
+      const onDragOver = (e) => {
+        e.preventDefault();
+      };
+    
+      const onDrop = (e, newIndex) => {
+        e.preventDefault();
+        const oldIndex = e.dataTransfer.getData('index');
+        const updatedItems = [...items];
+        const [draggedItem] = updatedItems.splice(oldIndex, 1);
+        updatedItems.splice(newIndex, 0, draggedItem);
+
+        const uris = updatedItems.map((item) => item.uri);
+        const existingArray = []; 
+
+        existingArray.push(...uris);
+        const playing = []
+        console.log(playingTrack)
+        existingArray.forEach((item) => {
+            playing.push(item)
         })
-        .then(response => {
-            const token = response.data.access_token;
-            const promises = queueID.map(trackID => {
-                return axios(`https://api.spotify.com/v1/tracks/${trackID}?market=VN`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                });
-            });
 
-            Promise.all(promises)
-                .then(responses => {
-                    const trackData = responses.map(response => response.data);
-                    setData(trackData);
-                })
-        })
-    }, [queueID]);
+        setQueue(playing)
 
-    console.log(data)
+        setItems(updatedItems)
+      };
 
-    return (
+      return (
         <div>
-            <Headers />
-            <div>
-                {/* Hiển thị dữ liệu */}
-                {data.map((track, index) => (
-                    <div key={index}>
-                        {/* Hiển thị thông tin về từng track ở đây */}
-                    </div>
-                ))}
-            </div>
+            <h1 className='text-white'>Playing track</h1>
+            
+          <h1 className='text-white'>Drag and Drop Queue</h1>
+          <ul>
+            {items.map((item, index) => (
+              <li
+                key={item.id}
+                draggable
+                onDragStart={(e) => onDragStart(e, index)}
+                onDragOver={onDragOver}
+                onDrop={(e) => onDrop(e, index)}
+                className='text-white'
+              >
+                {item.name}
+              </li>
+            ))}
+          </ul>
         </div>
-    );
+      );
 }
 
 export default Queue;

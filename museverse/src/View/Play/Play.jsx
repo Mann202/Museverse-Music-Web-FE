@@ -14,7 +14,7 @@ import PlayArtist from "./PlayArtist";
 import Swal from "sweetalert2";
 import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
-const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
+const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
 
   const [flag, setFlag] = useState(false);
   const { logged, setLogged } = useContext(LoggedContext);
@@ -177,6 +177,7 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
           play={play}
           uris={playingTrack}
           callback={(state) => {
+            setStatus(state.nextTracks)
             setIsPlay(state.isPlaying)
             setIsPlaying(state.isPlaying)
             setPlayingData(state.track)
