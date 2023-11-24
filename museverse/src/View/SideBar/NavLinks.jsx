@@ -1,10 +1,12 @@
-import {NavLink} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import {BiRadio, BiSolidPlaylist} from 'react-icons/bi';
 import {IoIosAlbums} from 'react-icons/io'
 import  {BsMusicNoteBeamed } from 'react-icons/bs'
 import {GiMicrophone} from 'react-icons/gi'
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { SideBarContext } from './SideBar';
+import { FaPlus } from "react-icons/fa6";
+import axios from 'axios';
 
 const links = [
     {name: "Mixes and Radio", to: "/mix&radio", icon: BiRadio},
@@ -32,6 +34,30 @@ const albums = [
 
 export default function NavLinks ({handleClick}) {
     const {expanded} = useContext(SideBarContext)
+    const navigate = useNavigate()
+
+    function handleAddplaylist() {
+
+        const user = localStorage.getItem('user')
+        const userJson = JSON.parse(user);
+        const userID = userJson.user_id;
+
+        let playlistID = 0
+        axios.get(`http://127.0.0.1:8000/api/getPlaylistID?user_id=${userID}`).then(response => {
+            playlistID = response.data.playlist_id
+            const title = "Your playlist"
+            axios.post(`http://127.0.0.1:8000/api/createPlaylist`, {
+                user_id : userID,
+                id: playlistID,
+                title: title
+            })
+        }).then(() =>
+            {
+                const path =`/user-playlist/${playlistID+1}`
+                navigate(path)
+            }
+        )
+    }
 
     return(
         <div className={`${expanded ? "" : ""}`}>
@@ -48,8 +74,13 @@ export default function NavLinks ({handleClick}) {
             ))}
 
 
-            <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Libary</h2>
-            
+            <div className='flex flex-row justify-between'>
+                <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Libary</h2>
+                <button onClick={handleAddplaylist} className='hover:bg-[#EE5566] rounded-full p-1'>
+                    <FaPlus className='text-xl'/>
+                </button>
+            </div>
+
             <div className="overflow-auto">
                 {links.map((item) => (
                 <NavLink

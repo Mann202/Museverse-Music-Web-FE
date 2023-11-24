@@ -33,6 +33,7 @@ import Queue from "./View/Queue/Queue";
 import LikedTrack from "./View/LikedTrack/LikedTrack"; 
 import axios from "axios";
 import Cookies from "js-cookie";
+import UserPlaylist from "./View/UserPlaylist/UserPlaylist";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -115,6 +116,7 @@ function App() {
                 <Route path="/track/lyric" element={<Lyric playingData={playingData} setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
                 <Route path="/queue/" element={<Queue setIDs={setIDs} ids={ids} queue={queue} next={next} setNext={setNext} playingData={playingData} playingTrack={playingTrack} setQueue={setQueue} setPlayingTrack={setPlayingTrack} device={device}/>} />
                 <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
+                <Route path="/user-playlist/:playlistID" element={<UserPlaylist />} />
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
             </Routes>
           </div>
