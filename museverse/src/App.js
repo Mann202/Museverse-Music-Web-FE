@@ -30,7 +30,7 @@ import History from "./History/History";
 import FollowedArtist from "./View/FollowedArtist/FollowedArtist";
 import Lyric from "./View/Lyric/Lyric";
 import Queue from "./View/Queue/Queue";
-import LikedTrack from "./View/LikedTrack/LikedTrack"; 
+import LikedTrack from "./View/LikedTrack/LikedTrack";
 import axios from "axios";
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
   const [play, setPlay] = useState([]) //Cài đặt resume và pause
   const [playingAlbumID, setPlayingAlbumID] = useState('') //Lưu vào album id đang nghe
-  const {logged} = useContext(LoggedContext)
+  const { logged } = useContext(LoggedContext)
   const [progressMs, setProgressMs] = useState(0) //Luu vao thoi gian nghe nhac
   const [device, setDevice] = useState('')
   const [repeat, isRepeat] = useState('')
@@ -49,7 +49,7 @@ function App() {
 
   const userID = 1
   useEffect(() => {
-    if (playingData.length!=0 && playingData.id !== "") {
+    if (playingData.length != 0 && playingData.id !== "") {
       axios.post(`http://127.0.0.1:8000/api/history`, {
         user_id: userID,
         track: playingData.id
@@ -58,43 +58,43 @@ function App() {
   }, [playingData, userID]);
 
   return (
-      <div className="relative flex">
-          {logged ? <SideBar /> : ""}
-        <div className="flex-1 flex flex-col bg-black">
-          <div className="flex-1 pb-40">
-            <Routes>
-                <Route path="/" element={<Discover />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/search" element={<Search />} />
-                <Route path="/search/:searching" element={<Search setPlay={setPlay} setPlayingTrack={setPlayingTrack} isPlaying={isPlaying} playingData={playingData}/>} />
-                <Route path="/catelogy/:catelogyID" element={<Catelogy setQueueID={setQueueID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
-                <Route path="/playlist" element={<Playlist />} />
-                <Route path="/playlist/:playlistID" element={<Playlist setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
-                <Route path="/artist/" element={<Artist />} />
-                <Route path="/artist/:artistID" element={<Artist />} />
-                <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
-                <Route path="/artist/:artistID/all-albums" element={<AllAnotherAlbum />} />
-                <Route path="/artist/:artistID/related-artists" element={<Related />} />
-                <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
-                <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID}/>}></Route>
-                <Route path="/track/:trackID" element={<Track playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>}></Route>
-                <Route path="/album/" element={<Album />} />
-                <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID}/>} />
-                <Route path="/newrelease/" element={<NewRelease />} />
-                <Route path="/allnewrelease/" element={<AllNewReleases />} />
-                <Route path="/followedArtists" element={<FollowedArtist />} />
-                <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
-                <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
-                <Route path="/queue/" element={<Queue queueID={queueID}/>} />
-                <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} /> 
-            </Routes>
-          </div>
-        </div>
-        <div className="fixed bottom-0 w-full">
-            <Play setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
+    <div className="relative flex">
+      {logged ? <SideBar /> : ""}
+      <div className="flex-1 flex flex-col bg-black">
+        <div className="flex-1 pb-40">
+          <Routes>
+            <Route path="/" element={<Discover />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/search" element={<Search />} />
+            <Route path="/search/:searching" element={<Search setPlay={setPlay} setPlayingTrack={setPlayingTrack} isPlaying={isPlaying} playingData={playingData} />} />
+            <Route path="/catelogy/:catelogyID" element={<Catelogy setQueueID={setQueueID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} />} />
+            <Route path="/playlist" element={<Playlist />} />
+            <Route path="/playlist/:playlistID" element={<Playlist setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} />} />
+            <Route path="/artist/" element={<Artist />} />
+            <Route path="/artist/:artistID" element={<Artist />} />
+            <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
+            <Route path="/artist/:artistID/all-albums" element={<AllAnotherAlbum />} />
+            <Route path="/artist/:artistID/related-artists" element={<Related />} />
+            <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
+            <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} />}></Route>
+            <Route path="/track/:trackID" element={<Track playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack} />}></Route>
+            <Route path="/album/" element={<Album />} />
+            <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID} />} />
+            <Route path="/newrelease/" element={<NewRelease setQueueID={setQueueID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} />} />
+            <Route path="/allnewrelease/" element={<AllNewReleases />} />
+            <Route path="/followedArtists" element={<FollowedArtist />} />
+            <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} />} />
+            <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device} />} />
+            <Route path="/queue/" element={<Queue queueID={queueID} />} />
+            <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} />} />
+          </Routes>
         </div>
       </div>
+      <div className="fixed bottom-0 w-full">
+        <Play setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying} />
+      </div>
+    </div>
   );
 }
 

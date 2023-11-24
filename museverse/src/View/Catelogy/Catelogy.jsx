@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Spotify } from '../../API/Credentials';
 
 import CatelogyCard from './CatelogyCard';
-import Loading from '../Loading/Loading';
+import Loading from '../Loading/Loading'; 
 
 function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, setQueueID}) {
   const [data, setData] = useState([]);
@@ -52,7 +52,6 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, se
             'Authorization': 'Bearer ' + tokenResponse.data.access_token
           }
         });
-
         setData(playlistsResponse.data.playlists.items); // Lưu dữ liệu từ API vào state
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
@@ -87,6 +86,10 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, se
 
   if (loading) {
     return <div><Loading /></div>;
+  }else{
+    console.log("cate data",data);
+    console.log("cate predata",preData);
+
   }
 
   return (

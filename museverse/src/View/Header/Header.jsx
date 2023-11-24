@@ -89,7 +89,7 @@ export function LoggedHeader({ bgColor, showHello }) {
                 <div className="flex gap-4 mr-4 justify-center items-center">
                     <SearchBar />
                     {logged ?                        
-                        <div className="flex flex-row-reverse items-start items-center bg-transparent h-16 gap-2">
+                        <div className="flex flex-row-reverse items-center bg-transparent h-16 gap-2">
                             <button onClick={HandleClickDropdown}>
                                 <img src={avatar} className='rounded-full w-10 h-10' alt="Museverse"></img>
                             </button>
