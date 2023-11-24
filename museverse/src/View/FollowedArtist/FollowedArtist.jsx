@@ -70,30 +70,32 @@ function FollowedArtist() {
   }
 
   return (
-    <div className='h-screen overflow-y-auto pb-32'>
+    <div>
       <Headers />
-      <div className='pl-5 pt-5'>
-        <p className='text-[#EE5566] font-bold text-xl'>Followed Artists</p>
-      </div>
-      <div className='pt-10'>
-        {Object.keys(groupedData).map((date) => (
-          <div key={date}>
-            <div className='flex justify-center'>
-              <div className='w-11/12'>
-                <h2 className='text-[#EE5566] text-opacity-90 text-xl font-medium pt-3'>
-                  {date}
-                </h2>
+      <div className='h-screen overflow-y-auto pb-32'>
+        <div className='pl-5 pt-5'>
+          <p className='text-[#EE5566] font-bold text-xl'>Followed Artists</p>
+        </div>
+        <div className='pt-10'>
+          {Object.keys(groupedData).map((date) => (
+            <div key={date}>
+              <div className='flex justify-center'>
+                <div className='w-11/12'>
+                  <h2 className='text-[#EE5566] text-opacity-90 text-xl font-medium pt-3'>
+                    {date}
+                  </h2>
+                </div>
+              </div>
+              <div className='flex flex-row justify-center pt-3 '>
+                <div className='w-10/12 flex flex-row gap-7 flex-wrap'>
+                  {groupedData[date].map((item) => (
+                    <FollowedArtistCard key={item.artist_id} artistID={item.artist_id} />
+                  ))}
+                </div>
               </div>
             </div>
-            <div className='flex flex-row justify-center pt-3 '>
-              <div className='w-10/12 flex flex-row gap-7 flex-wrap'>
-                {groupedData[date].map((item) => (
-                  <FollowedArtistCard key={item.artist_id} artistID={item.artist_id} />
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

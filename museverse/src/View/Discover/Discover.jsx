@@ -13,27 +13,29 @@ import DiscoveryCatelogy from "./DiscoveryCatelogy";
 export default function Discover() {
     
     return(
-        <div className="overflow-y-scroll h-screen">
+        <div>
             <Headers />
-            <div className="flex items-center justify-center">
-                <div className="w-[95%]">
-                    <div>
-                        <DiscoveryRecentlyPlayed />
-                    </div>
-                    <div>
-                        <></>
-                    </div>
-                    {//<div>
-                        //<DiscoveryRecommendBaseArtist />
-                    //</div>
-                    }
-                    <div>
-                        <DiscoveryCatelogy />
+            <div className="overflow-y-scroll h-screen">
+                <div className="flex items-center justify-center">
+                    <div className="w-[95%]">
+                        <div>
+                            <DiscoveryRecentlyPlayed />
+                        </div>
+                        <div>
+                            <></>
+                        </div>
+                        {//<div>
+                            //<DiscoveryRecommendBaseArtist />
+                        //</div>
+                        }
+                        <div>
+                            <DiscoveryCatelogy />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="bg-white bg-opacity-5 w-full h-40 flex justify-end pr-5 mt-10 pt-3">
-                <p className="text-white">Museverse - Inspired by Spotify © 2023 Museverse</p>
+                <div className="bg-white bg-opacity-5 w-full h-40 flex justify-end pr-5 mt-10 pt-3">
+                    <p className="text-white">Museverse - Inspired by Spotify © 2023 Museverse</p>
+                </div>
             </div>
         </div>
     )

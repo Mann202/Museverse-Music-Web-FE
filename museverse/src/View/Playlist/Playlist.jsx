@@ -34,7 +34,6 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, setTrackInAlbum, se
     const ClientSecret = Spotify.ClientSecret;
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -45,7 +44,6 @@ function Playlist({setPlayingTrack, playingID, setPlayingID, setTrackInAlbum, se
         })
         .then(response => {
             setToken(response.data.access_token);
-            // Gọi API Spotify ngay sau khi nhận được token
             axios(`https://api.spotify.com/v1/playlists/${playlistID}?market=VN`, {
                 method: 'GET',
                 headers: {

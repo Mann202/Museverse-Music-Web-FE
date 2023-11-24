@@ -35,7 +35,6 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
           method: 'POST'
         });
 
-        // Gọi API Spotify ngay sau khi nhận được token
         const categoryResponse = await axios(`https://api.spotify.com/v1/browse/categories/${catelogyID}?country=VN`, {
           method: 'GET',
           headers: {
@@ -46,7 +45,6 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
         setPreData(categoryResponse.data);
         setImage(categoryResponse.data.icons[0].url)
 
-        // Gọi API Spotify ngay sau khi nhận được token
         const playlistsResponse = await axios(`https://api.spotify.com/v1/browse/categories/${catelogyID}/playlists?country=VN`, {
           method: 'GET',
           headers: {
@@ -54,7 +52,9 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
           }
         });
 
-        setData(playlistsResponse.data.playlists.items); // Lưu dữ liệu từ API vào state
+        const filteredCategoryData = playlistsResponse.data.playlists.items.filter(item => item !== null);  
+        console.log(filteredCategoryData)
+        setData(filteredCategoryData); // Lưu dữ liệu từ API vào state
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error(error);
@@ -84,7 +84,6 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
     };
     loadImage();
   }, [image]);
-
 
   if (loading) {
     return <div><Loading /></div>;

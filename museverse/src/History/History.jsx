@@ -63,28 +63,30 @@ function History({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPlayin
   }
     
     return (
-        <div className='h-screen overflow-y-auto pb-32'>
+        <div>
             <Headers />
-            <div className='pl-5 pt-5'>
-                <p className='text-[#EE5566] font-bold text-xl'>History</p>
-            </div>
-            <div className='pt-10'>
-                {Object.keys(groupedData).map((date) => (
-                    <div key={date}>
-                        <div className='flex justify-center'>
-                            <div className='w-11/12'>
-                                <h2 className='text-[#EE5566] text-opacity-90 text-xl font-medium pt-3'>
-                                {isToday(date) ? "Today" : (isYesterday(date) ? "Yesterday" : chuyenNgay(date))}
-                                </h2>
+            <div className='h-screen overflow-y-auto pb-32'>
+                <div className='pl-5 pt-5'>
+                    <p className='text-[#EE5566] font-bold text-xl'>History</p>
+                </div>
+                <div className='pt-10'>
+                    {Object.keys(groupedData).map((date) => (
+                        <div key={date}>
+                            <div className='flex justify-center'>
+                                <div className='w-11/12'>
+                                    <h2 className='text-[#EE5566] text-opacity-90 text-xl font-medium pt-3'>
+                                    {isToday(date) ? "Today" : (isYesterday(date) ? "Yesterday" : chuyenNgay(date))}
+                                    </h2>
+                                </div>
                             </div>
+                            {groupedData[date].map((item) => (
+                                <HistoryCard track_id={item.song_id} 
+                                setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}
+                                />
+                            ))}
                         </div>
-                        {groupedData[date].map((item) => (
-                            <HistoryCard track_id={item.song_id} 
-                            setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}
-                            />
-                        ))}
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );
