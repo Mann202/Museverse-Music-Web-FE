@@ -1,5 +1,5 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useEffect,useLayoutEffect, useState, useContext } from "react";
 
 
 import Headers from "./View/Header/Header";
@@ -32,6 +32,7 @@ import Lyric from "./View/Lyric/Lyric";
 import Queue from "./View/Queue/Queue";
 import LikedTrack from "./View/LikedTrack/LikedTrack"; 
 import axios from "axios";
+import { APIS } from "./API/constants";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -46,20 +47,52 @@ function App() {
   const [device, setDevice] = useState('')
   const [repeat, isRepeat] = useState('')
   const [queueID, setQueueID] = useState([])
+  const [userPlaylist, setUserPlaylist] = useState([]);
+  const user =  JSON.parse(localStorage.getItem('user')); 
 
-  const userID = 1
+  useLayoutEffect(() => {
+    const handleFetchPlaylist = async () => {
+      console.log(user);
+      try {
+        const resp = await fetch(
+          `${APIS.uri}/my_playlist/allByUser/${user?.user_id}`,
+          {
+            method: "GET",
+          }
+        );
+        const userPlaylists = await resp.json();
+        if (resp.status == 200) {
+          setUserPlaylist(
+            userPlaylists.map((playlist) => {
+              return {
+                content: playlist?.title_playlist,
+                id: playlist?.playlist_id,
+              };
+            })
+          );
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    if(user){
+      handleFetchPlaylist();
+    }
+  }, []);
+  useLayoutEffect(() => {}, [userPlaylist]);
+
   useEffect(() => {
     if (playingData.length!=0 && playingData.id !== "") {
       axios.post(`http://127.0.0.1:8000/api/history`, {
-        user_id: userID,
+        user_id: user?.user_id,
         track: playingData.id
       })
     }
-  }, [playingData, userID]);
+  }, [playingData, user?.user_id]);
 
   return (
       <div className="relative flex">
-          {logged ? <SideBar /> : ""}
+          {logged && <SideBar userPlaylist={userPlaylist}/>}
         <div className="flex-1 flex flex-col bg-black">
           <div className="flex-1 pb-40">
             <Routes>
@@ -70,7 +103,7 @@ function App() {
                 <Route path="/search/:searching" element={<Search setPlay={setPlay} setPlayingTrack={setPlayingTrack} isPlaying={isPlaying} playingData={playingData}/>} />
                 <Route path="/catelogy/:catelogyID" element={<Catelogy setQueueID={setQueueID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
                 <Route path="/playlist" element={<Playlist />} />
-                <Route path="/playlist/:playlistID" element={<Playlist setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
+                <Route path="/playlist/:playlistID" element={<Playlist setUserPlaylist={setUserPlaylist} userPlaylist={userPlaylist} setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/artist/" element={<Artist />} />
                 <Route path="/artist/:artistID" element={<Artist />} />
                 <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
@@ -88,6 +121,7 @@ function App() {
                 <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device}/>} />
                 <Route path="/queue/" element={<Queue queueID={queueID}/>} />
                 <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} /> 
+                <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>

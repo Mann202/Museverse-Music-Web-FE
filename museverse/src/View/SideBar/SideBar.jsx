@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom'
 import { BsChevronBarLeft, BsChevronBarRight } from "react-icons/bs";
 
 export const SideBarContext = createContext();
-export default function SideBar() {
+export default function SideBar({userPlaylist = []}) {
     const [expanded, setExpanded] = useState(true)
     const navigate = useNavigate()
 
@@ -31,7 +31,7 @@ export default function SideBar() {
             }
             
             <SideBarContext.Provider value={{expanded}}>
-                <NavLinks />
+                <NavLinks userPlaylist={userPlaylist} />
             </SideBarContext.Provider>
 
         </div>

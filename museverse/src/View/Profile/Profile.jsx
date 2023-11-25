@@ -33,10 +33,12 @@ function ProfileEditor(props) {
     setFormData({ ...formData, [name]: value });
     setValidates(initialData);
   };
+
   const validateEmail = (input) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return regex.test(input);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validateEmail(formData.email)) {
@@ -47,6 +49,7 @@ function ProfileEditor(props) {
       setValidates((prev) => ({ ...prev, email: msgError }));
     }
   };
+  
   const handleReset = () => {
     setFormData(initialData);
     setValidates(initialData);
