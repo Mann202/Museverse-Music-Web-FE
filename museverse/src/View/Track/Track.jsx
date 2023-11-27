@@ -59,9 +59,6 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
               })
                 setImage(response.data.album.images[0].url)
             })
-            .catch(error => {
-                console.error(error);
-            });
 
             axios.get(`http://127.0.0.1:8000/api/getToken`).then(response => {
                 axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${trackID}?format=json&vocalRemoval=false&market=from_token`, {
@@ -204,7 +201,10 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
   const user = localStorage.getItem('user')
   const userJson = JSON.parse(user);
   const userID = userJson.user_id;
+  const [expanded, setExpanded] = useState(false)
   const [saved, setSaved] = useState(false);
+  const [playlist, setPlaylist] = useState(false)
+  const [dataPlaylist, setDataPlaylist] = useState([])
 
     useEffect(() => {
         async function checkSaveStatus() {
@@ -240,18 +240,32 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
     }
 }
 
-async function handleUnsave() {
-    try {
-        const data = {
-            user_id: 1,
-            track_id: trackID
-        };
-        await axios.get('http://127.0.0.1:8000/api/unsaveSong', { params: data });
-        setSaved(false); 
-    } catch (error) {
-        console.error('Error unfollowing artist:', error);
-    }
-}
+  async function handleUnsave() {
+      try {
+          const data = {
+              user_id: 1,
+              track_id: trackID
+          };
+          await axios.get('http://127.0.0.1:8000/api/unsaveSong', { params: data });
+          setSaved(false); 
+      } catch (error) {
+          console.error('Error unfollowing artist:', error);
+      }
+  }
+
+  function handleExpanded() {
+    setExpanded(!expanded);
+    setPlaylist(false)
+  }
+
+  function handlePlaylist() {
+    setPlaylist(!playlist)
+    axios.get(`http://127.0.0.1:8000/api/getAllPlaylist?user_id=${userID}`).then(response=> {setDataPlaylist(response.data)})
+  }
+
+  function addPlaylist(id) {
+    axios.post(`http://127.0.0.1:8000/api/addPlaylist?id=${id}&song_id=${data.id}`)
+  }
 
   return (
       <div className="flex flex-row justify-start gap-5 -mt-5">
@@ -280,9 +294,33 @@ async function handleUnsave() {
           </div>
           <div className="flex justify-center items-center">
               <button>
-                  <BsThreeDots className="text-[#EE5566] text-opacity-80 text-xl"/>
+                  <BsThreeDots onClick={handleExpanded} className="text-[#EE5566] text-opacity-80 text-xl"/>
               </button>
           </div>
+              <div>
+              {
+              expanded ?
+              <div className='bg-[#282828] py-2 px-4'>
+                <p onClick={handlePlaylist} className='text-white cursor-pointer'>Add to playlist</p>
+              </div>
+              :
+              ""
+              }
+              </div>
+
+            {
+              playlist ?
+                <div className='bg-[#282828] overflow-y-auto h-12 py-2 px-4'>
+                  {
+                    dataPlaylist.map(item => {
+                      return(
+                        <p onClick={() => addPlaylist(item.id)} className='text-white cursor-pointer'>{item.title_playlist}</p>
+                      )
+                    })
+                  }
+                </div>
+              : ""
+            }
       </div>
     );
 }

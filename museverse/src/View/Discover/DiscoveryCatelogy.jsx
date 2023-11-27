@@ -44,7 +44,6 @@ function DiscoveryCatelogy() {
         });
     }, []);
 
-    console.log(catelogy)
 
     return (
         <div>
