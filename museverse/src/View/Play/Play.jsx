@@ -14,7 +14,7 @@ import PlayArtist from "./PlayArtist";
 import Swal from "sweetalert2";
 import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
-const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
+const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
 
   const [flag, setFlag] = useState(false);
   const { logged, setLogged } = useContext(LoggedContext);
@@ -26,7 +26,7 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
   const navigate = useNavigate()
 
   function handleExpand() {
-    const path = `/track/${playingData.id}/lyric`
+    const path = `/track/lyric`
     navigate(path)
   }
 
@@ -44,32 +44,10 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
     const path = `/queue/`
     navigate(path)
   }
-  // const checkLogged = (async () => {
-  //   if (!localStorage.getItem('user')) {
-  //     // setLogged(false);
-  //     console.log("chua dang nhap");
-  //   } 
-  //   else {
-  //     const user = JSON.parse(localStorage.getItem('user'));
-  //     console.log("user", user.user_id);
-  //     let result = await fetch("http://localhost:8000/api/checkrole", {
-  //       method: 'POST',
-  //       body: JSON.stringify(user),
-  //       headers: {
-  //         "Content-Type": 'application/json',
-  //         "Accept": 'application/json'
-  //       }
-  //     })
-  //     result = await result.json()
-  //     console.log("result", result.role_id);
-  //     if (result.role_id == 3) //checkrole
-  //     {
-  //       // setLogged(false);
-  //     }
-  //   }
 
-  // })
-  // checkLogged();
+  useEffect(()=>{
+      setFlag(true)
+  }, [isPlay])
 
   useEffect(() => {
     if (location.pathname === '/signin' || location.pathname === '/signup') {
@@ -110,7 +88,6 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
   if (playingTrack.length == 0) return "";
 
   if (!logged) {
-    console.log("can dang nhap");
     (async () => {
       const result = await Swal.fire({
         background: "#1F1F22",
@@ -180,6 +157,7 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
           play={play}
           uris={playingTrack}
           callback={(state) => {
+            setStatus(state.nextTracks)
             setIsPlay(state.isPlaying)
             setIsPlaying(state.isPlaying)
             setPlayingData(state.track)
@@ -189,7 +167,7 @@ const Play = ({ device, setDevice, setProgressMs, playingTrack, trackInAlbum, se
         />
       </div>
       {
-        isPlay
+        flag
           ?
           <div className="w-2/12 bg-black">
             <div className="flex items-center gap-5 justify-center w-full h-full">

@@ -15,6 +15,8 @@ import Headers from '../Header/Header';
 import RelatedArtistTrack from './RelatedArtistTrack';
 import TopTrackAnother from './TopTrackAnother';
 import ListAlbumHaveTrack from './ListAlbumHaveTrack';
+import Cookies from 'js-cookie';
+import AddPlaylist from './AddPlaylist';
 
 function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     const [data,setData] = useState([])
@@ -58,26 +60,19 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
               })
                 setImage(response.data.album.images[0].url)
             })
-            .catch(error => {
-                console.error(error);
-            });
 
-            const storedToken = "BQCuwAJpxUKpGOslaujZOkU5fMe3-YYQ0En9eCGVVrUg0KuScNiyyE5mabYxgzGu5ZYhLijrhqkTkcVrBQb2ET5a5cEK5T7pdgyRREBxviUc-G7TBo8zM-iUwuJ20sGP4iENrQILNn-KZCOCPsHzTWaPbImYAVin30oScdR8w6MKq4ILVSV79Bd2WLmCjTls875W3rJaZRMJZlu_WES6f_rI5qp3N4ZbUjyuuDgszalvtI6oSpsff0xGeizAsq93-4vEzCYwFg85vF9XBjMxRGD169SscBOZfngpIPN79AimeRYTbY7yWtiXq1897l-TpXPSplwx3tQ82WV8LHsxgs4kZebC8Gt4";
-            //Lay lyric 
-            axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${trackID}/image/https%3A%2F%2Fi.scdn.co%2Fimage%2Fab67616d0000b27325e6b25d49687cd63f7a034e?format=json&vocalRemoval=false&market=from_token`, {
+            axios.get(`http://127.0.0.1:8000/api/getToken`).then(response => {
+                axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${trackID}?format=json&vocalRemoval=false&market=from_token`, {
                 headers: {
                     "App-platform": "WebPlayer",
-                    "Authorization": `Bearer ${storedToken}`,
-                    "Client-Token": "AAAx6DaZrQcDZhwL1iDl4fHVROgUuanebp5okN4f4ybRbZJfJ2wwwXoq88mvHIAc7mGxhxPh8842Ppm7ZNhnLufmTT/GW62P5srJVXAJMbhv5dUIcbxuRnsSuIbwQCGaNVyg99YNypUgV4y6KWIVc8NfgLwEyE8ZBjG+iFkhxIYiVykExXFghgEyw1V9Qkc3kN1JjjEqOizEUYsX3I7wDgkdfkAiAhuas+iWk8/lEgscBlH2ODyehfmYk1gfZ7xg3DJrrd4NfHuyTtY1dna4kAH1iY63D6ZX+RnUX+nUKkHfa9I="
+                    "Authorization": `Bearer ${response.data.accessToken}`,
                 }
             })
             .then(response => {
                 setLyric(response.data.lyrics.lines)
             })
+            })
         })
-        .catch(error => {
-            console.error(error);
-        });
     }, [trackID]);
 
     useEffect(() => {
@@ -204,13 +199,18 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
 }
 
 function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingTrack}) {
-  const userId = 1
+  const user = localStorage.getItem('user')
+  const userJson = JSON.parse(user);
+  const userID = userJson.user_id;
+  const [expanded, setExpanded] = useState(false)
   const [saved, setSaved] = useState(false);
+  const [playlist, setPlaylist] = useState(false)
+  const [dataPlaylist, setDataPlaylist] = useState([])
 
     useEffect(() => {
         async function checkSaveStatus() {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/getLikedSongID?user_id=${userId}&track_id=${trackID}`);
+                const response = await axios.get(`http://127.0.0.1:8000/api/getLikedSongID?user_id=${userID}&track_id=${trackID}`);
                 if (response.data === "Yes") {
                     setSaved(true);
                 } else {
@@ -231,7 +231,7 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
   async function handleSave() {
     try {
         const data = {
-            user_id: 1,
+            user_id: userID,
             track_id: trackID
         };
         await axios.post('http://127.0.0.1:8000/api/saveLikedSong', data);
@@ -241,18 +241,33 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
     }
 }
 
-async function handleUnsave() {
-    try {
-        const data = {
-            user_id: 1,
-            track_id: trackID
-        };
-        await axios.get('http://127.0.0.1:8000/api/unsaveSong', { params: data });
-        setSaved(false); 
-    } catch (error) {
-        console.error('Error unfollowing artist:', error);
-    }
-}
+  async function handleUnsave() {
+      try {
+          const data = {
+              user_id: 1,
+              track_id: trackID
+          };
+          await axios.get('http://127.0.0.1:8000/api/unsaveSong', { params: data });
+          setSaved(false); 
+      } catch (error) {
+          console.error('Error unfollowing artist:', error);
+      }
+  }
+
+  function handleExpanded() {
+    setExpanded(!expanded);
+    setPlaylist(false)
+  }
+
+  function handlePlaylist() {
+    setPlaylist(!playlist)
+    axios.get(`http://127.0.0.1:8000/api/getAllPlaylist?user_id=${userID}`).then(response=> {setDataPlaylist(response.data)})
+  }
+
+  function addPlaylist(id) {
+    axios.post(`http://127.0.0.1:8000/api/addPlaylist?id=${id}&song_id=${data.id}`)
+  }
+
 
   return (
       <div className="flex flex-row justify-start gap-5 -mt-5">
@@ -281,9 +296,33 @@ async function handleUnsave() {
           </div>
           <div className="flex justify-center items-center">
               <button>
-                  <BsThreeDots className="text-[#EE5566] text-opacity-80 text-xl"/>
+                  <BsThreeDots onClick={handleExpanded} className="text-[#EE5566] text-opacity-80 text-xl"/>
               </button>
           </div>
+              <div>
+              {
+              expanded ?
+              <div className='bg-[#282828] py-2 px-4'>
+                <p onClick={handlePlaylist} className='text-white cursor-pointer'>Add to playlist</p>
+              </div>
+              :
+              ""
+              }
+              </div>
+
+            {
+              playlist ?
+                <div className='bg-[#282828] overflow-y-auto h-12 py-2 px-4'>
+                  {
+                    dataPlaylist.map(item => {
+                      return(
+                        <AddPlaylist title={item.title_playlist} id={item.id} trackID={trackID}/>
+                      )
+                    })
+                  }
+                </div>
+              : ""
+            }
       </div>
     );
 }

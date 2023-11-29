@@ -6,9 +6,10 @@ import axios from 'axios';
 import { Spotify } from '../../API/Credentials';
 
 import CatelogyCard from './CatelogyCard';
-import Loading from '../Loading/Loading'; 
+import Loading from '../Loading/Loading';
+import Headers from '../Header/Header';
 
-function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, setQueueID}) {
+function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
   const [data, setData] = useState([]);
   const [backgroundColor, setBackgroundColor] = useState('');
   const [preData, setPreData] = useState([]);
@@ -34,7 +35,6 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, se
           method: 'POST'
         });
 
-        // Gọi API Spotify ngay sau khi nhận được token
         const categoryResponse = await axios(`https://api.spotify.com/v1/browse/categories/${catelogyID}?country=VN`, {
           method: 'GET',
           headers: {
@@ -45,14 +45,16 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, se
         setPreData(categoryResponse.data);
         setImage(categoryResponse.data.icons[0].url)
 
-        // Gọi API Spotify ngay sau khi nhận được token
         const playlistsResponse = await axios(`https://api.spotify.com/v1/browse/categories/${catelogyID}/playlists?country=VN`, {
           method: 'GET',
           headers: {
             'Authorization': 'Bearer ' + tokenResponse.data.access_token
           }
         });
-        setData(playlistsResponse.data.playlists.items); // Lưu dữ liệu từ API vào state
+
+        const filteredCategoryData = playlistsResponse.data.playlists.items.filter(item => item !== null);  
+        console.log(filteredCategoryData)
+        setData(filteredCategoryData); // Lưu dữ liệu từ API vào state
         setLoading(false); // Set loading to false after data is fetched
       } catch (error) {
         console.error(error);
@@ -83,7 +85,6 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, se
     loadImage();
   }, [image]);
 
-
   if (loading) {
     return <div><Loading /></div>;
   }else{
@@ -93,28 +94,30 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum, se
   }
 
   return (
-    <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
-      <div className="flex flex-row items-center gap-5">
-        <img src={preData.icons[0].url} alt="Category Icon" className="rounded-lg ml-5 mt-5"></img>
-        <div>
-          <p className="font-normal text-base text-white">Catelogy</p>
-          <h1 className="text-7xl font-bold text-white">{preData.name}</h1>
+    <div>
+      <Headers bgColor={backgroundColor} />
+      <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
+        <div className="flex flex-row items-center gap-5">
+          <img src={preData.icons[0].url} alt="Category Icon" className="rounded-lg ml-5 mt-5"></img>
+          <div>
+            <p className="font-normal text-base text-white">Catelogy</p>
+            <h1 className="text-7xl font-bold text-white">{preData.name}</h1>
+          </div>
         </div>
-      </div>
-      <div className="w-full flex flex-row flex-wrap gap-5 gap-y-7 justify-center items-start pb-36 bg-opacity-30 bg-black pt-16">
-        {data.map(item => (
-        <CatelogyCard 
-            id={item.id}
-            name={item.name}
-            description={item.description}
-            image={item.images[0].url}
-            setPlayingTrack={setPlayingTrack}
-            setPlayingID={setPlayingID}
-            playingID={playingID}
-            setTrackInAlbum={setTrackInAlbum}
-            setQueueID={setQueueID}
-        />
-        ))}
+        <div className="w-full flex flex-row flex-wrap gap-5 gap-y-7 justify-center items-start pb-36 bg-opacity-30 bg-black pt-16">
+          {data.map(item => (
+          <CatelogyCard 
+              id={item.id}
+              name={item.name}
+              description={item.description}
+              image={item.images[0].url}
+              setPlayingTrack={setPlayingTrack}
+              setPlayingID={setPlayingID}
+              playingID={playingID}
+              setTrackInAlbum={setTrackInAlbum}
+          />
+          ))}
+        </div>
       </div>
     </div>
   );

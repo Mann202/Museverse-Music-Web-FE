@@ -31,7 +31,7 @@ const Search = ({setPlayingTrack, playingData, isPlaying, setPlay}) => {
         })
         .then(response => {
             setToken(response.data.access_token);
-            axios('https://api.spotify.com/v1/browse/categories?country=VN&offset=0&limit=50', {
+            axios('https://api.spotify.com/v1/browse/categories?country=VN&limit=50', {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + response.data.access_token

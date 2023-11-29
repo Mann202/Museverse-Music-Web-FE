@@ -136,11 +136,14 @@ function Artist() {
 
 function PlayButton({artistID}) {
     const [followed, setFollowed] = useState(false);
+    const user = localStorage.getItem('user')
+    const userJson = JSON.parse(user);
+    const userID = userJson.user_id;
 
     useEffect(() => {
         async function checkFollowStatus() {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/artistById?user_id=1&artist_id=${artistID}`);
+                const response = await axios.get(`http://127.0.0.1:8000/api/artistById?user_id=${userID}&artist_id=${artistID}`);
                 if (response.data === "Yes") {
                     setFollowed(true);
                 } else {
@@ -157,7 +160,7 @@ function PlayButton({artistID}) {
     async function handleClick() {
         try {
             const data = {
-                user_id: 1,
+                user_id: userID,
                 artist_id: artistID
             };
             await axios.post('http://127.0.0.1:8000/api/followArtist', data);

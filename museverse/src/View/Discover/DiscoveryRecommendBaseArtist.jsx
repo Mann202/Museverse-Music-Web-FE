@@ -7,6 +7,7 @@ function DiscoveryRecommendBaseArtist() {
     const [followArtistResults, setFollowArtistResults] = useState([]);
     const [artistInfor, setArtistInfor] = useState([]);
     const [loading, setLoading] = useState(true)
+    const [hide, setHide] = useState(false)
 
     const id = 1;
     const followArtist = [];
@@ -15,7 +16,7 @@ function DiscoveryRecommendBaseArtist() {
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic ' + btoa("ef4d33d381574fe6a24348327134a601" + ':' + "60ab81884d044aaf94ab2968f13fb602")
+                'Authorization': 'Basic ' + btoa(Spotify.ClientID + ':' + Spotify.ClientSecret)
             },
             data: 'grant_type=client_credentials',
             method: 'POST'
@@ -26,10 +27,14 @@ function DiscoveryRecommendBaseArtist() {
             
             axios.get(`http://127.0.0.1:8000/api/followArtist?id=${id}`)
                 .then(response => {
+                    followArtist.splice(0);
                     response.data.forEach(item => {
-                        followArtist.push(item.artirst_id);
+                        followArtist.push(item.artist_id);
                     });
-
+                    
+                    if(response.data.length < 3) {
+                        setHide(true)
+                    }
                     const artistPromises = followArtist.map(artistId => {
                         return axios(`https://api.spotify.com/v1/artists/${artistId}`, {
                             method: 'GET',
@@ -63,9 +68,9 @@ function DiscoveryRecommendBaseArtist() {
         })
     }, []);
 
-    console.log(followArtistResults)
 
     if(loading) return <Loading />
+    if(hide) return null;
     return (
         <div>
             <div>
@@ -82,9 +87,9 @@ function DiscoveryRecommendBaseArtist() {
                         {
                             followArtistResults.slice(0,5).map(item => {
                                 return (
-                                    <div className='w-48 h-46 bg-[#181818] hover:bg-[#282828] cursor-pointer pt-3 rounded-lg' >
+                                    <div className='h-76 w-48 bg-[#181818] hover:bg-[#282828] cursor-pointer pt-3 rounded-lg' >
                                         <div className='flex items-center justify-center'>
-                                            <img src={item.album.images[0].url} className=' rounded-xl w-40 h-44'></img>
+                                            <img src={item.album.images[0].url} className=' rounded-xl w-40 h-40'></img>
                                         </div>
                                         <div className='pt-3'>
                                             <div className="flex items-center justify-center flex-col pb-3">
@@ -114,9 +119,9 @@ function DiscoveryRecommendBaseArtist() {
                         {
                             followArtistResults.slice(5,10).map(item => {
                                 return (
-                                    <div className='w-48 h-46 bg-[#181818] hover:bg-[#282828] cursor-pointer pt-3 rounded-lg' >
+                                    <div className='h-76 w-48 bg-[#181818] hover:bg-[#282828] cursor-pointer pt-3 rounded-lg' >
                                         <div className='flex items-center justify-center'>
-                                            <img src={item.album.images[0].url} className=' rounded-xl w-40 h-44'></img>
+                                            <img src={item.album.images[0].url} className=' rounded-xl w-40 h-40'></img>
                                         </div>
                                         <div className='pt-3'>
                                             <div className="flex items-center justify-center flex-col pb-3">
@@ -146,9 +151,9 @@ function DiscoveryRecommendBaseArtist() {
                         {
                             followArtistResults.slice(10,15).map(item => {
                                 return (
-                                    <div className='w-48 h-46 bg-[#181818] hover:bg-[#282828] cursor-pointer pt-3 rounded-lg' >
+                                    <div className='h-76 w-48 bg-[#181818] hover:bg-[#282828] cursor-pointer pt-3 rounded-lg' >
                                         <div className='flex items-center justify-center'>
-                                            <img src={item.album.images[0].url} className=' rounded-xl w-40 h-44'></img>
+                                            <img src={item.album.images[0].url} className=' rounded-xl w-40 h-40'></img>
                                         </div>
                                         <div className='pt-3'>
                                             <div className="flex items-center justify-center flex-col pb-3">

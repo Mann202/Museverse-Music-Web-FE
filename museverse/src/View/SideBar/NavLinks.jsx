@@ -1,10 +1,12 @@
-import {NavLink} from 'react-router-dom'
+import {NavLink, useNavigate} from 'react-router-dom'
 import {BiRadio, BiSolidPlaylist} from 'react-icons/bi';
 import {IoIosAlbums} from 'react-icons/io'
 import  {BsMusicNoteBeamed } from 'react-icons/bs'
 import {GiMicrophone} from 'react-icons/gi'
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SideBarContext } from './SideBar';
+import { FaPlus } from "react-icons/fa6";
+import axios from 'axios';
 
 const links = [
     {name: "Mixes and Radio", to: "/mix&radio", icon: BiRadio},
@@ -20,18 +22,49 @@ const mainLinks = [
     {name: "History", to: "/history"},
 ]
 
-const albums = [
-    {content: "Mixes and Radio"},
-    {content: "September"},
-    {content: "Clubbing"},
-    {content: "Chil story 2"},
-    {content: "Playlist 342"},
-    {content: "Tracks"}
-] //Mẫu thôi, mốt get dữ liệu lên thì bỏ dô album này
-
 
 export default function NavLinks ({handleClick}) {
     const {expanded} = useContext(SideBarContext)
+    const user = localStorage.getItem('user')
+    const userJson = JSON.parse(user);
+    const userID = userJson.user_id;
+    const [playlist, setPlaylist] = useState([])
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/getAllPlaylist?user_id=${userID}`).then(
+            response => {
+                setPlaylist(response.data)
+            }
+        )
+    },[])
+
+    function handleAddplaylist() {
+
+        const user = localStorage.getItem('user')
+        const userJson = JSON.parse(user);
+        const userID = userJson.user_id;
+
+        let playlistID = 0
+        axios.get(`http://127.0.0.1:8000/api/getPlaylistID?user_id=${userID}`).then(response => {
+            if(response == undefined) {
+                playlistID = 1
+            } else {
+                playlistID = response.data.id
+            }
+            const title = "Your playlist"
+            axios.post(`http://127.0.0.1:8000/api/createPlaylist`, {
+                user_id : userID,
+                id: playlistID,
+                title: title
+            })
+        }).then(() =>
+            {
+                const path =`/user-playlist/${playlistID+1}`
+                navigate(path)
+            }
+        )
+    }
 
     return(
         <div className={`${expanded ? "" : ""}`}>
@@ -48,8 +81,10 @@ export default function NavLinks ({handleClick}) {
             ))}
 
 
-            <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Libary</h2>
-            
+            <div className='flex flex-row justify-between'>
+                <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Libary</h2>
+            </div>
+
             <div className="overflow-auto">
                 {links.map((item) => (
                 <NavLink
@@ -66,17 +101,22 @@ export default function NavLinks ({handleClick}) {
                 ))}
             </div>
 
-            <h2 className={`overflow-hidden transition-all text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Playlist</h2>
+            <div className='flex flex-row justify-between'>
+                <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Playlist</h2>
+                <button onClick={handleAddplaylist} className='text-[#EE5566] rounded-full p-1'>
+                    <FaPlus className='text-xl'/>
+                </button>
+            </div>
 
             <div className={`overflow-auto transition-all ${expanded ? "" : "visibility: hidden"}`}>
-                {albums.map((item) => (
+                {playlist.map((item) => (
                 <NavLink
-                    key={item.content}
-                    to={item.content}
+                    key={item.title_playlist}
+                    to={`/user-playlist/${item.id}`}
                     className="flex flex-row justify-start items-center rounded-md py-5 pr-8 pl-3 my-8 text-sm font-medium text-gray-100 hover:bg-[#EE5566] hover:bg-opacity-50"
                     onClick={() => handleClick && handleClick()}
                 >
-                    {item.content}
+                    {item.title_playlist}
                 </NavLink>
                 ))}
             </div>

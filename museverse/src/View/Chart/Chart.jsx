@@ -50,9 +50,9 @@ export default function Chart({setPlayingTrack}) {
                         return(
                             <CardChart img={item.track.album.images[0].url}
                                 id={item.track.id}
-                                name={item.track.album.name}
+                                name={item.track.name}
                                 uri={item.track.uri}
-                                artist={item.track.album.artists}
+                                artist={item.track.artists}
                                 duration_ms={item.track.duration_ms}
                                 setPlayingTrack={setPlayingTrack}
                             />

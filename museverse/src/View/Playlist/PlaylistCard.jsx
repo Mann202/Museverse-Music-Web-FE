@@ -66,7 +66,7 @@ function PlaylistCard({ id, index, name, album, date, duration, image, artist, c
                         </h3>
                         <div className='flex flex-row'>
                             {artist.map((item, index) => (
-                                <NavLink to={`/artist/${item.id}`} className={`text-sm text-white font-semibold hover:underline ${focus ? "text-opacity-100" : "text-opacity-50"}`} key={index}>
+                                <NavLink to={`/artist/${item?.id}`} className={`text-sm text-white font-semibold hover:underline ${focus ? "text-opacity-100" : "text-opacity-50"}`} key={index}>
                                     {item.name}{index !== artist.length - 1 ? `, ` : ''}
                                 </NavLink>
                             ))}

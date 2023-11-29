@@ -10,6 +10,12 @@ export default function CardChart({img, name, artist, duration_ms, uri, setPlayi
     function handleClick() {
         setPlayingTrack(uri)
     }
+
+    function handleLiked() {
+        const user = localStorage.getItem('user')
+        const userJson = JSON.parse(user);
+        const userID = userJson.user_id;
+    }
     
     return(
         <>
@@ -38,7 +44,7 @@ export default function CardChart({img, name, artist, duration_ms, uri, setPlayi
                     <p className="text-[#B1B1B1] font-medium text-sm">{convertMsToMinSec(duration_ms)}</p>
                 </div>
                 <div className="flex flex-row gap-5 mr-5 mt-2">
-                    <button className="rounded-full flex justify-center items-center w-10 h-10">
+                    <button onClick={handleLiked} className="rounded-full flex justify-center items-center w-10 h-10">
                         <AiOutlineHeart className={` text-3xl ${focus ? "text-white" : "text-transparent"}`}/>
                     </button>
                     <button onClick={handleClick} className="bg-[#EE5566] w-10 h-10 rounded-full flex justify-center items-center">

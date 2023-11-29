@@ -34,7 +34,6 @@ function Playlist({ setPlayingTrack, playingID, setPlayingID, setTrackInAlbum, s
     const ClientSecret = Spotify.ClientSecret;
 
     useEffect(() => {
-        // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -43,36 +42,29 @@ function Playlist({ setPlayingTrack, playingID, setPlayingID, setTrackInAlbum, s
             data: 'grant_type=client_credentials',
             method: 'POST'
         })
-            .then(response => {
-                setToken(response.data.access_token);
-                // Gọi API Spotify ngay sau khi nhận được token
-                axios(`https://api.spotify.com/v1/playlists/${playlistID}?market=VN`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': 'Bearer ' + response.data.access_token
-                    }
-                })
-                    .then(json => {
-                        setData(json.data.tracks.items)
-                        setLoading(false)
-                        setName(json.data.name)
-                        setDescription(json.data.description)
-                        setImage(json.data.images[0].url)
-                        setTotalTrack(json.data.tracks.total)
-                        const totalFollower = json.data.followers.total
-                        const format = formatNumber(totalFollower)
-                        setFollower(format)
-                        data.forEach((item) => {
-                            time += item.track.duration_ms
-                        })
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+        .then(response => {
+            setToken(response.data.access_token);
+            axios(`https://api.spotify.com/v1/playlists/${playlistID}?market=VN`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + response.data.access_token
+                }
+            })
+            .then(json => {
+                setData(json.data.tracks.items) 
+                setLoading(false)
+                setName(json.data.name)
+                setDescription(json.data.description)
+                setImage(json.data.images[0].url)
+                setTotalTrack(json.data.tracks.total)
+                const totalFollower = json.data.followers.total
+                const format = formatNumber(totalFollower)
+                setFollower(format)
             })
             .catch(error => {
                 console.error(error);
             });
+        })
     }, [setToken, setData]);
 
     useEffect(() => {
