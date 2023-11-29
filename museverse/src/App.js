@@ -32,9 +32,9 @@ import Lyric from "./View/Lyric/Lyric";
 import Queue from "./View/Queue/Queue";
 import LikedTrack from "./View/LikedTrack/LikedTrack";
 import axios from "axios";
-import SoldAlbum from "./View/SoldAlbum/SoldAlbum";
 import Cookies from "js-cookie";
 import UserPlaylist from "./View/UserPlaylist/UserPlaylist";
+import SoldAlbum from "./View/SoldAlbum/SoldAlbum";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -77,7 +77,7 @@ function App() {
   }
 
   useEffect(() => {
-    if (playingData.length!=0 && playingData.id !== "" && userID != 0) {
+    if (playingData.length != 0 && playingData.id !== "") {
       axios.post(`http://127.0.0.1:8000/api/history`, {
         user_id: userID,
         track: playingData.id
@@ -118,15 +118,18 @@ function App() {
                 <Route path="/queue/" element={<Queue setIDs={setIDs} ids={ids} queue={queue} next={next} setNext={setNext} playingData={playingData} playingTrack={playingTrack} setQueue={setQueue} setPlayingTrack={setPlayingTrack} device={device}/>} />
                 <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}/>} />
                 <Route path="/user-playlist/:playlistID" element={<UserPlaylist />} />
+                <Route path="/albums/"element={<SoldAlbum/>}/>
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/albums/"element={<SoldAlbum/>}/>
             </Routes>
           </div>
         </div>
-        <div className="fixed bottom-0 w-full">
-            <Play setStatus={setStatus} setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying}/>
-        </div>
+    <div className="relative flex">
+      <div className="fixed bottom-0 w-full">
+        <Play setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying} />
       </div>
+    </div>
+    </div>
   );
 }
 
