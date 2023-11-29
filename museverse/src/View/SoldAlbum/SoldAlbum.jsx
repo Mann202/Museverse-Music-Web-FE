@@ -38,7 +38,7 @@ const SoldAlbum = () => {
     if (!load) return <Loading />;
 
     return (
-        <div className='text-white'>
+        <div className='h-screen overflow-y-scroll'>
             <Headers />
             <div className='flex justify-between w-full h-[10%] mt-3 items-center'>
                 <div className='text-[#EE5566] ml-5'>Albums</div>
@@ -56,7 +56,7 @@ const SoldAlbum = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex gap-5 flex-wrap ml-5 mt-4 w-full'>
+            <div className='flex gap-5 flex-wrap w-full justify-center'>
                 {data.map((item, index) => (
                     <SoldAlbumCard
                         key={index}

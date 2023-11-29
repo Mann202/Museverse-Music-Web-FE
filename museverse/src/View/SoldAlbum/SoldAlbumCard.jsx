@@ -5,7 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const SoldAlbumCard = ({imgURL, album_physi_id, name, type, user_id, artist_id, min_price, max_price, description, key}) => {
     return (
-        <div className='flex flex-col overflow-y-scroll h-screen'>
+        <div className='flex flex-col hover:bg-[#131313] p-2'>
             <img className='w-[255px] h-[257px] rounded-md' src={imgURL} alt="album image" ></img>
             <div className='flex justify-between mt-3 text-[#EE5566] items-center'>
                 <div className='flex '>

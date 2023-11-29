@@ -50,7 +50,7 @@ const AllNewReleases = () => {
         return <Loading/>
 
     return (
-        <div className="h-screen overflow-y-scroll flex flex-col w-full bg-[#171719]">
+        <div className="h-screen overflow-y-scroll flex flex-col w-full bg-[#171719] ">
             <Headers bgColor={'#171719'}/>            
             <div className="flex flex-row gap-5 ml-5 mt-5">
                 <p className='text-[#EE5566] font-bold text-xl'>Hand-picked new releases</p>
