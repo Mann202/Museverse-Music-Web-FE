@@ -47,7 +47,11 @@ export default function NavLinks ({handleClick}) {
 
         let playlistID = 0
         axios.get(`http://127.0.0.1:8000/api/getPlaylistID?user_id=${userID}`).then(response => {
-            playlistID = response.data.playlist_id
+            if(response == undefined) {
+                playlistID = 1
+            } else {
+                playlistID = response.data.id
+            }
             const title = "Your playlist"
             axios.post(`http://127.0.0.1:8000/api/createPlaylist`, {
                 user_id : userID,
@@ -79,9 +83,6 @@ export default function NavLinks ({handleClick}) {
 
             <div className='flex flex-row justify-between'>
                 <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Libary</h2>
-                <button onClick={handleAddplaylist} className='hover:bg-[#EE5566] rounded-full p-1'>
-                    <FaPlus className='text-xl'/>
-                </button>
             </div>
 
             <div className="overflow-auto">
@@ -100,7 +101,12 @@ export default function NavLinks ({handleClick}) {
                 ))}
             </div>
 
-            <h2 className={`overflow-hidden transition-all text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Playlist</h2>
+            <div className='flex flex-row justify-between'>
+                <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Playlist</h2>
+                <button onClick={handleAddplaylist} className='text-[#EE5566] rounded-full p-1'>
+                    <FaPlus className='text-xl'/>
+                </button>
+            </div>
 
             <div className={`overflow-auto transition-all ${expanded ? "" : "visibility: hidden"}`}>
                 {playlist.map((item) => (

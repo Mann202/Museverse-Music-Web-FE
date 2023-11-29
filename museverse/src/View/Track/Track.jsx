@@ -16,6 +16,7 @@ import RelatedArtistTrack from './RelatedArtistTrack';
 import TopTrackAnother from './TopTrackAnother';
 import ListAlbumHaveTrack from './ListAlbumHaveTrack';
 import Cookies from 'js-cookie';
+import AddPlaylist from './AddPlaylist';
 
 function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     const [data,setData] = useState([])
@@ -267,6 +268,7 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
     axios.post(`http://127.0.0.1:8000/api/addPlaylist?id=${id}&song_id=${data.id}`)
   }
 
+
   return (
       <div className="flex flex-row justify-start gap-5 -mt-5">
           {
@@ -314,7 +316,7 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
                   {
                     dataPlaylist.map(item => {
                       return(
-                        <p onClick={() => addPlaylist(item.id)} className='text-white cursor-pointer'>{item.title_playlist}</p>
+                        <AddPlaylist title={item.title_playlist} id={item.id} trackID={trackID}/>
                       )
                     })
                   }
