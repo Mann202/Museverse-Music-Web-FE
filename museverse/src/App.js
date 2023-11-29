@@ -32,6 +32,7 @@ import Lyric from "./View/Lyric/Lyric";
 import Queue from "./View/Queue/Queue";
 import LikedTrack from "./View/LikedTrack/LikedTrack";
 import axios from "axios";
+import SoldAlbum from "./View/SoldAlbum/SoldAlbum";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -88,6 +89,7 @@ function App() {
             <Route path="/track/:trackID/lyric" element={<Lyric setProgressMs={setProgressMs} isPlaying={isPlaying} progressMs={progressMs} device={device} />} />
             <Route path="/queue/" element={<Queue queueID={queueID} />} />
             <Route path="/likedTracks/" element={<LikedTrack setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} />} />
+            <Route path="/albums/"element={<SoldAlbum/>}/>
           </Routes>
         </div>
       </div>
