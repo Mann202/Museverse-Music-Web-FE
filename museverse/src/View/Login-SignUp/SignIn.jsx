@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import bgImage from '../../assets/bg-image.png'
 import logo_txt from '../../assets/logo_txt.png'
 import UsePasswordToggle from './UsePasswordToggle';
@@ -10,13 +10,15 @@ import { LoggedContext } from './LoggedContext';
 import axios from 'axios';
 const SignIn = () => {
     const { logged, setLogged } = useContext(LoggedContext);
-
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-
-
     const [PasswordInputType, ToggleIcon, change] = UsePasswordToggle();
+
+    useEffect(()=>{
+        if(logged) navigate('/');
+    })
+
     const login = useGoogleLogin({
         onSuccess: async (response) => {
             try {

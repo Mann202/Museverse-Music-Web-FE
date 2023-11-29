@@ -87,6 +87,10 @@ function Catelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
 
   if (loading) {
     return <div><Loading /></div>;
+  }else{
+    console.log("cate data",data);
+    console.log("cate predata",preData);
+
   }
 
   return (

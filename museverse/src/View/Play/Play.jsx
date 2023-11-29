@@ -48,6 +48,32 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
   useEffect(()=>{
       setFlag(true)
   }, [isPlay])
+  // const checkLogged = (async () => {
+  //   if (!localStorage.getItem('user')) {
+  //     // setLogged(false);
+  //     console.log("chua dang nhap");
+  //   } 
+  //   else {
+  //     const user = JSON.parse(localStorage.getItem('user'));
+  //     console.log("user", user.user_id);
+  //     let result = await fetch("http://localhost:8000/api/checkrole", {
+  //       method: 'POST',
+  //       body: JSON.stringify(user),
+  //       headers: {
+  //         "Content-Type": 'application/json',
+  //         "Accept": 'application/json'
+  //       }
+  //     })
+  //     result = await result.json()
+  //     console.log("result", result.role_id);
+  //     if (result.role_id == 3) //checkrole
+  //     {
+  //       // setLogged(false);
+  //     }
+  //   }
+
+  // })
+  // checkLogged();
 
   useEffect(() => {
     if (location.pathname === '/signin' || location.pathname === '/signup') {
