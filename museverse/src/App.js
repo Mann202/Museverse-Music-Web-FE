@@ -120,6 +120,7 @@ function App() {
                 <Route path="/user-playlist/:playlistID" element={<UserPlaylist />} />
                 <Route path="/albums/"element={<SoldAlbum/>}/>
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
+                <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>
