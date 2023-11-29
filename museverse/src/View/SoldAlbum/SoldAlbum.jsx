@@ -56,7 +56,7 @@ const SoldAlbum = () => {
                     </div>
                 </div>
             </div>
-            <div className='flex gap-5 flex-wrap w-full justify-center'>
+            <div className='flex gap-5 flex-wrap w-full justify-center mb-5'>
                 {data.map((item, index) => (
                     <SoldAlbumCard
                         key={index}

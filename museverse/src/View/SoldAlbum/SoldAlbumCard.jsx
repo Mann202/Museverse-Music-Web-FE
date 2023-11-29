@@ -5,7 +5,7 @@ import { FaShoppingCart } from "react-icons/fa";
 
 const SoldAlbumCard = ({imgURL, album_physi_id, name, type, user_id, artist_id, min_price, max_price, description, key}) => {
     return (
-        <div className='flex flex-col hover:bg-[#131313] p-2'>
+        <div className='flex flex-col bg-[#181818] hover:bg-[#282828] p-4 text-white rounded-lg cursor-pointer'>
             <img className='w-[255px] h-[257px] rounded-md' src={imgURL} alt="album image" ></img>
             <div className='flex justify-between mt-3 text-[#EE5566] items-center'>
                 <div className='flex '>
@@ -21,9 +21,9 @@ const SoldAlbumCard = ({imgURL, album_physi_id, name, type, user_id, artist_id, 
             <div className='text-[#EE5566] flex justify-between items-center'>
                 <div className='flex flex-col'>
                     <div className='text-gray-500 line-through'>$400</div>
-                    <div className='text-lg font-semibold leading-[25.20px]'>{(min_price === max_price) ? min_price : {min_price}-{max_price}}</div>
+                    <div className='text-lg font-semibold leading-[25.20px]'>{(min_price === max_price) ? min_price : `${min_price}-${max_price}`}</div>
                 </div>
-                <div className="w-[98px] h-[29px] px-5 py-2 rounded-[50px] border-2 border-rose-500 justify-start items-center gap-2.5 inline-flex">
+                <div className="w-[98px] h-[29px] px-5 py-2 rounded-[50px] border-2 border-rose-500 justify-start items-center gap-2.5 inline-flex hover:bg-[#404040]">
                     <FaShoppingCart className='text-xl font-semibold' />
                     Add
                 </div>
