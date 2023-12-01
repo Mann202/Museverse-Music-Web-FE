@@ -32,9 +32,15 @@ import Lyric from "./View/Lyric/Lyric";
 import Queue from "./View/Queue/Queue";
 import LikedTrack from "./View/LikedTrack/LikedTrack";
 import axios from "axios";
-import Cookies from "js-cookie";
 import UserPlaylist from "./View/UserPlaylist/UserPlaylist";
 import SoldAlbum from "./View/SoldAlbum/SoldAlbum";
+import SideBarForAdmin from "./View/SideBar/SideBarForAdmin";
+import Dashboard from "./View/Admin/Dashboard/Dashboard";
+import Distributor from "./View/Admin/DistributorsManagement/Distributor";
+import Users from "./View/Admin/UsersManagement/Users";
+import Report from "./View/Admin/Report/Report";
+import NewDistributor from "./View/Admin/DistributorsManagement/NewDistributor";
+import NewUser from "./View/Admin/UsersManagement/NewUser";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -84,13 +90,29 @@ function App() {
       })
     }
   }, [playingData, userID]);
+  const accType = 3
 
   return (
       <div className="relative flex">
-          {logged ? <SideBar /> : ""}
+          {logged ? 
+          (accType === 3) ? 
+          <SideBarForAdmin /> :
+          <SideBar /> 
+          : ""}
         <div className="flex-1 flex flex-col bg-black">
           <div className="flex-1 pb-40">
-            <Routes>
+            {
+              (accType == 3) ?
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/distributors" element={<Distributor />} />
+                <Route path="/distributors/NewDistributor" element={<NewDistributor />} />
+                <Route path="/users" element={<Users />} />
+                <Route path="/users/NewUser" element={<NewUser />} />
+                <Route path="/report" element={<Report />} />
+              </Routes>
+              :
+              <Routes>
                 <Route path="/" element={<Discover />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
@@ -122,6 +144,7 @@ function App() {
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
                 <Route path="/profile" element={<Profile />} />
             </Routes>
+            }
           </div>
         </div>
     <div className="relative flex">
