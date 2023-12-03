@@ -21,9 +21,39 @@ const initialData = {
   month: "",
   year: "",
   country: "",
+  first_name: '',
+  last_name: '',
+  contact_number: ''
 };
 
+// Func get data
 function ProfileEditor(props) {
+  let user = {};
+  try {
+    user = JSON.parse(localStorage.getItem('user'));
+  } catch (e) {
+    console.log('error parse theme setting data', e);
+  }
+
+  initialData.email = user?.email_address || '';
+  initialData.first_name = user?.first_name || '';
+  initialData.last_name = user?.last_name || '';
+  initialData.contact_number = user?.contact_number || '';
+  if (user?.date_of_birth) {
+    const dateParts = user?.date_of_birth.split("-");
+
+// Tạo đối tượng Date từ các phần tử cắt được
+    const date = new Date(dateParts[0], parseInt(dateParts[1]) - 1, dateParts[2]);
+
+// Lấy các phần riêng biệt
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Tháng trong JS bắt đầu từ 0, nên cần cộng 1
+    const year = date.getFullYear();
+    initialData.day = day;
+    initialData.month = month;
+    initialData.year = year;
+  }
+
   const [formData, setFormData] = useState(initialData);
 
   const [validates, setValidates] = useState(initialData);
@@ -33,24 +63,61 @@ function ProfileEditor(props) {
     setFormData({ ...formData, [name]: value });
     setValidates(initialData);
   };
+
   const validateEmail = (input) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     return regex.test(input);
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateEmail(formData.email)) {
-      const msgError =
-        formData.email.trim() === ""
-          ? "Vui lòng nhập địa chỉ email"
-          : "Email không đúng dữ liệu";
-      setValidates((prev) => ({ ...prev, email: msgError }));
+    const dateOfBirth = handleParseDate();
+    let result = await fetch(`http://localhost:8000/api/user/${user.user_id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        contact_number: formData.contact_number,
+        date_of_birth: dateOfBirth,
+      }),
+      headers: {
+        "Content-Type": 'application/json',
+        "Accept": 'application/json'
+      }
+    })
+
+    if (!result.ok) {
+      alert("Không thành công");
+      return;
+    }
+
+    result = await result.json();
+    
+    if (result) {
+      console.log('user', user)
+      user.first_name = formData.first_name;
+      user.last_name = formData.last_name;
+      user.contact_number = formData.contact_number;
+      user.date_of_birth = dateOfBirth;
+
+      localStorage.setItem('user', JSON.stringify(user));
+      alert(result)
     }
   };
+
+  const handleParseDate = ()  =>{
+    if (!formData.day || !formData.month || !formData.year) {
+      return;
+    }
+
+    return formData.year + '-' + formData.month + '-' + formData.day;
+  }
+  
   const handleReset = () => {
     setFormData(initialData);
     setValidates(initialData);
   };
+
 
   return (
     <div className="h-screen overflow-y-scroll pb-48">
@@ -59,12 +126,53 @@ function ProfileEditor(props) {
       <div className="md:w-7/12 w-12/12 mx-auto">
         <div className="shadow-md rounded">
           <h1 className="mb-10 text-5xl font-semibold">Chỉnh sửa hồ sơ</h1>
+
           <div className="mb-4">
-            <div className="block text-sm font-semibold mb-1">
-              Tên người dùng
-            </div>
-            <div>Người dùng </div>
+            <label className="block text-sm font-semibold mb-2" htmlFor="last_name">
+              First name
+            </label>
+            <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-transparent"
+                type="text"
+                name="last_name"
+                id="email"
+                placeholder="Last name"
+                value={formData.last_name}
+                onChange={handleChange}
+            />
           </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-semibold mb-2" htmlFor="first_name">
+              Last name
+            </label>
+            <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-transparent"
+                type="text"
+                name="first_name"
+                id="email"
+                placeholder="demo"
+                value={formData.first_name}
+                onChange={handleChange}
+            />
+          </div>
+
+          {/* Số đt */}
+          <div className="mb-4">
+            <label className="block text-sm font-semibold mb-2" htmlFor="first_name">
+              Contact number
+            </label>
+            <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-transparent"
+                type="text"
+                name="contact_number"
+                // id="email"
+                placeholder="PhoneNum"
+                value={formData.contact_number}
+                onChange={handleChange}
+            />
+          </div>
+
           <div className="mb-4">
             <label className="block text-sm font-semibold mb-2" htmlFor="email">
               Email
@@ -75,13 +183,12 @@ function ProfileEditor(props) {
               name="email"
               id="email"
               placeholder="email@gmail.com"
+              disabled={true}
               value={formData.email}
               onChange={handleChange}
             />
-            {validates.email && (
-              <small className="text-red-500">{validates.email}</small>
-            )}
           </div>
+
           <div className="mb-4">
             <label
               className="block text-sm font-semibold mb-2"
@@ -182,7 +289,7 @@ function ProfileEditor(props) {
                 className="form-tick appearance-none h-4 w-4 border border-gray-300 rounded-md checked:bg-[#EE5566] checked:border-transparent focus:outline-none "
               />
               <small className="font-medium">
-                Accept our tern and condition 
+                Accept our tern and condition
               </small>
             </label>
           </div>

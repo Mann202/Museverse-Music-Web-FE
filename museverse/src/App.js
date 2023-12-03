@@ -128,6 +128,7 @@ function App() {
                 <Route path="/shoppingcart/"element={<ShoppingCart/>}/>
                 <Route path="/shoppingcart/checkout/"element={<CheckOut/>}/>
 
+                <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>
