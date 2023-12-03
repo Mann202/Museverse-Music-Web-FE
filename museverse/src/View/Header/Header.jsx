@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
 import { IoIosNotifications } from 'react-icons/io'
 import { MdNotificationsActive } from 'react-icons/md'
+import { FaBagShopping } from "react-icons/fa6";
 
 import SearchBar from './HeaderSearchBar'
 import Notification from './Notification/Notification'
@@ -25,12 +26,12 @@ export default function Headers({ bgColor }) {
 export function LoggedHeader({ bgColor, showHello }) {
 
     const [logged, setLogged] = useState('');
-    useEffect(()=>{
-        if(!localStorage.getItem('user'))
-          setLogged(false);
+    useEffect(() => {
+        if (!localStorage.getItem('user'))
+            setLogged(false);
         else
-        setLogged(true);
-      })
+            setLogged(true);
+    })
     const [notification, setNotification] = useState(false)
     const [dropdownMenu, setDropdownMenu] = useState(false)
     const [data, setData] = useState([])
@@ -87,8 +88,12 @@ export function LoggedHeader({ bgColor, showHello }) {
                 </div>
 
                 <div className="flex gap-4 mr-4 justify-center items-center">
+                    <div onClick={()=>navigate('/albums')} class="w-36 h-10 bg-[#EE5566] rounded-xl flex items-center justify-center gap-2 text-white font-bold cursor-pointer select-none hover:bg-[#ed4559]">
+                        <FaBagShopping />
+                        <div class="">Explore Store</div>
+                    </div>
                     <SearchBar />
-                    {logged ?                        
+                    {logged ?
                         <div className="flex flex-row-reverse items-center bg-transparent h-16 gap-2">
                             <button onClick={HandleClickDropdown}>
                                 <img src={avatar} className='rounded-full w-10 h-10' alt="Museverse"></img>
@@ -100,10 +105,10 @@ export function LoggedHeader({ bgColor, showHello }) {
                         :
                         <div className="flex flex-row-reverse items-start align-middle bg-transparent h-16">
                             <div className="flex items-center h-full gap-2">
-                                <button className='rounded-full text-gray-400 text-lg font-medium py-2 px-12 hover:text-white hover:font-bold bg-black' onClick={()=>{navigate('/signup');}}>
+                                <button className='rounded-full text-gray-400 text-lg font-medium py-2 px-12 hover:text-white hover:font-bold bg-black' onClick={() => { navigate('/signup'); }}>
                                     Sign up
                                 </button>
-                                <button className='rounded-full bg-white text-stone-950 text-lg font-medium py-2 px-12 hover:font-bold' onClick={()=>{navigate('/signin');}}>
+                                <button className='rounded-full bg-white text-stone-950 text-lg font-medium py-2 px-12 hover:font-bold' onClick={() => { navigate('/signin'); }}>
                                     Log in
                                 </button>
                             </div>
