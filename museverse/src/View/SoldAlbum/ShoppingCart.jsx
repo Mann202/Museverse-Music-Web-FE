@@ -98,18 +98,23 @@ const ShoppingCart = () => {
     deleteData();
   };
   const handleCheckout = () => {
-    sessionStorage.removeItem('cart');
+    if (selectedItems.length == 0) {
+      window.alert('Choose at least 1 product');
+    } else {
+      sessionStorage.removeItem('cart');
 
-    data.map((item, index) => {
-      item.num = values[index];
-      item.total_money = values[index] * item.price;
+      data.map((item, index) => {
+        item.num = values[index];
+        item.total_money = values[index] * item.price;
 
-    })
-    const newData = data.filter((item) => selectedItems.includes(item.detail_id));
-    // console.log("cart",newData);
-    const cart = sessionStorage.setItem('cart', JSON.stringify(newData));
-    console.log(cart);
-    navigate('/shoppingcart/checkout');
+      })
+      const newData = data.filter((item) => selectedItems.includes(item.detail_id));
+      // console.log("cart",newData);
+      const cart = sessionStorage.setItem('cart', JSON.stringify(newData));
+      console.log(cart);
+      navigate('/shoppingcart/checkout');
+    }
+
   }
   useEffect(() => {
     const fetchData = async () => {

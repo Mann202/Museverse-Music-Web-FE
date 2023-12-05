@@ -6,6 +6,7 @@ import { FaShoppingCart } from 'react-icons/fa'
 import visa from '../../assets/visa.jpg'
 import credit2 from '../../assets/credit2.png'
 import group3707 from '../../assets/group-3707.svg'
+import axios from 'axios'
 
 
 const CheckOut = () => {
@@ -20,6 +21,12 @@ const CheckOut = () => {
     const [cont, setCont] = useState(false);
     const [contNum, setContNum] = useState(0);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [cities, setCities] = useState([]);
+    const [selectedCity, setSelectedCity] = useState('');
+    const [districts, setDistricts] = useState([]);
+    const [selectedDistrict, setSelectedDistrict] = useState('');
+    const [wards, setWards] = useState([]);
+    const [selectedWard, setSelectedWard] = useState('');
     const handleItemToggle = (item) => {
         setSelectedItem(item);
     };
@@ -27,7 +34,7 @@ const CheckOut = () => {
 
     const navigate = useNavigate();
     const [check, setCheck] = useState(false);
-    
+
     const handleCheck = () => {
         if (check)
             setCheck(false)
@@ -47,19 +54,34 @@ const CheckOut = () => {
     }, [data]);
     const clickCont = () => {
         if (!cont && contNum === 0) {
-            setCont(true);
-            setContNum(1);
+            if (selectedCity == '')
+                window.alert('Choose city');
+            else if (selectedDistrict == '')
+                window.alert('Choose district');
+            else if (selectedWard == '')
+                window.alert('Choose ward');
+            else {
+                setCont(true);
+                setContNum(1);
+            }
+
         } else {
             //thanh toan , luu vao databse
             if (contNum === 1) {
                 if (selectedItem == null)
                     window.alert('Choose payment methods')
                 else {
+
                     //Luu vao database
                     const fetchData = async () => {
                         try {
                             const user = JSON.parse(localStorage.getItem('user'));
-                            let item = { cust_id: user.user_id, first_name: fname, last_name: lname, email_address: email, contact_number: phone, address: address, note: note, total_final: total, details: data };
+                            let city = cities.filter((city) => city.Id == selectedCity);
+                            let district = districts.filter((city) => city.Id == selectedDistrict);
+                            let ward = wards.filter((city) => city.Id == selectedWard);
+
+                            let FullAddress = address + ', ' + city[0].Name + ', ' + district[0].Name + ', ' + ward[0].Name;
+                            let item = { cust_id: user.user_id, first_name: fname, last_name: lname, email_address: email, contact_number: phone, address: FullAddress, note: note, total_final: total, details: data };
                             const response = await fetch("http://localhost:8000/api/pay", {
                                 method: 'POST',
                                 body: JSON.stringify(item),
@@ -76,7 +98,7 @@ const CheckOut = () => {
                                 } else {
                                     console.log('messs', result)
                                     window.alert('Order successfully');
-                                    
+
                                     navigate('/albums');
                                 }
                             } else {
@@ -98,6 +120,51 @@ const CheckOut = () => {
             setContNum(0);
         }
     }
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(
+                    'https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json'
+                );
+                const data = response.data;
+                setCities(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const handleCityChange = (e) => {
+        const selectedCity = e.target.value;
+        setSelectedCity(selectedCity);
+        setSelectedDistrict('');
+        setSelectedWard('');
+
+        // Filter districts based on selected city
+        const filteredDistricts = cities.find((city) => city.Id === selectedCity)?.Districts || [];
+        setDistricts(filteredDistricts);
+    };
+
+    const handleDistrictChange = (e) => {
+        const selectedDistrict = e.target.value;
+        setSelectedDistrict(selectedDistrict);
+        setSelectedWard('');
+
+        // Filter wards based on selected district
+        const filteredWards =
+            districts.find((district) => district.Id === selectedDistrict)?.Wards || [];
+        setWards(filteredWards);
+    };
+
+    const handleWardChange = (e) => {
+        const selectedWard = e.target.value;
+        setSelectedWard(selectedWard);
+    };
+
     return (
         <div className='h-screen overflow-y-scroll'>
             <Headers />
@@ -204,9 +271,68 @@ const CheckOut = () => {
                                     <div class="text-white text-[15px] font-medium">Address</div>
                                     <input type="text" className='w-full h-[42px] px-3 py-[9px] bg-white rounded border' placeholder='Your address' onChange={(e) => { setaddress(e.target.value) }} />
                                 </div>
-                                <div className='flex flex-col w-full'>
-                                    <div class="text-white text-[15px] font-medium">Note</div>
-                                    <input type="text" className='w-full h-[42px] px-3 py-[9px] bg-white rounded border' placeholder='' onChange={(e) => { setaddress(e.target.value) }} />
+                                <div className='flex gap-4'>
+                                    <div className='flex flex-col w-1/2'>
+                                        <div class="text-white text-[15px] font-medium">Province/City</div>
+                                        <select
+                                            className="px-3 py-[9px] bg-white rounded border"
+                                            value={selectedCity}
+                                            onChange={handleCityChange}
+                                        >
+                                            <option value="" disabled>
+                                                Choose Province/City
+                                            </option>
+                                            {cities.map((city) => (
+                                                <option key={city.Id} value={city.Id}>
+                                                    {city.Name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className='flex flex-col w-1/2'>
+                                        <div class="text-white text-[15px] font-medium">District</div>
+                                        <select
+                                            className="px-3 py-[9px] bg-white rounded border"
+                                            value={selectedDistrict}
+                                            onChange={handleDistrictChange}
+                                            disabled={!selectedCity}
+                                        >
+                                            <option value="" disabled>
+                                                Choose District
+                                            </option>
+                                            {districts.map((district) => (
+                                                <option key={district.Id} value={district.Id}>
+                                                    {district.Name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className='flex gap-4'>
+                                    <div className='flex flex-col w-1/2'>
+                                        <div class="text-white text-[15px] font-medium">Ward/Commune</div>
+                                        <select
+                                            className="px-3 py-[9px] bg-white rounded border"
+                                            value={selectedWard}
+                                            onChange={handleWardChange}
+                                            disabled={!selectedDistrict}
+                                        >
+                                            <option value="" disabled>
+                                                Choose Ward/Commune
+                                            </option>
+                                            {wards.map((ward) => (
+                                                <option key={ward.Id} value={ward.Id}>
+                                                    {ward.Name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className='flex flex-col w-1/2'>
+                                        <div class="text-white text-[15px] font-medium">Note</div>
+                                        <input type="text" className='px-3 py-[9px] bg-white rounded border' placeholder='' onChange={(e) => { setaddress(e.target.value) }} />
+                                    </div>
+                                </div>
+                                <div>
                                 </div>
                                 <div className='flex gap-2 text-white text-sm font-normal items-center' >
                                     <div className='mt-1 text-[#EE5566]' onClick={handleCheck}>{check ? <MdCheckBox /> : <MdCheckBoxOutlineBlank />}</div>
