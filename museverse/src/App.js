@@ -41,6 +41,11 @@ import Users from "./View/Admin/UsersManagement/Users";
 import Report from "./View/Admin/Report/Report";
 import NewDistributor from "./View/Admin/DistributorsManagement/NewDistributor";
 import NewUser from "./View/Admin/UsersManagement/NewUser";
+import StoreDistributor from './View/Distributor/Store/StoreDistributor';
+import OrdersDistributor from './View/Distributor/OrdersDistributor/OrdersDistributor';
+import ReportDistributor from './View/Distributor/ReportDistributor/ReportDistributor';
+import SideBarForDistributor from './View/SideBar/SideBarForDistributor';
+import NewProduct from "./View/Distributor/Store/NewProduct";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -71,7 +76,6 @@ function App() {
   const { logged } = useContext(LoggedContext)
   const [progressMs, setProgressMs] = useState(0) //Luu vao thoi gian nghe nhac
   const [device, setDevice] = useState('')
-  const [repeat, isRepeat] = useState('')
   const [ids, setIDs] = useState([])
 
   let userID = 0
@@ -96,10 +100,10 @@ function App() {
   return (
       <div className="relative flex">
           {logged ? 
-          (accType === 3) ? 
-          <SideBarForAdmin /> :
-          <SideBar /> 
-          : ""}
+            (accType === 3 ? <SideBarForAdmin /> :
+            accType === 4 ? <SideBarForDistributor /> :
+            <SideBar />)
+            : null}
         <div className="flex-1 flex flex-col bg-black">
           <div className="flex-1 pb-40">
             {
@@ -111,6 +115,14 @@ function App() {
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/NewUser" element={<NewUser />} />
                 <Route path="/report" element={<Report />} />
+              </Routes>
+              :
+              (accType == 4) ?
+              <Routes>
+                <Route path="/" element={<StoreDistributor />} />
+                <Route path="/orders" element={<OrdersDistributor />} />
+                <Route path="/report" element={<ReportDistributor />} />
+                <Route path="/newProduct" element={<NewProduct />} />
               </Routes>
               :
               <Routes>
