@@ -46,6 +46,7 @@ import OrdersDistributor from './View/Distributor/OrdersDistributor/OrdersDistri
 import ReportDistributor from './View/Distributor/ReportDistributor/ReportDistributor';
 import SideBarForDistributor from './View/SideBar/SideBarForDistributor';
 import NewProduct from "./View/Distributor/Store/NewProduct";
+import EditProduct from "./View/Distributor/Store/EditProduct";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -123,6 +124,7 @@ function App() {
                 <Route path="/orders" element={<OrdersDistributor />} />
                 <Route path="/report" element={<ReportDistributor />} />
                 <Route path="/newProduct" element={<NewProduct />} />
+                <Route path="/editProduct/:newProductID" element={<EditProduct />} />
               </Routes>
               :
               <Routes>

@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Headers from '../../Header/Header';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const schema = yup.object().shape({
-    album_name: yup.string().min(32, 'Album name must be at least 32 characters').required('Album name is required'),
+    album_name: yup.string().min(15, 'Album name must be at least 15 characters').required('Album name is required'),
     type: yup.string().oneOf(['Băng Cassette', 'Đĩa CD', 'Đĩa Than']).required('Type is required'),
     quantity: yup.number().positive('Quantity must be greater than 0').required('Quantity is required'),
     min_price: yup.number().positive('Min price must be greater than 0').required('Min price is required'),
     max_price: yup.number()
       .positive('Max price must be greater than 0')
-      .moreThan(yup.ref('min_price'), 'Max price must be greater than Min price')
+      .min(yup.ref('min_price'), 'Max price must be greater than or equal to Min price')
       .required('Max price is required'),
     description: yup.string().min(10, 'Description must be at least 10 characters').required('Description is required'),
     url_poster: yup.string().min(10, 'URL poster must be at least 10 characters').required('URL poster is required'),
