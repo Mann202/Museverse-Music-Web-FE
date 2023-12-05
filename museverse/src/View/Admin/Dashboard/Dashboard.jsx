@@ -1,13 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Headers from '../../Header/Header'
 import UserDashboard from './UserDashboard'
 import { NavLink } from 'react-router-dom'
 import DistributorDashboard from './DistributorDashboard'
 import SalesDashboard from './SalesDashboard'
+import axios from 'axios'
 
 function Dashboard() {
+    const [albumOrders, setAlbumOrders] = useState(0)
+    const [newUser, setNewUser] = useState(0)
+    const [revenue, setRevenue] = useState(0)
+    const [userDashboard, setUserDashboard] = useState([])
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/getOrderReport`).then(
+            response => {setAlbumOrders(response.data.length)}
+        )
+
+        axios.get(`http://127.0.0.1:8000/api/getNewUserCount`).then(
+            response => {setNewUser(response.data)}
+        )
+
+        axios.get(`http://127.0.0.1:8000/api/getRevenueReport`).then(
+            response => {setRevenue(response.data)}
+        )
+
+        axios.get(`http://127.0.0.1:8000/api/getUsersDashboard`).then(
+            response => {setUserDashboard(response.data)}
+        )
+    }, [])
+
   return (
-    <div>
+    <div className='h-screen overflow-y-auto pb-24'>
         <Headers />
         <div className='w-full flex flex-row gap-4 pt-5'>
             <div className='w-7/12'>
@@ -20,21 +44,21 @@ function Dashboard() {
                 <div className='flex justify-center'>
                     <div className='flex flex-row gap-5 pt-7 w-11/12'>
                         <div className='bg-[#EE5566] flex flex-col gap-1 bg-opacity-60 w-4/12 py-3 pl-1'>
-                            <p className='text-white text-2xl font-medium'>30,000</p>
+                            <p className='text-white text-2xl font-medium'>{albumOrders}</p>
                             <p className='text-white'>Albums sale</p>
                         </div>
                         <div className='bg-[#EE5566] flex flex-col gap-1 bg-opacity-60 w-4/12 py-3 pl-1'>
-                            <p className='text-white text-2xl font-medium'>30,000</p>
+                            <p className='text-white text-2xl font-medium'>{newUser}</p>
                             <p className='text-white'>New users and distributors</p>
                         </div>
                         <div className='bg-[#EE5566] flex flex-col gap-1 bg-opacity-60 w-4/12 py-3 pl-1'>
-                            <p className='text-white text-2xl font-medium'>30,000</p>
+                            <p className='text-white text-2xl font-medium'>{formatCurrency(revenue)}</p>
                             <p className='text-white'>Revenue generated</p>
                         </div>
                     </div>
                 </div>
 
-                <UserDashboard />
+                <UserDashboard userDashboard={userDashboard}/>
 
                 <div>
                     <div className='flex justify-end pt-4 mr-3'>
@@ -52,5 +76,13 @@ function Dashboard() {
     </div>
   )
 }
+
+export function formatCurrency(number) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 0,
+    }).format(number);
+  }
 
 export default Dashboard

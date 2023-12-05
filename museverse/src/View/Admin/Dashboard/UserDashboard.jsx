@@ -1,6 +1,7 @@
 import React from 'react'
+import { formatCurrency } from './Dashboard'
 
-function UserDashboard() {
+function UserDashboard({userDashboard}) {
     return (
         <div>
             <div className='flex justify-center'>
@@ -22,13 +23,26 @@ function UserDashboard() {
                         <th className="py-2 px-4">Total order</th>
                         <th className="py-2 px-4">Revenue</th>
                     </tr>
-                    <tr>
-                        <td className="py-2 px-4 text-center">Man Gia</td>
-                        <td className="py-2 px-4 text-center">Active</td>
-                        <td className="py-2 px-4 text-center">The Weekend</td>
-                        <td className="py-2 px-4 text-center">500</td>
-                        <td className="py-2 px-4 text-center">400,000</td>
-                    </tr>
+                    {
+                        userDashboard.slice(0,8).map(item => {
+                            return(
+                                <tr>
+                                    <td className="py-2 px-4 text-center">{item.first_name} {item.last_name}</td>
+                                    <td className="py-2 px-4 text-center">{
+                                        item.accountStatusId === 1 ? <div className='bg-green-200 text-black rounded-sm p-1'><p>Active</p></div>
+                                        :
+                                        item.accountStatusId === 2 ? <div className='bg-gray-300 text-black rounded-sm p-1'><p>Inactive</p></div>
+                                        :
+                                        item.accountStatusId === 3 ? <div className='bg-orange-300 text-black rounded-sm p-1'><p>Closed</p></div>
+                                        : <div className='bg-red-300 text-black rounded-sm p-1'><p>Banned</p></div>
+                                    }</td>
+                                    <td className="py-2 px-4 text-center">The Weekend</td>
+                                    <td className="py-2 px-4 text-center">{item.name_count}</td>
+                                    <td className="py-2 px-4 text-center">{formatCurrency(item.total_sum)}</td>
+                                </tr>
+                            )
+                        })
+                    }
                 </table>
             </div>
         </div>

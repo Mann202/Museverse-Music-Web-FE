@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Headers from './../../Header/Header';
 import { NavLink } from 'react-router-dom';
 import { IoIosSearch } from "react-icons/io";
@@ -6,18 +6,20 @@ import { IoIosSettings } from "react-icons/io";
 import { TiArrowSortedUp } from "react-icons/ti";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { CgSortAz } from "react-icons/cg";
+import axios from 'axios';
+import { formatNumber } from './../Dashboard/SalesDashboard';
 
 
 function Users() {
-    const [data, setData] = useState([
-        { user: 'Man Gia', sales: '40k+ sales', revenue: '1m3 revenue', isChecked: false },
-        { user: 'Binh Nguyen', sales: '100k+ sales', revenue: '2m2 revenue', isChecked: false },
-        { user: 'Xuan Quynh', sales: '50k+ sales', revenue: '1m2 revenue', isChecked: false },
-        { user: 'Quang Nhat', sales: '0 sales', revenue: '0 revenue', isChecked: false }
-    ]);
-
+    const [data, setData] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [sortType, setSortType] = useState(null);
+
+    useEffect(() => {
+        axios.get(`http://127.0.0.1:8000/api/getUsers`).then(
+            response => {setData(response.data)}
+        )
+    }, [])
 
     const handleSelectAll = () => {
         const updatedData = data.map(item => ({ ...item, isChecked: !selectAll }));
@@ -119,9 +121,9 @@ function Users() {
                                     <td className="py-2 px-4 text-center text-white">
                                         <input type="checkbox" className='form-checkbox h-5 w-5' checked={item.isChecked} onChange={() => handleRowCheckbox(index)} />
                                     </td>
-                                    <td className="py-2 px-4 text-center text-white">{item.user}</td>
-                                    <td className="py-2 px-4 text-center text-white">{item.sales}</td>
-                                    <td className="py-2 px-4 text-center text-white">{item.revenue}</td>
+                                    <td className="py-2 px-4 text-center text-white">{item.last_name} {item.first_name}</td>
+                                    <td className="py-2 px-4 text-center text-white">{item.sale}</td>
+                                    <td className="py-2 px-4 text-center text-white">{formatNumber(item.spend)}</td>
                                 </tr>
                             ))}
                         </tbody>
