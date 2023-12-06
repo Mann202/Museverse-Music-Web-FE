@@ -72,80 +72,80 @@ function Playlist({ setPlayingTrack, playingID, setPlayingID, setTrackInAlbum, s
             .catch(error => {
                 console.error(error);
             });
-    }, [setToken, setData]);
+}, [setToken, setData]);
 
-    useEffect(() => {
-        const colorThief = new ColorThief();
-        const imageElement = imageRef.current;
+useEffect(() => {
+    const colorThief = new ColorThief();
+    const imageElement = imageRef.current;
 
-        const loadImage = async () => {
-            try {
-                const img = new Image();
-                img.crossOrigin = 'Anonymous';
-                img.src = image;
-                img.onload = () => {
-                    const color = colorThief.getColor(img);
-                    const hexColor = `#${color[0].toString(16).padStart(2, '0')}${color[1].toString(16).padStart(2, '0')}${color[2].toString(16).padStart(2, '0')}`;
-                    setBackgroundColor(hexColor);
-                };
-            } catch (error) {
-                console.error('Lỗi tải hình ảnh:', error);
-            }
-        };
+    const loadImage = async () => {
+        try {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.src = image;
+            img.onload = () => {
+                const color = colorThief.getColor(img);
+                const hexColor = `#${color[0].toString(16).padStart(2, '0')}${color[1].toString(16).padStart(2, '0')}${color[2].toString(16).padStart(2, '0')}`;
+                setBackgroundColor(hexColor);
+            };
+        } catch (error) {
+            console.error('Lỗi tải hình ảnh:', error);
+        }
+    };
 
-        loadImage();
-    }, [image]);
+    loadImage();
+}, [image]);
 
-    if (loading) {
-        return <div><Loading /></div>
-    }
-    console.log("playlist: ", data);    
+if (loading) {
+    return <div><Loading /></div>
+}
+console.log("playlist: ", data);
 
-    const timeinString = chuyenDoiThoiGian(time)
+const timeinString = chuyenDoiThoiGian(time)
 
-    return (
-        <div>
-            <Headers bgColor={backgroundColor} />
-            <div style={{ background: `linear-gradient(${backgroundColor}, black)` }} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
-                <div className="flex flex-row items-center gap-5">
-                    <img src={image} alt="Category Icon" className="rounded-lg ml-8 mt-8 w-56 h-56"></img>
-                    <div>
-                        <p className="font-normal text-base text-white">Playlist</p>
-                        <h1 className="text-7xl font-bold text-white">{name}</h1>
-                        <br></br>
-                        <p className="font-normal text-sm text-white">{description}</p>
-                        <p className="font-medium text-sm text-white text-opacity-60 mt-2">{followers} người thích . {totalTrack} bài hát, khoảng {timeinString}</p>
-                    </div>
-                </div>
-                <PlayButton setPlay={setPlay} setIsPlaying={setIsPlaying} isPlaying={isPlaying} playingID={playingID} playlistID={playlistID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum} />
-                <div className="w-full flex flex-row flex-wrap gap-y-2 justify-center items-start pb-36 bg-opacity-30 bg-black pt-12">
-                    <HeaderPlaylist />
-
-                    {data.map((item, index) => (
-                        <PlaylistCard
-                            id={item.track.id}
-                            index={index}
-                            name={item.track.name}
-                            album={item.track.album}
-                            date={item.added_at}
-                            duration={item.track.duration_ms}
-                            image={item.track.album.images[0].url}
-                            artist={item.track.artists}
-                            setPlayingTrack={setPlayingTrack}
-                            uri={item.track.uri}
-                            setTrackInAlbum={setTrackInAlbum}
-                            playingTrack={playingTrack}
-                            data={data}
-                            playingData={playingData}
-                            isPlaying={isPlaying}
-                            setPlayingID={setPlayingID}
-                            setPlay={setPlay}
-                        />
-                    ))}
+return (
+    <div>
+        <Headers bgColor={backgroundColor} />
+        <div style={{ background: `linear-gradient(${backgroundColor}, black)` }} className="h-screen bg-gradient-to-b from-white to-black overflow-y-scroll flex flex-col gap-y-10">
+            <div className="flex flex-row items-center gap-5">
+                <img src={image} alt="Category Icon" className="rounded-lg ml-8 mt-8 w-56 h-56"></img>
+                <div>
+                    <p className="font-normal text-base text-white">Playlist</p>
+                    <h1 className="text-7xl font-bold text-white">{name}</h1>
+                    <br></br>
+                    <p className="font-normal text-sm text-white">{description}</p>
+                    <p className="font-medium text-sm text-white text-opacity-60 mt-2">{followers} người thích . {totalTrack} bài hát, khoảng {timeinString}</p>
                 </div>
             </div>
+            <PlayButton setPlay={setPlay} setIsPlaying={setIsPlaying} isPlaying={isPlaying} playingID={playingID} playlistID={playlistID} setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum} />
+            <div className="w-full flex flex-row flex-wrap gap-y-2 justify-center items-start pb-36 bg-opacity-30 bg-black pt-12">
+                <HeaderPlaylist />
+
+                {data.map((item, index) => (
+                    <PlaylistCard
+                        id={item.track.id}
+                        index={index}
+                        name={item.track.name}
+                        album={item.track.album}
+                        date={item.added_at}
+                        duration={item.track.duration_ms}
+                        image={item.track.album.images[0].url}
+                        artist={item.track.artists}
+                        setPlayingTrack={setPlayingTrack}
+                        uri={item.track.uri}
+                        setTrackInAlbum={setTrackInAlbum}
+                        playingTrack={playingTrack}
+                        data={data}
+                        playingData={playingData}
+                        isPlaying={isPlaying}
+                        setPlayingID={setPlayingID}
+                        setPlay={setPlay}
+                    />
+                ))}
+            </div>
         </div>
-    )
+    </div>
+)
 }
 
 function PlayButton({ setPlay, playingID, playlistID, setPlayingTrack, setPlayingID, setTrackInAlbum, isPlaying, setIsPlaying }) {

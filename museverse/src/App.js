@@ -47,6 +47,9 @@ import ReportDistributor from './View/Distributor/ReportDistributor/ReportDistri
 import SideBarForDistributor from './View/SideBar/SideBarForDistributor';
 import NewProduct from "./View/Distributor/Store/NewProduct";
 import EditProduct from "./View/Distributor/Store/EditProduct";
+import SoldAlbumDetail from "./View/SoldAlbum/SoldAlbumDetail";
+import ShoppingCart from "./View/SoldAlbum/ShoppingCart";
+import CheckOut from "./View/SoldAlbum/CheckOut";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -157,6 +160,11 @@ function App() {
                 <Route path="/user-playlist/:playlistID" element={<UserPlaylist />} />
                 <Route path="/albums/"element={<SoldAlbum/>}/>
                 <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack}/>} />
+                <Route path="/albums/"element={<SoldAlbum/>}/>
+                <Route path="/albumsdetails/:album_phys_id"element={<SoldAlbumDetail/>}/>
+                <Route path="/shoppingcart/"element={<ShoppingCart/>}/>
+                <Route path="/shoppingcart/checkout/"element={<CheckOut/>}/>
+
                 <Route path="/profile" element={<Profile />} />
             </Routes>
             }
