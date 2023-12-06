@@ -12,10 +12,12 @@ Museverse is not just a website; it's a meticulously designed digital haven tail
 | 21522391 | Nguyen Binh Nguyen  | 21522391@gm.uit.edu.vn |
 | 21522413 | Dang Quang Nhat  | 21522413@gm.uit.edu.vn |
 ### 4. Technology Used
-- HTML5, CSS3, PHP
+- HTML5, CSS3
 - ReactJS v18.2.0
 - Tailwind CSS v3.0
 - Boostrap v5.0
+- PHP v8.2.12
+- Laravel v10.32.1
 - Environment: Node.JS
 ### 5. Timeline
 [Timeline notion Museverse](https://www.notion.so/ad5b313aa02e42219e42bbe3beb1e92e?v=e014cc3f9bac4941a116c8fc60e393c5&pvs=4)
