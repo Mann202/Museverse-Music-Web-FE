@@ -50,6 +50,7 @@ import EditProduct from "./View/Distributor/Store/EditProduct";
 import SoldAlbumDetail from "./View/SoldAlbum/SoldAlbumDetail";
 import ShoppingCart from "./View/SoldAlbum/ShoppingCart";
 import CheckOut from "./View/SoldAlbum/CheckOut";
+import PaymentResult from "./View/PaymentResult";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -70,7 +71,7 @@ function App() {
       }
     }
   }, [status])
-  
+
   const [playingID, setPlayingID] = useState('') //Lưu vào Playlist ID của playlist đang được phát
   const [trackInAlbum, setTrackInAlbum] = useState(0) //Lưu vào thứ tự phát của album khi được bấm (dùng để queue bài hát)
   const [isPlaying, setIsPlaying] = useState(true) //Lấy trạng thái của thanh nghe nhạc (Đang nghe hay đã dừng)
@@ -103,7 +104,7 @@ function App() {
 
   return (
       <div className="relative flex">
-          {logged ? 
+          {logged ?
             (accType === 3 ? <SideBarForAdmin /> :
             accType === 4 ? <SideBarForDistributor /> :
             <SideBar />)
@@ -166,6 +167,8 @@ function App() {
                 <Route path="/shoppingcart/checkout/"element={<CheckOut/>}/>
 
                 <Route path="/profile" element={<Profile />} />
+
+                <Route path="/payment/result" element={<PaymentResult />} />
             </Routes>
             }
           </div>
