@@ -11,6 +11,7 @@ function TableHeader() {
 }
 
 export default function OrderTable({ data }) {
+  console.log(data)
   return (
     <div className="text-white">
       <div className="mt-10 mb-10">

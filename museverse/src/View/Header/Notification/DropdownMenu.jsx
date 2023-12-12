@@ -7,6 +7,12 @@ const HOST = process.env.NODE_ENV === 'development' ? `http://${window.location.
 const RETURN_URL = `${HOST}/payment/result/`;
 const CANCEL_URL = `${HOST}/payment/result/`;
 
+  let accType = 0
+  const user = localStorage.getItem('user')
+  if(user != null) {
+    const userJson = JSON.parse(user);
+    accType = userJson.accountTypeID;
+  }
 
 function DropdownMenu() {
   const { logged, setLogged } = useContext(LoggedContext);
@@ -42,10 +48,25 @@ function DropdownMenu() {
 
 
   const handleUpgradePremium = async () => {
+    const user = localStorage.getItem('user')
+    console.log(user)
+    let email_address = ''
+    let first_name = ''
+    let last_name = ''
+    let phone = ''
+    
+    if(user != null) {
+      const userJson = JSON.parse(user);
+      email_address = userJson.email_address;
+      first_name = userJson.first_name
+      last_name = userJson.last_name
+      phone = userJson.contact_number
+    }
+
     const body = {
       orderCode: '123',
       amount: 2000,
-      description: 'Some description',
+      description: 'Thanh toan premium',
       buyerName: 'Vo Hoang Duc Khoa',
       buyerEmail: '19520646@gm.uit.edu.vn',
       buyerPhone: '0707957746',
@@ -69,7 +90,12 @@ function DropdownMenu() {
   return (
     <div className="absolute right-20 flex flex-col text-[#FFFFFF] bg-black bg-opacity-80 w-48 py-5 px-3 mt-1 text-lg gap-4 rounded">
       <NavLink to="/profile">Profile</NavLink>
-      <NavLink onClick={handleUpgradePremium}>Upgrade to Premium</NavLink>
+      {
+        accType == 1 ? 
+        <NavLink onClick={handleUpgradePremium}>Upgrade to Premium</NavLink>
+        : 
+        ""
+      }
       <NavLink>Settings</NavLink>
       <NavLink onClick={handleLogOut} to={"/signin"}>Logout</NavLink>
     </div>

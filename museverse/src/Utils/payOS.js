@@ -4,7 +4,7 @@ export async function createPaymentLink(formData) {
   try {
     const res = await axios({
       method: 'POST',
-      url: `${process.env.REACT_APP_BACKEND_URL}/order/create`,
+      url: `http://127.0.0.1:8000/api/order/create`,
       data: formData,
       headers: {
         'Content-Type': 'application/json',
@@ -19,8 +19,8 @@ export async function createPaymentLink(formData) {
 export async function getOrder(orderId) {
   try {
     const res = await axios({
-      method: 'GET',
-      url: `${process.env.REACT_APP_BACKEND_URL}/order/${orderId}`,
+      method: 'POST',
+      url: `http://127.0.0.1:8000/api/getPaymentLinkInfoOfOrder/${orderId}`,
       headers: {
         'Content-Type': 'application/json'
       },

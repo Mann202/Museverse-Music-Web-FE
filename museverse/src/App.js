@@ -88,7 +88,6 @@ function App() {
   const user = localStorage.getItem('user')
   if(user != null) {
     const userJson = JSON.parse(user);
-    console.log(userJson.user_id)
     userID = userJson.user_id;
     accType = userJson.accountTypeID;
   }

@@ -15,7 +15,6 @@ import Swal from "sweetalert2";
 import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
 const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
-
   const [flag, setFlag] = useState(false);
   const { logged, setLogged } = useContext(LoggedContext);
   const location = useLocation();
@@ -24,6 +23,13 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
   const [isPlay, setIsPlay] = useState(false)
   const [repeat, setRepeat] = useState('off')
   const navigate = useNavigate()
+
+  let accType = 0
+  const user = localStorage.getItem('user')
+  if(user != null) {
+    const userJson = JSON.parse(user);
+    accType = userJson.accountTypeID;
+  }
 
   function handleExpand() {
     const path = `/track/lyric`
@@ -104,6 +110,10 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
       }
     }
   }, []);
+
+  if(accType == 1) {
+    spotifyApi.shuffle(token, true, device)
+  }
 
   if (!token) {
     return <p>Redirecting to Spotify...</p>;
