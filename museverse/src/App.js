@@ -53,6 +53,7 @@ import CheckOut from "./View/SoldAlbum/CheckOut";
 import OrderDetail from "./View/Distributor/OrdersDistributor/OrderDetail";
 import NewOrder from "./View/Distributor/OrdersDistributor/NewOrder";
 import OrderCheckout from "./View/Distributor/OrdersDistributor/OrderCheckout";
+import PaymentResult from "./View/PaymentResult";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -90,7 +91,6 @@ function App() {
   const user = localStorage.getItem('user')
   if (user != null) {
     const userJson = JSON.parse(user);
-    console.log(userJson.user_id)
     userID = userJson.user_id;
     accType = userJson.accountTypeID;
   }
@@ -105,10 +105,10 @@ function App() {
   }, [playingData, userID]);
 
   return (
-    <div className="relative flex">
-      {logged ?
-        (accType === 3 ? <SideBarForAdmin /> :
-          accType === 4 ? <SideBarForDistributor /> :
+      <div className="relative flex">
+          {logged ?
+            (accType === 3 ? <SideBarForAdmin /> :
+            accType === 4 ? <SideBarForDistributor /> :
             <SideBar />)
         : null}
       <div className="flex-1 flex flex-col bg-black">
@@ -171,17 +171,15 @@ function App() {
                   <Route path="/shoppingcart/" element={<ShoppingCart />} />
                   <Route path="/shoppingcart/checkout/" element={<CheckOut />} />
 
-                  <Route path="/profile" element={<Profile />} />
-                </Routes>
-          }
+                <Route path="/profile" element={<Profile />} />
+
+                <Route path="/payment/result" element={<PaymentResult />} />
+            </Routes>
+            }
+          </div>
         </div>
       </div>
-      <div className="relative flex">
-        <div className="fixed bottom-0 w-full">
-          <Play setProgressMs={setProgressMs} setDevice={setDevice} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying} />
-        </div>
-      </div>
-    </div>
+    // </div>
   );
 }
 

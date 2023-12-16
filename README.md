@@ -6,6 +6,7 @@ Museverse is not just a website; it's a meticulously designed digital haven tail
 ### 3. Members of Group 3
 |    ID    |       Name       |         Email          |
 |:--------:|:----------------:|:----------------------:|
+| 19520646 | Vo Hoang Duc Khoa  | 19520646@gm.uit.edu.vn |
 | 21520430 |  Le Xuan Quynh   | 21520430@gm.uit.edu.vn |
 | 21520756 | Nguyen Dai Duong | 21520756@gm.uit.edu.vn |
 | 21521115 |  Truong Gia Man | 21521115@gm.uit.edu.vn |
