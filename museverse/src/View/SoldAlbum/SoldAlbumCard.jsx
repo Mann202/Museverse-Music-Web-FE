@@ -11,9 +11,7 @@ const SoldAlbumCard = ({ imgURL, album_physi_id, name, type, user_id, artist_nam
     const navigate = useNavigate();
     // const [loading, setLoading] = useState(true)
     if(artist_name == '')
-        artist_name = "Artist Name" 
-
-    
+        artist_name = "Artist Name"    
 
     // if(loading) return <Loading/>;
 

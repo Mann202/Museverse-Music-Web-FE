@@ -62,7 +62,7 @@ export default function SignUp() {
 
             if (result.hasOwnProperty('error')) {
                 const Errors = {};
-                Errors.notmatch = result['error'];
+                Errors.notmatch = 'Email or username is already existed!';
                 setErrors(Errors);
             } else {
                 Swal.fire({

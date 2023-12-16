@@ -4,7 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Headers from '../../Header/Header';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const schema = yup.object().shape({
     album_name: yup.string().min(15, 'Album name must be at least 15 characters').required('Album name is required'),
@@ -23,6 +24,8 @@ const NewProduct = () => {
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const navigate = useNavigate();
 
   const [successMessage, setSuccessMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -49,6 +52,14 @@ const NewProduct = () => {
       });
 
       if (response.status === 200) {
+        Swal.fire({
+            background: "#1F1F22",
+            color: '#EE5566',
+            title: "Add new product successful!",
+            icon: "success",
+            iconColor: '#EE5566'
+          });
+          navigate('/');
         setSuccessMessage('Add new product successful!'); 
         setErrorMessage(''); 
       } else {
@@ -66,7 +77,7 @@ const NewProduct = () => {
     <div>
         <Headers />
         <div>
-            <div className='w-4/12 pt-5 pl-8'>
+            {/* <div className='w-4/12 pt-5 pl-8'>
                 {successMessage && (
                 <div className="bg-green-200 text-green-800 p-2 mb-2 rounded">
                     {successMessage}
@@ -77,7 +88,7 @@ const NewProduct = () => {
                     {errorMessage}
                 </div>
                 )}
-            </div>
+            </div> */}
         <form onSubmit={handleSubmit(onSubmit)} className="shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
                     <label className="block text-[#EE5566] text-sm font-bold mb-2">Album Name</label>

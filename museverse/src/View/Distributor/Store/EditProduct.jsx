@@ -5,9 +5,10 @@ import * as yup from 'yup';
 import Headers from '../../Header/Header';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const schema = yup.object().shape({
-  album_name: yup.string().min(15, 'Album name must be at least 15 characters').required('Album name is required'),
+  album_name: yup.string().min(5, 'Album name must be at least 5 characters').required('Album name is required'),
   type: yup.string().oneOf(['Băng Cassette', 'Đĩa CD', 'Đĩa Than']).required('Type is required'),
   quantity: yup.number().positive('Quantity must be greater than 0').required('Quantity is required'),
   min_price: yup.number().positive('Min price must be greater than 0').required('Min price is required'),
@@ -20,47 +21,47 @@ const schema = yup.object().shape({
 });
 
 const EditProduct = () => {
-    const { control, handleSubmit, formState: { errors }, setValue } = useForm({
-        resolver: yupResolver(schema),
-      });
-    
-      const [data, setData] = useState([]);
-      const { newProductID } = useParams();
-      const navigate = useNavigate()
-    
-    useEffect(() => {
+  const { control, handleSubmit, formState: { errors }, setValue } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const [data, setData] = useState([]);
+  const { newProductID } = useParams();
+  const navigate = useNavigate()
+
+  useEffect(() => {
     const fetchData = async () => {
-        try {
+      try {
         const response = await axios.get(`http://127.0.0.1:8000/api/getAlbum?id=${newProductID}`);
         setData(response.data);
 
         if (response.data) {
-            setValue('album_name', response.data[0].album_name);
-            setValue('type', response.data[0].type);
-            setValue('quantity', response.data[0].quantity);
-            setValue('min_price', response.data[0].min_price);
-            setValue('max_price', response.data[0].max_price);
-            setValue('description', response.data[0].description);
-            setValue('url_poster', response.data[0].url_poster);
+          setValue('album_name', response.data[0].album_name);
+          setValue('type', response.data[0].type);
+          setValue('quantity', response.data[0].quantity);
+          setValue('min_price', response.data[0].min_price);
+          setValue('max_price', response.data[0].max_price);
+          setValue('description', response.data[0].description);
+          setValue('url_poster', response.data[0].url_poster);
         }
-        } catch (error) {
+      } catch (error) {
         console.error('Error fetching data:', error);
-        }
+      }
     };
 
-  fetchData();
-}, [newProductID, setValue]);
-    
-      const [successMessage, setSuccessMessage] = useState('');
-      const [errorMessage, setErrorMessage] = useState('');
-    
-      let userID = 0;
-      const user = localStorage.getItem('user');
-      if (user != null) {
-        const userJson = JSON.parse(user);
-        console.log(userJson.user_id);
-        userID = userJson.user_id;
-      }
+    fetchData();
+  }, [newProductID, setValue]);
+
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  let userID = 0;
+  const user = localStorage.getItem('user');
+  if (user != null) {
+    const userJson = JSON.parse(user);
+    console.log(userJson.user_id);
+    userID = userJson.user_id;
+  }
 
   const onSubmit = async (data) => {
     try {
@@ -77,6 +78,13 @@ const EditProduct = () => {
       });
 
       if (response.status === 200) {
+        Swal.fire({
+          background: "#1F1F22",
+          color: '#EE5566',
+          title: "Update product successful!",
+          icon: "success",
+          iconColor: '#EE5566'
+        });
         setSuccessMessage('Update product successful!');
         setErrorMessage('');
       } else {
@@ -90,10 +98,17 @@ const EditProduct = () => {
     }
   };
 
-   function handleDelete() {
+  function handleDelete() {
     try {
       const response = axios.get(`http://127.0.0.1:8000/api/deteleAlbum?id=${newProductID}`);
-      const path="/"
+      const path = "/"
+      Swal.fire({
+        background: "#1F1F22",
+        color: '#EE5566',
+        title: "Delete product successful!",
+        icon: "success",
+        iconColor: '#EE5566'
+      });
       navigate(path)
     } catch (error) {
       console.error('Error deleting album:', error);
@@ -106,7 +121,7 @@ const EditProduct = () => {
     <div className='h-screen overflow-y-auto pb-20'>
       <Headers />
       <div>
-        <div className='w-4/12 pt-5 pl-8'>
+        {/* <div className='w-4/12 pt-5 pl-8'>
           {successMessage && (
             <div className="bg-green-200 text-green-800 p-2 mb-2 rounded">
               {successMessage}
@@ -117,7 +132,7 @@ const EditProduct = () => {
               {errorMessage}
             </div>
           )}
-        </div>
+        </div> */}
         <form onSubmit={handleSubmit(onSubmit)} className="shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="mb-4">
             <label className="block text-[#EE5566] text-sm font-bold mb-2">Album Name</label>
@@ -230,9 +245,9 @@ const EditProduct = () => {
         </form>
 
         <div className="-mt-12 ml-8">
-            <button onClick={handleDelete} className="bg-red-500 text-white py-2 px-4 rounded">
-                Delete
-            </button>
+          <button onClick={handleDelete} className="bg-red-500 text-white py-2 px-4 rounded">
+            Delete
+          </button>
         </div>
       </div>
     </div>
