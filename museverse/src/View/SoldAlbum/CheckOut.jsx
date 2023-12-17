@@ -15,7 +15,7 @@ const CheckOut = () => {
     const [lname, setlname] = useState(user.last_name);
     const [email, setemail] = useState(user.email_address);
     const [phone, setphone] = useState(user.contact_number);
-    const [address, setaddress] = useState('Your address');
+    const [address, setaddress] = useState('');
     const [note, setnote] = useState('');
     const [total, setTotal] = useState(0);
     const [cont, setCont] = useState(false);
@@ -60,6 +60,8 @@ const CheckOut = () => {
                 window.alert('Choose district');
             else if (selectedWard == '')
                 window.alert('Choose ward');
+            else if (phone == null)
+                window.alert('Enter phone number');
             else {
                 setCont(true);
                 setContNum(1);
@@ -80,7 +82,7 @@ const CheckOut = () => {
                             let district = districts.filter((city) => city.Id == selectedDistrict);
                             let ward = wards.filter((city) => city.Id == selectedWard);
 
-                            let FullAddress = address + ', ' + city[0].Name + ', ' + district[0].Name + ', ' + ward[0].Name;
+                            let FullAddress = (address ? `${address}, ` : '') + ward[0].Name + ', ' + district[0].Name + ', ' + city[0].Name;
                             let item = { cust_id: user.user_id, first_name: fname, last_name: lname, email_address: email, contact_number: phone, address: FullAddress, note: note, total_final: total, details: data };
                             const response = await fetch("http://localhost:8000/api/pay", {
                                 method: 'POST',
@@ -103,9 +105,11 @@ const CheckOut = () => {
                                 }
                             } else {
                                 console.error('Error:', response.statusText);
+                                window.alert('pay failed!');
+
                             }
                         } catch (error) {
-                            console.error('Error:', error);
+                            window.alert('Error:', error);
                         }
                     };
 
@@ -250,20 +254,20 @@ const CheckOut = () => {
                                 <div className='flex gap-4'>
                                     <div className='flex flex-col w-1/2'>
                                         <div class="text-white text-[15px] font-medium">First Name</div>
-                                        <input type="text" className='px-3 py-[9px] bg-white rounded border' value={user.first_name} />
+                                        <input type="text" className='px-3 py-[9px] bg-white rounded border' value={user.first_name} onChange={(e) => { setfname(e.target.value) }} />
                                     </div>
                                     <div className='flex flex-col w-1/2'>
                                         <div class="text-white text-[15px] font-medium">Last Name</div>
-                                        <input type="text" className='px-3 py-[9px] bg-white rounded border' value={user.last_name} />
+                                        <input type="text" className='px-3 py-[9px] bg-white rounded border' value={user.last_name} onChange={(e) => { setlname(e.target.value) }} />
                                     </div>
                                 </div>
                                 <div className='flex flex-col w-full'>
                                     <div class="text-white text-[15px] font-medium">Email</div>
-                                    <input type="text" className='w-full h-[42px] px-3 py-[9px] bg-white rounded border' value={user.email_address} />
+                                    <input type="text" className='w-full h-[42px] px-3 py-[9px] bg-white rounded border' value={user.email_address} onChange={(e) => { setemail(e.target.value) }} />
                                 </div>
                                 <div className='flex flex-col w-full'>
                                     <div class="text-white text-[15px] font-medium">Phone Number</div>
-                                    <input type="text" className='w-full h-[42px] px-3 py-[9px] bg-white rounded border' value={user.contact_number} />
+                                    <input type="text" className='w-full h-[42px] px-3 py-[9px] bg-white rounded border' value={user.contact_number} onChange={(e) => { setphone(e.target.value) }} />
                                 </div>
                                 <hr className='border-[#EE5566] w-full my-1' />
                                 <div className='text-white text-xl font-medium'>Shipping Details</div>
@@ -350,8 +354,7 @@ const CheckOut = () => {
                                 <div className='flex gap-3'>
                                     <img src={item.url_poster} alt="" className='w-[100px] h-[100px]' />
                                     <div className='flex flex-col w-[200px]'>
-                                        <div class=" text-white text-base font-bold">Album 1</div>
-                                        <div class=" text-white text-xs font-medium mb-4">Artist Name</div>
+                                        <div class=" text-white text-base font-bold">{(item.album_name.length < 28) ? item.album_name : item.album_name.substring(0, 28 - 3) + '...'}</div>
                                         <div class=" text-white text-xs font-medium">Quantity: {item.num}</div>
                                         <div class=" text-white text-base font-bold">{item.price} VND</div>
                                     </div>

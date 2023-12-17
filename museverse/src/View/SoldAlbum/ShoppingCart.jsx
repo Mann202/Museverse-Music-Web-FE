@@ -14,13 +14,12 @@ const ShoppingCart = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [subTotal, setSubTotal] = useState(0);
 
   const toggleSelectAll = () => {
     if (selectAll) {
       setSelectAll(false);
       setSelectedItems([]);
-      setTotalPrice(0);
+      setTotalPrice(0);      
     } else {
       setSelectAll(true);
       setSelectedItems(data.map((item) => item.detail_id));
@@ -158,8 +157,6 @@ const ShoppingCart = () => {
   }, [data]);
 
   if (!load) return <Loading />;
-
-  console.error('dkashhdkjsa:', selectedItems);
 
   return (
     <div className='h-screen overflow-y-scroll'>
