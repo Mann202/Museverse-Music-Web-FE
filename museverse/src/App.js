@@ -54,6 +54,7 @@ import OrderDetail from "./View/Distributor/OrdersDistributor/OrderDetail";
 import NewOrder from "./View/Distributor/OrdersDistributor/NewOrder";
 import OrderCheckout from "./View/Distributor/OrdersDistributor/OrderCheckout";
 import PaymentResult from "./View/PaymentResult";
+import PaymentAlbum from "./View/PaymentResult/PaymentAlbum";
 
 function App() {
   const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
@@ -174,6 +175,7 @@ function App() {
                 <Route path="/profile" element={<Profile />} />
 
                 <Route path="/payment/result" element={<PaymentResult />} />
+                <Route path="/payment/album" element={<PaymentAlbum />} />
             </Routes>
             }
           </div>

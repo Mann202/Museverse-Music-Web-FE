@@ -96,7 +96,6 @@ function DropdownMenu() {
         : 
         ""
       }
-      <NavLink>Settings</NavLink>
       <NavLink onClick={handleLogOut} to={"/signin"}>Logout</NavLink>
     </div>
   );
