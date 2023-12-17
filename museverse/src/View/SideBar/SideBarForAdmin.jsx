@@ -22,10 +22,10 @@ function SideBarForAdmin() {
                 <p className='text-white text-xl text-opacity-80'>Dashboard</p>
             </NavLink>
 
-            <NavLink to={`/distributors`} className='flex flex-row gap-3'>
+            {/* <NavLink to={`/distributors`} className='flex flex-row gap-3'>
                 <FaRegUser className='text-[#EE5566] mt-2 text-lg'/>
                 <p className='text-white text-xl text-opacity-80'>Distributors</p>
-            </NavLink>
+            </NavLink> */}
 
             <NavLink to={`/users`} className='flex flex-row gap-3'>
                 <FaRegUser className='text-[#EE5566] mt-2 text-lg'/>
