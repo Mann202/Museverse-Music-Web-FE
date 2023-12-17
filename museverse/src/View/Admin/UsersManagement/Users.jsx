@@ -16,7 +16,7 @@ function Users() {
     const [sortType, setSortType] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/user/list`).then(
+        axios.get(`http://127.0.0.1:8000/api/getUsers`).then(
             response => {setData(response.data)}
         )
     }, [])
@@ -89,28 +89,28 @@ function Users() {
                                 <th className="cursor-pointer py-2 px-4 text-center text-white" onClick={sortByUser}>
                                     <div className='flex justify-center gap-4'>
                                         User
-                                            {/*<div className='flex flex-col'>*/}
-                                            {/*    <TiArrowSortedUp className='text-white text-xs'/>*/}
-                                            {/*    <TiArrowSortedDown className='text-white text-xs'/>*/}
-                                            {/*</div>*/}
+                                            <div className='flex flex-col'>
+                                                <TiArrowSortedUp className='text-white text-xs'/>
+                                                <TiArrowSortedDown className='text-white text-xs'/>
+                                            </div>
                                     </div>
                                 </th>
                                 <th className="cursor-pointer py-2 px-4 text-center text-white" onClick={sortBySales}>
                                     <div className='flex justify-center gap-4'>
-                                        Active
-                                            {/*<div className='flex flex-col'>*/}
-                                            {/*    <TiArrowSortedUp className='text-white text-xs'/>*/}
-                                            {/*    <TiArrowSortedDown className='text-white text-xs'/>*/}
-                                            {/*</div>*/}
+                                        Sale
+                                            <div className='flex flex-col'>
+                                                <TiArrowSortedUp className='text-white text-xs'/>
+                                                <TiArrowSortedDown className='text-white text-xs'/>
+                                            </div>
                                     </div>
                                 </th>
                                 <th className="cursor-pointer py-2 px-4 text-center text-white" onClick={sortByRevenue}>
                                     <div className='flex justify-center gap-4'>
                                         Revenue
-                                            {/*<div className='flex flex-col'>*/}
-                                            {/*    <TiArrowSortedUp className='text-white text-xs'/>*/}
-                                            {/*    <TiArrowSortedDown className='text-white text-xs'/>*/}
-                                            {/*</div>*/}
+                                            <div className='flex flex-col'>
+                                                <TiArrowSortedUp className='text-white text-xs'/>
+                                                <TiArrowSortedDown className='text-white text-xs'/>
+                                            </div>
                                     </div>
                                 </th>
                             </tr>
@@ -122,7 +122,7 @@ function Users() {
                                         <input type="checkbox" className='form-checkbox h-5 w-5' checked={item.isChecked} onChange={() => handleRowCheckbox(index)} />
                                     </td>
                                     <td className="py-2 px-4 text-center text-white">{item.last_name} {item.first_name}</td>
-                                    <td className="py-2 px-4 text-center text-white">{item.account_status}</td>
+                                    <td className="py-2 px-4 text-center text-white">{item.sale}</td>
                                     <td className="py-2 px-4 text-center text-white">{formatNumber(item.spend)}</td>
                                 </tr>
                             ))}
