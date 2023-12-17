@@ -5,6 +5,7 @@ import { MdOutlineNavigateNext, MdCheckBox, MdCheckBoxOutlineBlank, MdRadioButto
 import { FaShoppingCart } from 'react-icons/fa'
 import visa from '../../assets/visa.jpg'
 import credit2 from '../../assets/credit2.png'
+import { createPaymentLink } from '../../Utils/payOS'
 import group3707 from '../../assets/group-3707.svg'
 import axios from 'axios'
 
@@ -31,28 +32,31 @@ const CheckOut = () => {
         setSelectedItem(item);
     };
 
+    const HOST = process.env.NODE_ENV === 'development' ? `http://${window.location.host}` : process.env.WEB_URL
+    const RETURN_URL = `${HOST}/payment/album/`;
+    const CANCEL_URL = `${HOST}/payment/album/`;
 
-    const navigate = useNavigate();
-    const [check, setCheck] = useState(false);
-
-    const handleCheck = () => {
-        if (check)
-            setCheck(false)
-        else
-            setCheck(true)
-    }
-    // const [data, setData] = useState([]);
-    let data = (JSON.parse(sessionStorage.getItem('cart')))
-    useEffect(() => {
-        if (data) {
-            let sum = 0;
-            data.forEach(item => {
-                sum += item.total_money;
-            });
-            setTotal(sum);
+    const redirectPaymentLink = async function (checkoutResponse) {
+        if (checkoutResponse) {
+          let url = checkoutResponse.checkoutUrl;
+          if (checkoutResponse.checkoutUrl.startsWith("https://dev.pay.payos.vn")) {
+            url = checkoutResponse.checkoutUrl.replace(
+              "https://dev.pay.payos.vn",
+              "https://next.dev.pay.payos.vn"
+            );
+          }
+          if (checkoutResponse.checkoutUrl.startsWith("https://pay.payos.vn")) {
+            url = checkoutResponse.checkoutUrl.replace(
+              "https://pay.payos.vn",
+              "https://next.pay.payos.vn"
+            );
+          }
+          window.location.href = url;
         }
-    }, [data]);
-    const clickCont = () => {
+      };
+    
+    
+      const handlePayment = async () => {
         if (!cont && contNum === 0) {
             if (selectedCity == '')
                 window.alert('Choose city');
@@ -74,7 +78,6 @@ const CheckOut = () => {
                     window.alert('Choose payment methods')
                 else {
 
-                    //Luu vao database
                     const fetchData = async () => {
                         try {
                             const user = JSON.parse(localStorage.getItem('user'));
@@ -84,30 +87,31 @@ const CheckOut = () => {
 
                             let FullAddress = (address ? `${address}, ` : '') + ward[0].Name + ', ' + district[0].Name + ', ' + city[0].Name;
                             let item = { cust_id: user.user_id, first_name: fname, last_name: lname, email_address: email, contact_number: phone, address: FullAddress, note: note, total_final: total, details: data };
-                            const response = await fetch("http://localhost:8000/api/pay", {
-                                method: 'POST',
-                                body: JSON.stringify(item),
-                                headers: {
-                                    "Content-Type": 'application/json',
-                                    "Accept": 'application/json'
-                                }
-                            });
+                            localStorage.setItem('myItem', JSON.stringify(item));
 
-                            if (response.ok) {
-                                const result = await response.json();
-                                if (result.hasOwnProperty('Error')) {
-                                    console.log('Error', result['Error'])
-                                } else {
-                                    console.log('messs', result)
-                                    window.alert('Order successfully');
+                            const body = {
+                                orderCode: '123',
+                                amount: item.total_final,
+                                description: 'Thanh toan album',
+                                buyerName: item.first_name,
+                                buyerEmail: item.email_address,
+                                buyerPhone: item.contact_number,
+                                buyerAddress: item.address,
+                                items: [
+                                  {
+                                    name: 'Premium',
+                                    quantity: 1,
+                                    price: 100000
+                                  }
+                                ],
+                                cancelUrl: CANCEL_URL,
+                                returnUrl: RETURN_URL,
+                              }
+                              let response = await createPaymentLink(body);
+                              if (response.error != 0) throw new Error("Call Api failed: ");
+                          
+                              redirectPaymentLink(response.data)
 
-                                    navigate('/albums');
-                                }
-                            } else {
-                                console.error('Error:', response.statusText);
-                                window.alert('pay failed!');
-
-                            }
                         } catch (error) {
                             window.alert('Error:', error);
                         }
@@ -117,7 +121,34 @@ const CheckOut = () => {
                 }
             }
         }
+      }
+
+
+    const navigate = useNavigate();
+    const [check, setCheck] = useState(false);
+
+    const handleCheck = () => {
+        if (check)
+            setCheck(false)
+        else
+            setCheck(true)
     }
+    // const [data, setData] = useState([]);
+    let data = (JSON.parse(sessionStorage.getItem('cart')))
+    useEffect(() => {
+        if (data) {
+            let sum = 0;
+            data.forEach(item => {
+                sum += item.total_money;
+            });
+            setTotal(sum);
+        }
+    }, [data]);
+
+    const clickCont = () => {
+        
+    }
+
     const clickBack = () => {
         if (cont && contNum === 1) {
             setCont(false);
@@ -390,7 +421,7 @@ const CheckOut = () => {
                             <div className="text-sm font-semibold">Back</div>
                         </div>
                         <div className="w-[150px] h-9 flex bg-[#EE5566] rounded-[50px] justify-center items-center cursor-pointer select-none hover:bg-[#f17482]"
-                            onClick={clickCont}>
+                            onClick={handlePayment}>
                             <div className="text-white text-sm font-semibold">Continue</div>
                         </div>
                     </div>
