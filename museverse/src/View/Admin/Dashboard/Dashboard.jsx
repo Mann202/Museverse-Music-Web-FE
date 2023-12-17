@@ -21,11 +21,11 @@ function Dashboard() {
             response => {setNewUser(response.data)}
         )
 
-        axios.get(`http://127.0.0.1:8000/api/getRevenueReport`).then(
-            response => {setRevenue(response.data)}
+        axios.get(`http://127.0.0.1:8000/api/report/overview`).then(
+            response => {setRevenue(response.data?.total)}
         )
 
-        axios.get(`http://127.0.0.1:8000/api/getUsersDashboard`).then(
+        axios.get(`http://127.0.0.1:8000/api/report/user-top`).then(
             response => {setUserDashboard(response.data)}
         )
     }, [])
