@@ -65,17 +65,17 @@ function DropdownMenu() {
 
     const body = {
       orderCode: '123',
-      amount: 2000,
-      description: 'Thanh toan premium',
-      buyerName: 'Vo Hoang Duc Khoa',
-      buyerEmail: '19520646@gm.uit.edu.vn',
-      buyerPhone: '0707957746',
+      amount: 20000,
+      description: 'THANH TOAN PREMIUM',
+      buyerName: first_name,
+      buyerEmail: email_address,
+      buyerPhone: phone,
       buyerAddress: 'UIT',
       items: [
         {
           name: 'Premium',
           quantity: 1,
-          price: 100000
+          price: 20000
         }
       ],
       cancelUrl: CANCEL_URL,
@@ -88,7 +88,7 @@ function DropdownMenu() {
   }
 
   return (
-    <div className="absolute right-20 flex flex-col text-[#FFFFFF] bg-black bg-opacity-80 w-48 py-5 px-3 mt-1 text-lg gap-4 rounded">
+    <div className="absolute z-50 right-20 flex flex-col text-[#FFFFFF] bg-black bg-opacity-80 w-48 py-5 px-3 mt-1 text-lg gap-4 rounded">
       <NavLink to="/profile">Profile</NavLink>
       {
         accType == 1 ? 

@@ -14,7 +14,7 @@ import PlayArtist from "./PlayArtist";
 import Swal from "sweetalert2";
 import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
-const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
+const Play = ({setPlayingID, setPlayingTrack, setStatus, device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
   const [flag, setFlag] = useState(false);
   const { logged, setLogged } = useContext(LoggedContext);
   const location = useLocation();
@@ -115,7 +115,7 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
     return <p>Redirecting to Spotify...</p>;
   }
 
-  if(accType == 1) {
+  if(accType === 1 && playingTrack.length !== 0) {
     return(
       <div className="flex flex-row">
       <div div className="w-4/12 bg-black" >
@@ -186,9 +186,9 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
 
   if (loading) return <Loading />;
 
-  if (playingTrack.length == 0) return "";
+  if (playingTrack.length === 0 && logged) return "";
 
-  if (!logged) {
+  if (!logged && playingTrack.length !== 0) {
     (async () => {
       const result = await Swal.fire({
         background: "#1F1F22",
@@ -202,6 +202,9 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
         showCancelButton: false
       });
 
+      setPlayingTrack('')
+      setPlayingID('')
+
       if (result.isConfirmed) {
         navigate('/signin');
       } else if (result.isDenied) {
@@ -211,7 +214,6 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
   }
   if (!logged)
     return "";
-
   
 
   return (

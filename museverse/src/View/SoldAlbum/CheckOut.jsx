@@ -92,7 +92,7 @@ const CheckOut = () => {
                             const body = {
                                 orderCode: '123',
                                 amount: item.total_final,
-                                description: 'Thanh toan album',
+                                description: 'THANH TOAN ALBUM',
                                 buyerName: item.first_name,
                                 buyerEmail: item.email_address,
                                 buyerPhone: item.contact_number,

@@ -53,8 +53,8 @@ function TopTrack({id, trackData}) {
                 </div>
                 <NavLink to={`/artist/${trackData.artists[0].id}`} className='text-[#EE5566] text-opacity-95 text-2xl hover:underline'>{trackData.artists[0].name}</NavLink>
             </div>
-            <div className='flex flex-row justify-center mt-5'>
-                <div className='w-11/12'>
+            <div className='flex flex-row justify-center items-center mt-5'>
+                <div className='w-[95%]'>
                     {
                             data.slice(0, limit).map((item, index) => (
                                 <ArtistTrackCard 
@@ -69,7 +69,7 @@ function TopTrack({id, trackData}) {
                     }
                 </div>
             </div>
-            <p onClick={() => {setLimit(limit+5)}} className={`hover:underline text-[#EE5566] text-opacity-80 ml-14 mt-5 ${(limit < data.length) ? "" : "hidden"}`}>Show more</p>
+            <p onClick={() => {setLimit(limit+5)}} className={`hover:underline cursor-pointer text-[#EE5566] text-opacity-80 ml-14 mt-5 ${(limit < data.length) ? "" : "hidden"}`}>Show more</p>
         </div>
     </div>
   )

@@ -1,16 +1,24 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 
 import { Spotify } from '../../API/Credentials';
 import RelatedArtistCardTrack from './RelatedArtistCardTrack';
+import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
 function RelatedArtistTrack({id, dark}) {
+    const { logged, setLogged } = useContext(LoggedContext);
     const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [artistID, setArtistID] = useState('')
+    const [dataSlice, setDataSlice] = useState(0)
 
     useEffect(() => {
+        if(logged) {
+            setDataSlice(5)
+        } else {
+            setDataSlice(6)
+        }
         // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
@@ -53,7 +61,7 @@ function RelatedArtistTrack({id, dark}) {
             <div className='flex justify-center'>
                 <div className="flex flex-row flex-wrap justify-start gap-5 mt-5">
                     {
-                        data.slice(0,6).map((item) => (
+                        data.slice(0,dataSlice).map((item) => (
                             <RelatedArtistCardTrack 
                             id={item.id}
                             image={item.images[0].url}

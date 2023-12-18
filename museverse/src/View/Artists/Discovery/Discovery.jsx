@@ -11,6 +11,7 @@ import ArtistCardAlbum from '../ArtistCardAlbum'
 import { chuyenNgay } from '../../Playlist/SplitNumber'
 import DiscoveryCard from './DiscoveryCard'
 import Loading from '../../Loading/Loading'
+import Headers from '../../Header/Header'
 
 function Discovery() {
     const [token, setToken] = useState('');
@@ -102,24 +103,27 @@ function Discovery() {
     if(loading) return <div><Loading /></div>
 
     return (
-        <div className='h-screen overflow-y-scroll w-full pb-32'>
-            <div className='flex flex-row justify-between'>
-                <div className='flex items-end ml-8'>
-                    <select value={type} onChange={handleChange} className="bg-transparent text-[#EE5566] text-opacity-80 w-32">
-                        <option value="single" className="bg-[#EE5566] text-white">Single</option>
-                        {(preData.length == 0) ? "" : <option className="bg-[#EE5566] text-white" value="album">Album</option>}
-                    </select>
+        <div>
+            <Headers />
+            <div className='h-screen overflow-y-scroll w-full pb-32'>
+                <div className='flex flex-row justify-between'>
+                    <div className='flex items-end ml-8'>
+                        <select value={type} onChange={handleChange} className="bg-transparent text-[#EE5566] text-opacity-80 w-32">
+                            <option value="single" className="bg-[#EE5566] text-white">Single</option>
+                            {(preData.length == 0) ? "" : <option className="bg-[#EE5566] text-white" value="album">Album</option>}
+                        </select>
+                    </div>
+                    <div className='flex flex-row justify-end mr-8 gap-3 mt-5'>
+                        <button className={`rounded-full w-8 h-8 flex justify-center items-center ${display ? "" : "bg-[#EE5566] bg-opacity-10"}`} onClick={() => {setDisplay(false)}}>
+                            <AiOutlineUnorderedList className="text-white text-opacity-80 text-xl"/>
+                        </button>
+                        <button className={`rounded-full w-8 h-8 flex justify-center items-center ${display ? "bg-[#EE5566] bg-opacity-10" : ""}`} onClick={() => {setDisplay(true)}}>
+                            <HiRectangleGroup className="text-white text-opacity-80 text-xl"/>
+                        </button>
+                    </div>
                 </div>
-                <div className='flex flex-row justify-end mr-8 gap-3 mt-5'>
-                    <button className={`rounded-full w-8 h-8 flex justify-center items-center ${display ? "" : "bg-[#EE5566] bg-opacity-10"}`} onClick={() => {setDisplay(false)}}>
-                        <AiOutlineUnorderedList className="text-white text-opacity-80 text-xl"/>
-                    </button>
-                    <button className={`rounded-full w-8 h-8 flex justify-center items-center ${display ? "bg-[#EE5566] bg-opacity-10" : ""}`} onClick={() => {setDisplay(true)}}>
-                        <HiRectangleGroup className="text-white text-opacity-80 text-xl"/>
-                    </button>
-                </div>
+                {display ? <GroupAlbum data={data}/> : <ListAlbum data={data} listAlbum={listAlbum}/>}
             </div>
-            {display ? <GroupAlbum data={data}/> : <ListAlbum data={data} listAlbum={listAlbum}/>}
         </div>
     )
 }

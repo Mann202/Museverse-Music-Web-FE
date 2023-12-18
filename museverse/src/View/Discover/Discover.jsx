@@ -67,7 +67,7 @@ export default function Discover({setPlayingTrack, setPlayingID, playingID, setT
                         </div>
                     </div>
                 </div>
-                <div className="bg-white bg-opacity-5 w-full h-40 flex justify-end pr-5 mt-10 pt-3">
+                <div className="bg-white bg-opacity-5 w-full mb-16 h-40 flex justify-end pr-5 mt-10 pt-3">
                     <p className="text-white">Museverse - Inspired by Spotify © 2023 Museverse</p>
                 </div>
             </div>

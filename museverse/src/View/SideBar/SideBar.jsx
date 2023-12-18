@@ -18,7 +18,7 @@ export default function SideBar() {
 
     return(
         <div
-        className={`md:flex flex-col h-screen py-6 px-4 bg-[#121212] overflow-y-scroll ${expanded ? "w-[240px]" : "w-[100px] py-3"} transition-all overflow-hidden`}
+        className={`md:flex flex-col pb-16 h-screen py-6 px-4 bg-[#121212] overflow-y-scroll ${expanded ? "w-[240px]" : "w-[100px] py-3"} transition-all overflow-hidden`}
         >
             <div className={`${expanded ? "flex justify-end" : "flex justify-center items-center"}`}>
                 <button className={` text-white ${expanded ? "w-3" : "w-9 h-12 pl-2"}`} onClick={() => {setExpanded(!expanded)}}>

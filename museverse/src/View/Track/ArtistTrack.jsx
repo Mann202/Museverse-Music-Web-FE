@@ -49,7 +49,7 @@ function ArtistTrack({id}) {
     if(loading) return <div>Loading..</div>
 
   return (
-    <div onClick={handleChange} className="flex flex-row gap-5 hover:bg-white hover:bg-opacity-30 hover:rounded-lg py-2 pr-10">
+    <div onClick={handleChange} className="flex flex-row gap-5 hover:bg-white hover:bg-opacity-30 hover:rounded-lg py-2 pr-10 cursor-pointer">
         <div className='ml-2'>
             <img src={data.images[0].url} className="w-24 h-24 rounded-full"></img>
         </div>

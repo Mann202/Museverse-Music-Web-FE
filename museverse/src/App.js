@@ -57,7 +57,7 @@ import PaymentResult from "./View/PaymentResult";
 import PaymentAlbum from "./View/PaymentResult/PaymentAlbum";
 
 function App() {
-  const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
+  const [playingTrack, setPlayingTrack] = useState('') 
   const [queue, setQueue] = useState('')
   const [status, setStatus] = useState([])
   const [next, setNext] = useState(false)
@@ -76,7 +76,7 @@ function App() {
     }
   }, [status])
 
-  const [playingID, setPlayingID] = useState('') //Lưu vào Playlist ID của playlist đang được phát
+  const [playingID, setPlayingID] = useState('') 
   const [trackInAlbum, setTrackInAlbum] = useState(0) //Lưu vào thứ tự phát của album khi được bấm (dùng để queue bài hát)
   const [isPlaying, setIsPlaying] = useState(true) //Lấy trạng thái của thanh nghe nhạc (Đang nghe hay đã dừng)
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
@@ -212,7 +212,7 @@ function App() {
           </div>
         </div>
         <div className="fixed bottom-0 w-full">
-            <Play playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying} setStatus={setStatus} setProgressMs={setProgressMs} setDevice={setDevice}/>
+            <Play setPlayingID={setPlayingID} setPlayingTrack={setPlayingTrack} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying} setStatus={setStatus} setProgressMs={setProgressMs} setDevice={setDevice}/>
         </div>
       </div>
     // </div>

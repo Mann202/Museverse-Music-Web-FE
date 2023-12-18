@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 
 import { Spotify } from '../../API/Credentials'
@@ -8,6 +8,7 @@ import { BsPauseFill, BsPlayFill } from 'react-icons/bs';
 import SearchingAlbumCard from './SearchingAlbumCard';
 import SearchingPlaylistCard from './SearchingPlaylistCard';
 import SearchingArtistsCard from './SearchingArtistsCard';
+import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
 function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}) {
     const [data, setData] = useState([])
@@ -16,8 +17,15 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
     const [searchAlbumData, setSeachAlbumData] = useState([])
     const [searchPlaylistData, setSearchPlaylistData] = useState([])
     const [searchArtistsData, setSearchArtistsData] = useState([])
+    const { logged, setLogged } = useContext(LoggedContext);
+    const [item, setItem] = useState(0)
 
     useEffect(() => {
+        if(logged) {
+            setItem(5)
+        } else {
+            setItem(6)
+        }
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -157,18 +165,20 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
                     <div>
                         <h1 className='text-white font-bold text-2xl'>Album</h1>
                     </div>
-                    <div className='flex flex-row gap-4 w-full'>
-                        {
-                            searchAlbumData.slice(0,6).map((item) => (
-                                <SearchingAlbumCard 
-                                id={item.id}
-                                name={item.name}
-                                release={item.release_date}
-                                img={item.images[0].url}
-                                artists={item.artists}
-                                />
-                            ))
-                        }
+                    <div className='flex justify-center'>
+                        <div className='flex flex-row gap-4 w-[95%]'>
+                            {
+                                searchAlbumData.slice(0,item).map((item) => (
+                                    <SearchingAlbumCard 
+                                    id={item.id}
+                                    name={item.name}
+                                    release={item.release_date}
+                                    img={item.images[0].url}
+                                    artists={item.artists}
+                                    />
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -178,18 +188,20 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
                     <div>
                         <h1 className='text-white font-bold text-2xl'>Playlist</h1>
                     </div>
-                    <div className='flex flex-row gap-4 w-full'>
-                        {
-                            searchPlaylistData.slice(0,6).map((item) => (
-                                <SearchingPlaylistCard
-                                id={item.id} 
-                                name={item.name}
-                                type={item.type}
-                                img={item.images[0].url}
-                                artists={item.artists}
-                                />
-                            ))
-                        }
+                    <div className='flex justify-center'>
+                        <div className='flex flex-row gap-4 w-[95%]'>
+                            {
+                                searchPlaylistData.slice(0,item).map((item) => (
+                                    <SearchingPlaylistCard
+                                    id={item.id} 
+                                    name={item.name}
+                                    type={item.type}
+                                    img={item.images[0].url}
+                                    artists={item.artists}
+                                    />
+                                ))
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -202,18 +214,22 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
                                 <div>
                                     <h1 className='text-white font-bold text-2xl'>Artists</h1>
                                 </div>
-                                <div className='flex flex-row gap-4 w-full'>
-                                    {
-                                        searchArtistsData.slice(0,6).map((item) => (
-                                            <SearchingArtistsCard 
-                                            id={item.id}
-                                            name={item.name}
-                                            type={item.type}
-                                            image={item.images}
-                                            artists={item.artists}
-                                            />
-                                        ))
-                                    }
+                                <div className='flex justify-center'>
+                                    <div className='flex justify-center'>
+                                        <div className='flex flex-row gap-4 w-[95%]'>
+                                            {
+                                                searchArtistsData.slice(0,item).map((item) => (
+                                                    <SearchingArtistsCard 
+                                                    id={item.id}
+                                                    name={item.name}
+                                                    type={item.type}
+                                                    image={item.images}
+                                                    artists={item.artists}
+                                                    />
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

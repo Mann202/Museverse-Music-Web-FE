@@ -100,6 +100,10 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
         }
     }, [requestsCompleted]);
 
+    const handleReload = () => {
+        window.location.reload();
+    }
+
     if (loading) return <div><Loading /></div>;
 
     return (
@@ -128,7 +132,7 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
                                             <p className={`text-white text-opacity-75 text-lg font-medium`}>{index+1}</p>
                                         </div>
                                         <div>
-                                            <p className='text-white text-lg font-medium text-opacity-90'>{item.name}</p>
+                                            <NavLink onClick={handleReload} to={`/track/${item.id}`} className='text-white text-lg font-medium text-opacity-90 cursor-pointer hover:underline'>{item.name}</NavLink>
                                             <div>
                                                 {
                                                     item.artists.map((artist, artistIndex) => (

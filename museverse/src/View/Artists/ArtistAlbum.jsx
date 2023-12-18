@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect, useContext} from "react";
 import {NavLink} from 'react-router-dom'
 import React from 'react'
 import axios from "axios";
@@ -6,16 +6,18 @@ import axios from "axios";
 import { Spotify } from "../../API/Credentials";
 import ArtistCardAlbum from "./ArtistCardAlbum";
 import RelatedArtist from "./RelatedArtist";
+import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
 function ArtistAlbum({id, dark}) {
     const [token, setToken] = useState('');
+    const { logged, setLogged } = useContext(LoggedContext);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true)
     const [preData, setPreData] = useState([])
     const [limit, setLimit] = useState(6)
     const [type, setType] = useState("single")
     const [choose, setChoose] = useState(true)
-
+    
     function handleChangeType1() {
         setType('single')
         setChoose(true)
@@ -26,7 +28,11 @@ function ArtistAlbum({id, dark}) {
     }
 
     useEffect(() => {
-        // Gọi API để lấy token
+        if(logged) {
+            setLimit(5)
+        } else {
+            setLimit(6)
+        }
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -37,8 +43,6 @@ function ArtistAlbum({id, dark}) {
         })
         .then(response => {
             setToken(response.data.access_token);
-            
-            // Gọi API Spotify ngay sau khi nhận được token
             axios(`https://api.spotify.com/v1/artists/${id}/albums?include_groups=${type}&market=VN&limit=${limit}`, {
                 method: 'GET',
                 headers: {
