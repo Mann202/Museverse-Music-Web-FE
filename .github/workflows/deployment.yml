@@ -3,7 +3,8 @@ name: CI/CD - Deployment
 on:
   push:
     branches:
-      - main
+      # - main
+      - deploy/test
 jobs:
   docker_build:
     runs-on: ubuntu-latest
