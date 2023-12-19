@@ -4,4 +4,4 @@ services:
   frontend:
     image: khoavhd/museverse-fe:latest
     ports:
-      - '80:80'
+      - '8888:80'
