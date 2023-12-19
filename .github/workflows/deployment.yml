@@ -24,8 +24,6 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: khoavhd/museverse-fe:latest
-          secrets: |
-            "REACT_APP_BACKEND_URL=${{ secrets.SSH_HOST }}"
 
   deploy:
     runs-on: ubuntu-latest
