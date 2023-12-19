@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Headers from '../Header/Header';
 import HistoryCard from '../../History/HistoryCard';
 import { chuyenNgay } from '../Playlist/SplitNumber';
+import axiosInstance from '../../API/axios';
 
 function LikedTrack({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPlayingTrack, playingData, isPlaying, setPlayingID}) {
     const user = localStorage.getItem('user')
@@ -11,11 +12,11 @@ function LikedTrack({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPla
     const [groupedData, setGroupedData] = useState({});
     const [renderPlaceholder, setRenderPlaceholder] = useState(false);
     const [data, setData] = useState([])
-    
+
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/getAllLikedSong?user_id=${userID}`)
+        axiosInstance.get(`/api/getAllLikedSong?user_id=${userID}`)
         .then(response => {
-            setData(response.data); 
+            setData(response.data);
         })
     }, []);
 
@@ -33,7 +34,7 @@ function LikedTrack({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPla
 
     useEffect(() => {
         groupDataByDate();
-    }, [data]); 
+    }, [data]);
 
 
     useEffect(() => {
@@ -41,7 +42,7 @@ function LikedTrack({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPla
         if (!data.length) {
             setRenderPlaceholder(true);
         }
-        }, 1000); 
+        }, 1000);
 
         return () => {
         clearTimeout(timeoutId);
@@ -61,7 +62,7 @@ function LikedTrack({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPla
       </div>
     );
   }
-    
+
     return (
         <div>
             <Headers />
@@ -80,7 +81,7 @@ function LikedTrack({currentPlay, setPlay, setTrackInAlbum, playingTrack, setPla
                                 </div>
                             </div>
                             {groupedData[date].map((item) => (
-                                <HistoryCard track_id={item.song_id} 
+                                <HistoryCard track_id={item.song_id}
                                 setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying}
                                 />
                             ))}

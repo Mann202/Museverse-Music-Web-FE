@@ -6,6 +6,7 @@ import Headers from '../../Header/Header';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axiosInstance from '../../../API/axios';
 
 const schema = yup.object().shape({
     album_name: yup.string().min(15, 'Album name must be at least 15 characters').required('Album name is required'),
@@ -40,7 +41,7 @@ const NewProduct = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/insertNewAlbum`, {
+      const response = await axiosInstance.post(`/api/insertNewAlbum`, {
         album_name: data.album_name,
         type: data.type,
         user_id: userID,
@@ -60,16 +61,16 @@ const NewProduct = () => {
             iconColor: '#EE5566'
           });
           navigate('/');
-        setSuccessMessage('Add new product successful!'); 
-        setErrorMessage(''); 
+        setSuccessMessage('Add new product successful!');
+        setErrorMessage('');
       } else {
-        setErrorMessage('Add new product failed. Please try again.'); 
-        setSuccessMessage(''); 
+        setErrorMessage('Add new product failed. Please try again.');
+        setSuccessMessage('');
       }
     } catch (error) {
       console.error('Error submitting data:', error);
-      setErrorMessage('Add new product failed. Please try again.'); 
-      setSuccessMessage(''); 
+      setErrorMessage('Add new product failed. Please try again.');
+      setSuccessMessage('');
     }
   };
 

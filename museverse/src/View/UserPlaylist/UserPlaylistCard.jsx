@@ -4,6 +4,7 @@ import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
 import { NavLink } from 'react-router-dom';
 import { CiBookmarkRemove } from "react-icons/ci";
+import axiosInstance from '../../API/axios';
 
 
 function UserPlaylistCard({ id, playlistID }) {
@@ -36,7 +37,7 @@ function UserPlaylistCard({ id, playlistID }) {
                 setData(response.data);
                 setLoading(false)
             });
-        }); 
+        });
     }, []);
 
     function handleHover() {
@@ -47,8 +48,8 @@ function UserPlaylistCard({ id, playlistID }) {
         setHover(false)
     }
 
-    function handleRemove() {
-        axios.post(`http://127.0.0.1:8000/api/removeSong?user_id=${userID}&id=${playlistID}&song_id=${id}`)
+    async function handleRemove() {
+        await axiosInstance.post(`/api/removeSong?user_id=${userID}&id=${playlistID}&song_id=${id}`)
         setIsRemoved(true);
     }
 
@@ -76,7 +77,7 @@ function UserPlaylistCard({ id, playlistID }) {
                 </div>
                 <div className='pt-4 pr-2'>
                     {
-                        hover 
+                        hover
                         ?
                         <CiBookmarkRemove onClick={handleRemove} className='text-white text-3xl cursor-pointer'/>
                         :

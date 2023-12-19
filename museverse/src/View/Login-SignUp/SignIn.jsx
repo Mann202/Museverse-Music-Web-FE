@@ -7,7 +7,9 @@ import { FaFacebook } from "react-icons/fa6";
 import { useGoogleLogin } from '@react-oauth/google';
 import { Link, useNavigate, useLocation, json, NavLink } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import axiosInstance from '../../API/axios';
+
 const SignIn = () => {
     const { logged, setLogged } = useContext(LoggedContext);
     const navigate = useNavigate();
@@ -15,8 +17,8 @@ const SignIn = () => {
     const from = location.state?.from?.pathname || "/";
     const [PasswordInputType, ToggleIcon, change] = UsePasswordToggle();
 
-    useEffect(()=>{
-        if(logged) navigate('/');
+    useEffect(() => {
+        if (logged) navigate('/');
     })
 
     const login = useGoogleLogin({
@@ -31,15 +33,12 @@ const SignIn = () => {
                     }
                 );
                 console.log('User log in with google: ', res.data);
-                let result = await fetch("http://localhost:8000/api/signingoogle", {
+
+                const _response = await axiosInstance("/api/signingoogle", {
                     method: 'POST',
-                    body: JSON.stringify(res.data),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: res.data
                 })
-                result = await result.json()
+                const result = _response.data
                 console.log("signin with google: ", result);
                 localStorage.setItem('user', JSON.stringify(result));
                 setLogged(true);
@@ -82,26 +81,28 @@ const SignIn = () => {
         setErrors(validationErrors)
 
         if (Object.keys(validationErrors).length === 0) {
-            let item = { username: formData.username, password: formData.password };
-            let result = await fetch("http://localhost:8000/api/signin", {
-                method: 'POST',
-                body: JSON.stringify(item),
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json'
-                }
-            })
-            result = await result.json()
-            console.log("sign in result", result);
+            try {
 
-            if (result.hasOwnProperty('error')) {
-                const Errors = {};
-                Errors.notmatch = result['error'];
-                setErrors(Errors);
-            } else {
-                localStorage.setItem('user', JSON.stringify(result));
-                setLogged(true);
-                navigate('/');
+                let item = { username: formData.username, password: formData.password };
+                const response = await axiosInstance("/api/signin", {
+                    method: 'POST',
+                    data: item
+                })
+                const result = response.data
+
+                if (result.hasOwnProperty('error')) {
+                    const Errors = {};
+                    Errors.notmatch = result['error'];
+                    setErrors(Errors);
+                } else {
+                    localStorage.setItem('user', JSON.stringify(result));
+                    setLogged(true);
+                    navigate(-1);
+                }
+            } catch (error) {
+                if (error instanceof AxiosError) {
+                    console.log("🚀 ~ file: SignIn.jsx:104 ~ handleSubmit ~ error:", error)
+                }
             }
 
         }

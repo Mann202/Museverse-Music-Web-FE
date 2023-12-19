@@ -8,6 +8,7 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import { CgSortAz } from "react-icons/cg";
 import axios from 'axios';
 import { formatNumber } from './../Dashboard/SalesDashboard';
+import axiosInstance from '../../../API/axios';
 
 
 function Users() {
@@ -16,7 +17,7 @@ function Users() {
     const [sortType, setSortType] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/getUser`).then(
+        axiosInstance.get(`/api/getUser`).then(
             response => {setData(response.data)}
         )
     }, [])

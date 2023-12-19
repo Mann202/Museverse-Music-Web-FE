@@ -7,6 +7,8 @@ import SoldAlbumCard from './SoldAlbumCard';
 import Loading from '../Loading/Loading';
 import axios from 'axios';
 import { Spotify } from '../../API/Credentials';
+import axiosInstance from '../../API/axios';
+
 const SoldAlbum = () => {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
@@ -21,22 +23,14 @@ const SoldAlbum = () => {
         const fetchData = async () => {
             try {
                 let item = { album_physi_id: 0 };
-                const response = await fetch("http://localhost:8000/api/getalbumphys", {
+                const response = await axiosInstance("/api/getalbumphys", {
                     method: 'POST',
-                    body: JSON.stringify(item),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: item,
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    setLoad(true);
-                    setData(result);
-                } else {
-                    console.error('Error:', response.statusText);
-                }
+                const result = response.data
+                setLoad(true);
+                setData(result);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -76,10 +70,10 @@ const SoldAlbum = () => {
         };
 
         if (data.length > 0) {
-            fetchArtists();            
+            fetchArtists();
         }
     }, [data]);
-    
+
 
     // console.log("artists", artists);
 
@@ -119,7 +113,7 @@ const SoldAlbum = () => {
             <div className='flex gap-5 flex-wrap w-full justify-center mb-5'>
                 {data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item, index) => {
                     const artist = artists.find(a => a.index == index);
-                    const artistName = artist ? artist.name : '';              
+                    const artistName = artist ? artist.name : '';
                     return (
                         <SoldAlbumCard
                             key={index}

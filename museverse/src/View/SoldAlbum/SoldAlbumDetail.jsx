@@ -6,6 +6,7 @@ import Loading from '../Loading/Loading';
 import { MdOutlineNavigateNext } from "react-icons/md";
 import axios from 'axios';
 import { Spotify } from '../../API/Credentials';
+import axiosInstance from '../../API/axios';
 
 const Albums = () => {
     const navigate = useNavigate();
@@ -47,22 +48,17 @@ const Albums = () => {
                 try {
                     const user = JSON.parse(localStorage.getItem('user'));
                     let item = { cust_id: user.user_id, album_physi_id: album_phys_id, price: (price ? price : data.max_price), num: value };
-                    const response = await fetch("http://localhost:8000/api/addtocart", {
+
+                    const response = await axiosInstance("/api/addtocart", {
                         method: 'POST',
-                        body: JSON.stringify(item),
-                        headers: {
-                            "Content-Type": 'application/json',
-                            "Accept": 'application/json'
-                        }
+                        data: item
                     });
 
-                    if (response.ok) {
-                        const result = await response.json();
-                        const errorString = result['message'] ? result['message'] : '';
-                        window.alert(errorString);
-                    } else {
-                        console.error('Error:', response.statusText);
-                    }
+                    const result = response.data
+                    const errorString = result['message'] ? result['message'] : '';
+                    window.alert(errorString);
+
+
                 } catch (error) {
                     console.error('Error:', error);
                 }
@@ -79,23 +75,14 @@ const Albums = () => {
         const fetchData = async () => {
             try {
                 let item = { album_physi_id: album_phys_id };
-                const response = await fetch("http://localhost:8000/api/getalbumphys", {
+                const response = await axiosInstance("/api/getalbumphys", {
                     method: 'POST',
-                    body: JSON.stringify(item),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: item
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    setLoad(true);
-                    setData(result);
-                    // setQuan();
-                } else {
-                    console.error('Error:', response.statusText);
-                }
+                const result = response.data
+                setLoad(true);
+                setData(result);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -107,22 +94,14 @@ const Albums = () => {
         const fetchData1 = async () => {
             try {
                 let item = { album_physi_id: album_phys_id };
-                const response = await fetch("http://localhost:8000/api/checkVersion", {
+                const response = await axiosInstance("/api/checkVersion", {
                     method: 'POST',
-                    body: JSON.stringify(item),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: item
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    setLoad3(true);
-                    sethasVer(result);                    
-                } else {
-                    console.error('Error:', response.statusText);
-                }
+                const result = response.data
+                setLoad3(true);
+                sethasVer(result);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -160,7 +139,7 @@ const Albums = () => {
 
     if (!load || !load2 || !load3) return <Loading />;
 
-    
+
 
     return (
         <div className='h-screen overflow-y-scroll'>

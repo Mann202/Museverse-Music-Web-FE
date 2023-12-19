@@ -58,19 +58,15 @@ const Play = ({setPlayingID, setPlayingTrack, setStatus, device, setDevice, setP
   //   if (!localStorage.getItem('user')) {
   //     // setLogged(false);
   //     console.log("chua dang nhap");
-  //   } 
+  //   }
   //   else {
   //     const user = JSON.parse(localStorage.getItem('user'));
   //     console.log("user", user.user_id);
-  //     let result = await fetch("http://localhost:8000/api/checkrole", {
+  //     const response = await axiosInstance("/api/checkrole", {
   //       method: 'POST',
-  //       body: JSON.stringify(user),
-  //       headers: {
-  //         "Content-Type": 'application/json',
-  //         "Accept": 'application/json'
-  //       }
+  //       data: user
   //     })
-  //     result = await result.json()
+  //     const result = response.data
   //     console.log("result", result.role_id);
   //     if (result.role_id == 3) //checkrole
   //     {
@@ -106,7 +102,8 @@ const Play = ({setPlayingID, setPlayingTrack, setStatus, device, setDevice, setP
         setToken(storedToken);
         setLoading(false);
       } else {
-        window.location.href = `https://accounts.spotify.com/authorize?client_id=378d7d72f2b14567b5a6efa04d922948&redirect_uri=http://localhost:3000/&scope=streaming%20user-read-email%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20user-read-private%20playlist-read-private%20playlist-read-collaborative%20playlist-modify-private%20playlist-modify-public%20user-read-recently-played&response_type=token`;
+        const currentUri = `${window.location.protocol}//${window.location.host}`
+        window.location.href = `https://accounts.spotify.com/authorize?client_id=378d7d72f2b14567b5a6efa04d922948&redirect_uri=${currentUri}/&scope=streaming%20user-read-email%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20user-read-private%20playlist-read-private%20playlist-read-collaborative%20playlist-modify-private%20playlist-modify-public%20user-read-recently-played&response_type=token`;
       }
     }
   }, []);
@@ -175,7 +172,7 @@ const Play = ({setPlayingID, setPlayingTrack, setStatus, device, setDevice, setP
         flag
           ?
           <div className="w-1/12 bg-black">
-            
+
           </div>
           :
           ""
@@ -214,7 +211,7 @@ const Play = ({setPlayingID, setPlayingTrack, setStatus, device, setDevice, setP
   }
   if (!logged)
     return "";
-  
+
 
   return (
     <div className="flex flex-row">

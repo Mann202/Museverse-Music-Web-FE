@@ -32,7 +32,7 @@ const CheckOut = () => {
         setSelectedItem(item);
     };
 
-    const HOST = process.env.NODE_ENV === 'development' ? `http://${window.location.host}` : process.env.WEB_URL
+    const HOST = `${window.location.protocol}//${window.location.host}`
     const RETURN_URL = `${HOST}/payment/album/`;
     const CANCEL_URL = `${HOST}/payment/album/`;
 
@@ -54,8 +54,8 @@ const CheckOut = () => {
           window.location.href = url;
         }
       };
-    
-    
+
+
       const handlePayment = async () => {
         if (!cont && contNum === 0) {
             if (selectedCity == '')
@@ -109,7 +109,7 @@ const CheckOut = () => {
                               }
                               let response = await createPaymentLink(body);
                               if (response.error != 0) throw new Error("Call Api failed: ");
-                          
+
                               redirectPaymentLink(response.data)
 
                         } catch (error) {
@@ -146,7 +146,7 @@ const CheckOut = () => {
     }, [data]);
 
     const clickCont = () => {
-        
+
     }
 
     const clickBack = () => {

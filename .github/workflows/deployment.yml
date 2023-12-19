@@ -26,7 +26,6 @@ jobs:
           tags: khoavhd/museverse-fe:latest
           secrets: |
             "REACT_APP_BACKEND_URL=${{ secrets.SSH_HOST }}"
-            "WEB_URL=${{ secrets.DOCKER_USERNAME }}"
 
   deploy:
     runs-on: ubuntu-latest

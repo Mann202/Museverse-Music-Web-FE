@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Headers from '../../Header/Header';
 import StoreCard from './StoreCard';
 import { NavLink } from 'react-router-dom';
+import axiosInstance from '../../../API/axios';
 
 function StoreDistributor() {
     const [data,setData] = useState([])
@@ -15,7 +16,7 @@ function StoreDistributor() {
   }
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/getAlbumDistributor?user_id=${userID}`).then(response => {
+        axiosInstance.get(`/api/getAlbumDistributor?user_id=${userID}`).then(response => {
             setData(response.data)
         })
     },[])
@@ -31,7 +32,7 @@ function StoreDistributor() {
             </div>
         </div>
     )
-    
+
     return (
         <div className='h-screen overflow-y-auto pb-32'>
             <Headers />

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import FollowedArtistCard from './FollowedArtistCard';
 import Headers from '../Header/Header';
 import Loading from '../Loading/Loading';
+import axiosInstance from '../../API/axios';
 
 function FollowedArtist() {
   const user = localStorage.getItem('user');
@@ -16,7 +17,7 @@ function FollowedArtist() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/getAllFollowedArtist?user_id=${userID}`);
+        const response = await axiosInstance.get(`/api/getAllFollowedArtist?user_id=${userID}`);
         const data = response.data;
 
         if (data.length === 0) {

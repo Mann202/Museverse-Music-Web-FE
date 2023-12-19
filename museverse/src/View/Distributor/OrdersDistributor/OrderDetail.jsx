@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Headers from '../../Header/Header'
 import Loading from '../../Loading/Loading';
 import { useNavigate, useParams } from 'react-router-dom';
+import axiosInstance from '../../../API/axios';
 
 const OrderDetail = () => {
     const navigate = useNavigate();
@@ -11,7 +12,7 @@ const OrderDetail = () => {
 
     const handleDelete = (orderid) => {
         // try {
-        //   const response = axios.get(`http://127.0.0.1:8000/api/deleteUserOrder?order_id=${orderid}`);
+        //   const response = axiosInstance.get(`/api/deleteUserOrder?order_id=${orderid}`);
         //   const path = "/orders"
         //   Swal.fire({
         //     background: "#1F1F22",
@@ -33,22 +34,13 @@ const OrderDetail = () => {
             try {
                 let item = { order_id: order_id };
                 console.log(order_id);
-                const response = await fetch("http://localhost:8000/api/getOrderDetail", {
+                const response = await axiosInstance("/api/getOrderDetail", {
                     method: 'POST',
-                    body: JSON.stringify(item),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: item
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    setLoad(true);
-                    setData(result);
-                } else {
-                    console.error('Error:', response.statusText);
-                }
+                setLoad(true);
+                setData(response.data);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -90,7 +82,7 @@ const OrderDetail = () => {
                                 </td>
                                 <td className="py-2 px-4 border-b border-[#EE5566]  border-r">
                                     {item.total_money}
-                                </td>                                
+                                </td>
                             </tr>
                         );
                     })}

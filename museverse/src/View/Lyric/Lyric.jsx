@@ -7,6 +7,7 @@ import ColorThief from 'colorthief';
 import { Spotify } from '../../API/Credentials';
 import { spotifyApi } from 'react-spotify-web-playback';
 import Cookies from 'js-cookie';
+import axiosInstance from '../../API/axios';
 
 function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
     const [lyric, setLyric] = useState([]);
@@ -29,8 +30,8 @@ function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
     }
 
     useEffect(() => {
-            
-            axios.get(`http://127.0.0.1:8000/api/getToken`).then(response => {
+
+            axiosInstance.get(`/api/getToken`).then(response => {
                 axios.get(`https://spclient.wg.spotify.com/color-lyrics/v2/track/${playingData.id}?format=json&vocalRemoval=false&market=from_token`, {
                 headers: {
                     "App-platform": "WebPlayer",
@@ -113,7 +114,7 @@ function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
 
     useEffect(() => {
         const storedToken = Cookies.get("spotifyToken");
-        
+
         const fetchPlaybackState = async () => {
           try {
             const response = await spotifyApi.getPlaybackState(storedToken);
@@ -122,14 +123,14 @@ function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
             console.error("Error fetching playback state:", error);
           }
         };
-      
+
         const intervalId = setInterval(fetchPlaybackState, 500);
-      
+
         return () => {
           clearInterval(intervalId);
         };
       }, []);
-      
+
 
     useEffect(() => {
         const checkLyricMatch = () => {
@@ -151,7 +152,7 @@ function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
                     });
 
                     refs.current[i].classList.add('text-[#EE5566]');
-                    setCurrentIndex(i); 
+                    setCurrentIndex(i);
                 }
             }
         };
@@ -188,7 +189,7 @@ function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
                                     className={`font-semibold text-xl pt-2 text-opacity-80 cursor-pointer ${
                                         currentIndex === indexItem ? 'text-[#EE5566]' : 'text-white'
                                     }`}
-                                    style={{ display: 'inline-block' }} 
+                                    style={{ display: 'inline-block' }}
                                 >
                                     {item.words}
                                 </p>
@@ -199,7 +200,7 @@ function Lyric({playingData, isPlaying, progressMs, device, setProgressMs }) {
             </div>
         </div>
     );
-    
+
 }
 
 export default Lyric;

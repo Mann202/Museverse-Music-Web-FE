@@ -5,6 +5,8 @@ import UsePasswordToggle from './UsePasswordToggle';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
 import Swal from 'sweetalert2'
+import axiosInstance from '../../API/axios';
+import { AxiosError } from 'axios';
 
 export default function SignUp() {
     const { logged, setLogged } = useContext(LoggedContext);
@@ -40,7 +42,7 @@ export default function SignUp() {
 
         if (!formData.password.trim()) {
             validationErrors.password = "Password is required"
-        } 
+        }
         // else if (formData.password.length < 6) {
         //     validationErrors.password = "Password should be at least 6 char"
         // }
@@ -49,41 +51,43 @@ export default function SignUp() {
 
         if (Object.keys(validationErrors).length === 0) {
             let item = { username: formData.username, email: formData.email, password: formData.password };
-            let result = await fetch("http://localhost:8000/api/signup", {
-                method: 'POST',
-                body: JSON.stringify(item),
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json'
-                }
-            })
-            result = await result.json()
-            console.log("sign up result", result);
+            try {
+                const response = await axiosInstance("/api/signup", {
+                    method: 'POST',
+                    data: item,
+                })
+                const result = response.data
 
-            if (result.hasOwnProperty('error')) {
-                const Errors = {};
-                Errors.notmatch = 'Email or username is already existed!';
-                setErrors(Errors);
-            } else {
-                Swal.fire({
-                    background: "#1F1F22",
-                    color: '#EE5566',
-                    title: "Sign up successfully!",
-                    icon: "success",
-                    confirmButtonText: "Go to HomePage",
-                    confirmButtonColor: '#EE5566',
-                    iconColor: '#EE5566'
-                }).then((res) => {
-                    if (res.isConfirmed) {
-                        localStorage.setItem('user', JSON.stringify(result));
-                        setLogged(true);
-                        navigate('/');
-                    }else{
-                        localStorage.setItem('user', JSON.stringify(result));
-                        setLogged(true);
-                        navigate('/');
-                    }
-                });
+                if (result.hasOwnProperty('error')) {
+                    const Errors = {};
+                    Errors.notmatch = 'Email or username is already existed!';
+                    setErrors(Errors);
+                } else {
+                    Swal.fire({
+                        background: "#1F1F22",
+                        color: '#EE5566',
+                        title: "Sign up successfully!",
+                        icon: "success",
+                        confirmButtonText: "Go to HomePage",
+                        confirmButtonColor: '#EE5566',
+                        iconColor: '#EE5566'
+                    }).then((res) => {
+                        if (res.isConfirmed) {
+                            localStorage.setItem('user', JSON.stringify(result));
+                            setLogged(true);
+                            navigate('/');
+                        } else {
+                            localStorage.setItem('user', JSON.stringify(result));
+                            setLogged(true);
+                            navigate('/');
+                        }
+                    });
+                }
+
+            } catch (error) {
+                if (error instanceof AxiosError) {
+                    console.log("🚀 ~ file: SignUp.jsx:80 ~ handleSubmit ~ error:", error)
+                }
             }
         }
 

@@ -55,9 +55,10 @@ import NewOrder from "./View/Distributor/OrdersDistributor/NewOrder";
 import OrderCheckout from "./View/Distributor/OrdersDistributor/OrderCheckout";
 import PaymentResult from "./View/PaymentResult";
 import PaymentAlbum from "./View/PaymentResult/PaymentAlbum";
+import axiosInstance from "./API/axios";
 
 function App() {
-  const [playingTrack, setPlayingTrack] = useState('') 
+  const [playingTrack, setPlayingTrack] = useState('')
   const [queue, setQueue] = useState('')
   const [status, setStatus] = useState([])
   const [next, setNext] = useState(false)
@@ -76,7 +77,7 @@ function App() {
     }
   }, [status])
 
-  const [playingID, setPlayingID] = useState('') 
+  const [playingID, setPlayingID] = useState('')
   const [trackInAlbum, setTrackInAlbum] = useState(0) //Lưu vào thứ tự phát của album khi được bấm (dùng để queue bài hát)
   const [isPlaying, setIsPlaying] = useState(true) //Lấy trạng thái của thanh nghe nhạc (Đang nghe hay đã dừng)
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
@@ -98,7 +99,7 @@ function App() {
 
   useEffect(() => {
     if (playingData.length != 0 && playingData.id !== "") {
-      axios.post(`http://127.0.0.1:8000/api/history`, {
+      axiosInstance.post(`/api/history`, {
         user_id: userID,
         track: playingData.id
       })
