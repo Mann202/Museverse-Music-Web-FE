@@ -51,7 +51,7 @@ export default function SignUp() {
 
         if (Object.keys(validationErrors).length === 0) {
             let item = { username: formData.username, email: formData.email, password: formData.password };
-            const response = await axiosInstance("/api/signup", {
+            const response = await fetch("http://localhost:8000/api/signup", {
                 method: 'POST',
                 body: JSON.stringify(item),
                 headers: {
