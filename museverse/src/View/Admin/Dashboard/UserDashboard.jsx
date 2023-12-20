@@ -19,7 +19,6 @@ function UserDashboard({userDashboard}) {
                     <tr>
                         <th className="py-2 px-4">User</th>
                         <th className="py-2 px-4">Status</th>
-                        <th className="py-2 px-4">Top Listening Artist</th>
                         <th className="py-2 px-4">Total order</th>
                         <th className="py-2 px-4">Revenue</th>
                     </tr>
@@ -36,7 +35,6 @@ function UserDashboard({userDashboard}) {
                                         item.accountStatusId === 3 ? <div className='bg-orange-300 text-black rounded-sm p-1'><p>Closed</p></div>
                                         : <div className='bg-red-300 text-black rounded-sm p-1'><p>Banned</p></div>
                                     }</td>
-                                    <td className="py-2 px-4 text-center">The Weekend</td>
                                     <td className="py-2 px-4 text-center">{item.name_count}</td>
                                     <td className="py-2 px-4 text-center">{formatCurrency(item.total_sum)}</td>
                                 </tr>

@@ -82,7 +82,7 @@ const SignIn = () => {
 
         if (Object.keys(validationErrors).length === 0) {
             let item = { username: formData.username, password: formData.password };
-            const response = await fetch("http://localhost:8000/api/signin", {
+            const response = await axiosInstance("/api/signin", {
                 method: 'POST',
                 body: JSON.stringify(item),
                 headers: {
