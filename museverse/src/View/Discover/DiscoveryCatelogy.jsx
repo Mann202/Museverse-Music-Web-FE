@@ -5,8 +5,9 @@ import Playlist from '../Playlist/Playlist';
 import PlaylistCard from '../Playlist/PlaylistCard';
 import CatelogyCard from '../Catelogy/CatelogyCard';
 import { categoriesWithTitles } from './List';
+import DiscoveryCatelogyCard from './DiscoveryCatelogyCard';
 
-function DiscoveryCatelogy() {
+function DiscoveryCatelogy({setPlayingTrack, setPlayingID, playingID, setTrackInAlbum}) {
     const[catelogy, setCatelogy] = useState([])
 
     useEffect(() => {
@@ -55,15 +56,19 @@ function DiscoveryCatelogy() {
                                 <h1 className='text-white text-xl font-semibold'>{item.title}</h1>
                             </div>
                             <div className='flex justify-center items-center pt-5'>
-                                <div className="flex flex-row gap-9 w-11/12">
+                                <div className="flex flex-row gap-5">
                                 {
                                     item.data.map(item => {
                                         return(
-                                            <CatelogyCard 
-                                            id={item.id}
-                                            name={item.name}
-                                            description={item.description}
-                                            image={item.images[0].url}
+                                            <DiscoveryCatelogyCard 
+                                                id={item.id}
+                                                name={item.name}
+                                                description={item.description}
+                                                image={item.images[0].url}
+                                                setPlayingTrack={setPlayingTrack}
+                                                setPlayingID={setPlayingID}
+                                                playingID={playingID}
+                                                setTrackInAlbum={setTrackInAlbum}
                                             />
                                         )
                                         })

@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { Spotify } from '../../../API/Credentials';
 import { chuyenNgay, capitalizeFirstLetter } from '../../Playlist/SplitNumber';
+import Headers from '../../Header/Header';
 
 function AppearOn() {
   const [data, setData] = useState([])
@@ -41,40 +42,43 @@ function AppearOn() {
     }, [artistID]);
 
   return (
-    <div className='h-screen overflow-y-scroll'>
-      <div className='mt-5 ml-8'>
-        <h3 className='font-semibold text-[#EE5566] text-lg'>Appear On</h3>
-      </div>
-      <div className='flex justify-center mt-5'>
-        <div className='w-10/12'>
-          <div className="flex flex-row flex-wrap gap-7 pb-32">
-            {data.map(item => (
-                <div
-                className={`bg-black bg-opacity-30 hover:bg-opacity-60 h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 cursor-pointer`}
-                //onMouseEnter={() => setIsHovered(true)}
-                //onMouseLeave={() => setIsHovered(false)}
-                //onClick={changeRoute}
-                >
-                  <div className="relative overflow-hidden">
-                      <img src={item.images[0].url} className="rounded-xl w-40 h-40 mt-3" alt={item.name} />
-                  </div>
-                  <div className="w-40 pb-4">
-                      <div>
-                        <h3 className="font-semibold text-base text-white">
-                            {item.name.length > 15 ? item.name.slice(0, 15) + '...' : item.name}
-                        </h3>
-                        <p className="font-normal text-sm text-[#9898A6]">
-                            {chuyenNgay(item.release_date)}
-                        </p>
+    <div>
+      <Headers />
+      <div className='h-screen overflow-y-scroll'>
+        <div className='mt-5 ml-8'>
+          <h3 className='font-semibold text-[#EE5566] text-lg'>Appear On</h3>
+        </div>
+        <div className='flex justify-center mt-5'>
+          <div className='w-10/12'>
+            <div className="flex flex-row flex-wrap gap-7 pb-32">
+              {data.map(item => (
+                  <div
+                  className={`bg-black bg-opacity-30 hover:bg-opacity-60 h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 cursor-pointer`}
+                  //onMouseEnter={() => setIsHovered(true)}
+                  //onMouseLeave={() => setIsHovered(false)}
+                  //onClick={changeRoute}
+                  >
+                    <div className="relative overflow-hidden">
+                        <img src={item.images[0].url} className="rounded-xl w-40 h-40 mt-3" alt={item.name} />
+                    </div>
+                    <div className="w-40 pb-4">
                         <div>
+                          <h3 className="font-semibold text-base text-white">
+                              {item.name.length > 15 ? item.name.slice(0, 15) + '...' : item.name}
+                          </h3>
                           <p className="font-normal text-sm text-[#9898A6]">
-                              {capitalizeFirstLetter(item.type)}
+                              {chuyenNgay(item.release_date)}
                           </p>
+                          <div>
+                            <p className="font-normal text-sm text-[#9898A6]">
+                                {capitalizeFirstLetter(item.type)}
+                            </p>
+                          </div>
                         </div>
-                      </div>
+                    </div>
                   </div>
-                </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>

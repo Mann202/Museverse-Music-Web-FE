@@ -88,10 +88,14 @@ export function LoggedHeader({ bgColor, showHello }) {
                 </div>
 
                 <div className="flex gap-4 mr-4 justify-center items-center">
-                    <div onClick={()=>navigate('/albums')} class="w-36 h-10 bg-[#EE5566] rounded-xl flex items-center justify-center gap-2 text-white font-bold cursor-pointer select-none hover:bg-[#ed4559]">
-                        <FaBagShopping />
-                        <div class="">Explore Store</div>
-                    </div>
+                    {logged ? 
+                        <div onClick={()=>navigate('/albums')} class="w-36 h-10 bg-[#EE5566] rounded-xl flex items-center justify-center gap-2 text-white font-bold cursor-pointer select-none hover:bg-[#ed4559]">
+                            <FaBagShopping />
+                            <div class="">Explore Store</div>
+                        </div>
+                        :
+                        null
+                    }
                     <SearchBar />
                     {logged ?
                         <div className="flex flex-row-reverse items-center bg-transparent h-16 gap-2">

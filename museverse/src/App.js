@@ -57,7 +57,7 @@ import PaymentResult from "./View/PaymentResult";
 import PaymentAlbum from "./View/PaymentResult/PaymentAlbum";
 
 function App() {
-  const [playingTrack, setPlayingTrack] = useState('') //Lưu vào URI của track hoặc các track
+  const [playingTrack, setPlayingTrack] = useState('') 
   const [queue, setQueue] = useState('')
   const [status, setStatus] = useState([])
   const [next, setNext] = useState(false)
@@ -76,7 +76,7 @@ function App() {
     }
   }, [status])
 
-  const [playingID, setPlayingID] = useState('') //Lưu vào Playlist ID của playlist đang được phát
+  const [playingID, setPlayingID] = useState('') 
   const [trackInAlbum, setTrackInAlbum] = useState(0) //Lưu vào thứ tự phát của album khi được bấm (dùng để queue bài hát)
   const [isPlaying, setIsPlaying] = useState(true) //Lấy trạng thái của thanh nghe nhạc (Đang nghe hay đã dừng)
   const [playingData, setPlayingData] = useState([]) //Lưu vào track đang được nghe
@@ -115,6 +115,36 @@ function App() {
       <div className="flex-1 flex flex-col bg-black">
         <div className="flex-1 pb-40">
           {
+            (userID == 0) ?
+            <Routes>
+              <Route path="/" element={<Discover setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/search" element={<Search />} />
+              <Route path="/search/:searching" element={<Search setPlay={setPlay} setPlayingTrack={setPlayingTrack} isPlaying={isPlaying} playingData={playingData} />} />
+              <Route path="/catelogy/:catelogyID" element={<Catelogy setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} />} />
+              <Route path="/playlist" element={<Playlist />} />
+              <Route path="/playlist/:playlistID" element={<Playlist setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} />} />
+              <Route path="/artist/" element={<Artist />} />
+              <Route path="/artist/:artistID" element={<Artist />} />
+              <Route path="/artist/:artistID/discovery-all" element={<Discovery />} />
+              <Route path="/artist/:artistID/all-albums" element={<AllAnotherAlbum />} />
+              <Route path="/artist/:artistID/related-artists" element={<Related />} />
+              <Route path="/artist/:artistID/appear-on" element={<AppearOn />} />
+              <Route path="/chart/" element={<Chart setPlayingTrack={setPlayingTrack} />} />
+              <Route path="/track" element={<Track setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} />}></Route>
+              <Route path="/track/:trackID" element={<Track playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack} />}></Route>
+              <Route path="/album/" element={<Album />} />
+              <Route path="/album/:albumID" element={<Album playingData={playingData} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} setPlayingTrack={setPlayingTrack} play={play} setPlay={setPlay} playingAlbumID={playingAlbumID} setPlayingAlbumID={setPlayingAlbumID} />} />
+              <Route path="/newrelease/" element={<NewRelease />} />
+              <Route path="/allnewrelease/" element={<AllNewReleases />} />
+              <Route path="/followedArtists" element={<FollowedArtist />} />
+              <Route path="/history" element={<History setIsPlaying={setIsPlaying} setPlay={setPlay} playingData={playingData} setPlayingTrack={setPlayingTrack} playingTrack={playingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum} isPlaying={isPlaying} />} />
+              <Route path="/albums/" element={<SoldAlbum />} />
+              <Route path="/episode/:episodeID" element={<Episode playingData={playingData} isPlaying={isPlaying} setPlay={setPlay} setPlayingTrack={setPlayingTrack} />} />
+              <Route path="/*" element={<NotFound />} />
+        </Routes>
+            :
             (accType == 3) ?
               <Routes>
                 <Route path="/" element={<Dashboard />} />
@@ -123,6 +153,7 @@ function App() {
                 <Route path="/users" element={<Users />} />
                 <Route path="/users/NewUser" element={<NewUser />} />
                 <Route path="/report" element={<Report />} />
+                <Route path="/*" element={<NotFound />} />
               </Routes>
               :
               (accType == 4) ?
@@ -135,10 +166,11 @@ function App() {
                   <Route path="/orderdetail/:order_id" element={<OrderDetail />} />
                   <Route path="/orders/neworder" element={<NewOrder />} />
                   <Route path="/orders/neworder/checkout" element={<OrderCheckout />} />
+                  <Route path="/*" element={<NotFound />} />
                 </Routes>
                 :
                 <Routes>
-                  <Route path="/" element={<Discover />} />
+                  <Route path="/" element={<Discover setPlayingTrack={setPlayingTrack} setPlayingID={setPlayingID} playingID={playingID} setTrackInAlbum={setTrackInAlbum}/>} />
                   <Route path="/signin" element={<SignIn />} />
                   <Route path="/signup" element={<SignUp />} />
                   <Route path="/search" element={<Search />} />
@@ -171,14 +203,16 @@ function App() {
                   <Route path="/albumsdetails/:album_phys_id" element={<SoldAlbumDetail />} />
                   <Route path="/shoppingcart/" element={<ShoppingCart />} />
                   <Route path="/shoppingcart/checkout/" element={<CheckOut />} />
-
-                <Route path="/profile" element={<Profile />} />
-
-                <Route path="/payment/result" element={<PaymentResult />} />
-                <Route path="/payment/album" element={<PaymentAlbum />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/payment/result" element={<PaymentResult />} />
+                  <Route path="/payment/album" element={<PaymentAlbum />} />
+                  <Route path="/*" element={<NotFound />} />
             </Routes>
             }
           </div>
+        </div>
+        <div className="fixed bottom-0 w-full">
+            <Play setPlayingID={setPlayingID} setPlayingTrack={setPlayingTrack} playingData={playingData} play={play} isPlaying={isPlaying} setPlayingData={setPlayingData} playingTrack={playingTrack} trackInAlbum={trackInAlbum} setIsPlaying={setIsPlaying} setStatus={setStatus} setProgressMs={setProgressMs} setDevice={setDevice}/>
         </div>
       </div>
     // </div>

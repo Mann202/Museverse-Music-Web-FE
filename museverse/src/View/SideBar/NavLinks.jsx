@@ -47,7 +47,7 @@ export default function NavLinks ({handleClick}) {
             if(response == undefined) {
                 playlistID = 1
             } else {
-                playlistID = response.data.id
+                playlistID = response.data.playlist_id
             }
             const title = "Your playlist"
             axios.post(`http://127.0.0.1:8000/api/createPlaylist`, {
@@ -90,7 +90,7 @@ export default function NavLinks ({handleClick}) {
                     className="flex flex-row justify-start items-center ml-2 my-8 text-sm font-medium text-gray-100 hover:text-[#EE5566]"
                     onClick={() => handleClick && handleClick()}
                 >
-                    <item.icon className={`w-10 h-7 ${expanded ? "mr-2" : "ml-[3px]"}`} />
+                    <item.icon className={`text-[#EE5566] w-10 h-7 ${expanded ? "mr-2" : "ml-[3px]"}`} />
                     <span className={`overflow-hidden transition-all ${expanded ? "w-56 ml-3" : "visibility: hidden"}`}>
                         {item.name}
                     </span>
@@ -100,8 +100,8 @@ export default function NavLinks ({handleClick}) {
 
             <div className='flex flex-row justify-between'>
                 <h2 className={`text-gray-500 font-semibold ${expanded ? "" : "visibility: hidden"}`}>My Playlist</h2>
-                <button onClick={handleAddplaylist} className='text-[#EE5566] rounded-full p-1'>
-                    <FaPlus className='text-xl'/>
+                <button onClick={handleAddplaylist} className={`text-[#EE5566] rounded-full p-1 ${expanded ? "mr-2" : "ml-[16px]"}`}>
+                    <FaPlus className='text-2xl'/>
                 </button>
             </div>
 

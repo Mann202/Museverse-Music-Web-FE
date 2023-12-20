@@ -138,7 +138,11 @@ function PlayButton({artistID}) {
     const [followed, setFollowed] = useState(false);
     const user = localStorage.getItem('user')
     const userJson = JSON.parse(user);
-    const userID = userJson.user_id;
+    let userID = 0
+    if(userJson == null) {
+    } else {
+        userID = userJson.user_id;
+    }
 
     useEffect(() => {
         async function checkFollowStatus() {
@@ -181,6 +185,10 @@ function PlayButton({artistID}) {
         } catch (error) {
             console.error('Error unfollowing artist:', error);
         }
+    }
+
+    if(userID == 0) {
+        return null;
     }
     return (
         <div className="flex flex-row ml-10 gap-5 -mt-5">

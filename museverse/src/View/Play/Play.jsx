@@ -14,7 +14,7 @@ import PlayArtist from "./PlayArtist";
 import Swal from "sweetalert2";
 import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
-const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
+const Play = ({setPlayingID, setPlayingTrack, setStatus, device, setDevice, setProgressMs, playingTrack, trackInAlbum, setIsPlaying, setPlayingData, isPlaying, playingData, play }) => {
   const [flag, setFlag] = useState(false);
   const { logged, setLogged } = useContext(LoggedContext);
   const location = useLocation();
@@ -111,19 +111,84 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
     }
   }, []);
 
-  if(accType == 1) {
-    spotifyApi.shuffle(token, true, device)
-  }
-
   if (!token) {
     return <p>Redirecting to Spotify...</p>;
   }
 
+  if(accType === 1 && playingTrack.length !== 0) {
+    return(
+      <div className="flex flex-row">
+      <div div className="w-4/12 bg-black" >
+        {
+          (playingData.length == 0)
+            ? <p className="text-white">Loading</p>
+            :
+            <div className="w-full h-full">
+              {
+                (playingData.name === '') ? "" :
+                  <div className="flex flex-row gap-2 w-full h-full">
+                    <div className="flex items-center pl-2">
+                      <img src={playingData.image} className="w-16 h-16 rounded-lg"></img>
+                    </div>
+                    <div className="flex items-start flex-col mt-1">
+                      <NavLink to={`/track/${playingData.id}`} className="text-white font-semibold hover:underline">
+                        {playingData.name.length > 40
+                          ? playingData.name.substring(0, 40) + "..."
+                          : playingData.name}
+                      </NavLink>
+                      <PlayArtist playingData={playingData} />
+                    </div>
+                  </div>
+              }
+            </div>
+        }
+      </div >
+      <div className="w-10/12">
+        <SpotifyPlayer
+          hideAttribution={true}
+          styles={{
+            bgColor: "#000",
+            sliderHandleColor: "#fff",
+            color: "#EE5566",
+            loaderColor: "#EE5566",
+            sliderColor: "#EE5566",
+            savedColor: "#fff",
+            trackArtistColor: "#000",
+            trackNameColor: "#000",
+          }}
+          offset={trackInAlbum}
+          hideCoverArt={true}
+          token={token}
+          play={play}
+          uris={playingTrack}
+          callback={(state) => {
+            setStatus(state.nextTracks)
+            setIsPlay(state.isPlaying)
+            setIsPlaying(state.isPlaying)
+            setPlayingData(state.track)
+            setProgressMs(state.progressMs)
+            setDevice(state.currentDeviceId)
+          }}
+        />
+      </div>
+      {
+        flag
+          ?
+          <div className="w-1/12 bg-black">
+            
+          </div>
+          :
+          ""
+      }
+    </div>
+    )
+  }
+
   if (loading) return <Loading />;
 
-  if (playingTrack.length == 0) return "";
+  if (playingTrack.length === 0 && logged) return "";
 
-  if (!logged) {
+  if (!logged && playingTrack.length !== 0) {
     (async () => {
       const result = await Swal.fire({
         background: "#1F1F22",
@@ -137,6 +202,9 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
         showCancelButton: false
       });
 
+      setPlayingTrack('')
+      setPlayingID('')
+
       if (result.isConfirmed) {
         navigate('/signin');
       } else if (result.isDenied) {
@@ -146,6 +214,7 @@ const Play = ({setStatus, device, setDevice, setProgressMs, playingTrack, trackI
   }
   if (!logged)
     return "";
+  
 
   return (
     <div className="flex flex-row">

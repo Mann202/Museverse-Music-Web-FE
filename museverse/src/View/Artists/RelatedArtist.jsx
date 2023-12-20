@@ -1,16 +1,25 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 
 import { Spotify } from '../../API/Credentials';
 import RelatedArtistCard from './RelatedArtistCard';
+import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
 function RelatedArtist({id}) {
     const [token, setToken] = useState('');
+    const { logged, setLogged } = useContext(LoggedContext);
     const [data, setData] = useState([]);
     const [artistID, setArtistID] = useState('')
+    const [dataSlice, setDataSlice] = useState(0);
+    
 
     useEffect(() => {
+        if(logged) {
+            setDataSlice(5)
+        } else {
+            setDataSlice(6)
+        }
         // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {
             headers: {
@@ -49,16 +58,18 @@ function RelatedArtist({id}) {
                 <NavLink to={`/artist/${id}/related-artists`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
             </div>
         </div>
-        <div className="flex flex-row flex-wrap justify-start ml-5 gap-5">
-            {
-                data.slice(0,6).map((item) => (
-                    <RelatedArtistCard 
-                    id={item.id}
-                    image={item.images[0].url}
-                    name={item.name}
-                    />
-                ))
-            }
+        <div className='flex justify-center'>
+            <div className="flex flex-row flex-wrap justify-start gap-5 w-[94%]" >
+                {
+                    data.slice(0,dataSlice).map((item) => (
+                        <RelatedArtistCard 
+                        id={item.id}
+                        image={item.images[0].url}
+                        name={item.name}
+                        />
+                    ))
+                }
+            </div>
         </div>
     </div>
   )

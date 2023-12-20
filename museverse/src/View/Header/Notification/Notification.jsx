@@ -14,7 +14,7 @@ function Notification({notification, data}) {
     var ngayThangMoi = ngay + '/' + thang + '/' + nam;
 
     return (
-        <div className="bg-[#1A1A1A] w-96 p-4 rounded-md h-fit absolute top-16 right-4 border-solid border-[1px] border-gray-700 mt-1">
+        <div className="bg-[#1A1A1A] z-50 w-96 p-4 rounded-md h-fit absolute top-16 right-4 border-solid border-[1px] border-gray-700 mt-1">
             <div className="flex flex-row gap-6">
                 <img src={data[0].images[0].url} className="w-24 h-24 rounded"></img>
                 <div>

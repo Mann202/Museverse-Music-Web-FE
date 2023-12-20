@@ -125,7 +125,7 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     return (
         <div>
           <Headers bgColor={backgroundColor} />
-          <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-16">
+          <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-32">
             <div className="flex flex-col gap-10">
                 <div className='flex flex-row gap-5'>
                     <img src={image} className='ml-8 mt-8 w-56 h-56' alt={data.name}></img>
@@ -201,7 +201,11 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
 function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingTrack}) {
   const user = localStorage.getItem('user')
   const userJson = JSON.parse(user);
-  const userID = userJson.user_id;
+  let userID = 0
+  if(userJson == null) {
+  } else {
+    userID = userJson.user_id;
+  }
   const [expanded, setExpanded] = useState(false)
   const [saved, setSaved] = useState(false);
   const [playlist, setPlaylist] = useState(false)
@@ -268,7 +272,9 @@ function PlayButton({trackID, playingData, data, isPlaying, setPlay, setPlayingT
     axios.post(`http://127.0.0.1:8000/api/addPlaylist?id=${id}&song_id=${data.id}`)
   }
 
-
+  if(userID == 0) {
+    return null;
+  }
   return (
       <div className="flex flex-row justify-start gap-5 -mt-5">
           {

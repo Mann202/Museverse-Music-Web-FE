@@ -21,7 +21,7 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
   return (
     <>
       <div
-        className="flex flex-row justify-between w-11/12 gap-20 pl-3 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1"
+        className="flex flex-row justify-between gap-20 pl-1 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1"
         onMouseEnter={() => {
           setFocus(true);
         }}
