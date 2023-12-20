@@ -101,7 +101,7 @@ const SignIn = () => {
             } else {
                 localStorage.setItem('user', JSON.stringify(result));
                 setLogged(true);
-                navigate(-1);
+                navigate('/');
             }
 
         }
