@@ -24,7 +24,7 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
         if(logged) {
             setItem(5)
         } else {
-            setItem(6)
+            setItem(7)
         }
         axios('https://accounts.spotify.com/api/token', {
             headers: {
@@ -160,9 +160,9 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
                 </div>
             </div>
                         
-            <div className='mt-12 ml-5'>
+            <div className='mt-12'>
                 <div className='flex flex-col gap-5'>
-                    <div>
+                    <div className='ml-5'>
                         <h1 className='text-white font-bold text-2xl'>Album</h1>
                     </div>
                     <div className='flex justify-center'>
@@ -183,9 +183,9 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
                 </div>
             </div>
 
-            <div className='mt-12 ml-5'>
+            <div className='mt-12'>
                 <div className='flex flex-col gap-5'>
-                    <div>
+                    <div className='ml-5'>
                         <h1 className='text-white font-bold text-2xl'>Playlist</h1>
                     </div>
                     <div className='flex justify-center'>
@@ -209,9 +209,9 @@ function Searching({searching, setPlayingTrack, isPlaying, playingData, setPlay}
             {
                 (searchArtistsData.length > 0) 
                     ?
-                        <div className='mt-12 ml-5'>
+                        <div className='mt-12'>
                             <div className='flex flex-col gap-5'>
-                                <div>
+                                <div className='ml-5'>
                                     <h1 className='text-white font-bold text-2xl'>Artists</h1>
                                 </div>
                                 <div className='flex justify-center'>

@@ -36,31 +36,36 @@ export default function NavLinks ({handleClick}) {
         )
     },[])
 
-    function handleAddplaylist() {
-
-        const user = localStorage.getItem('user')
-        const userJson = JSON.parse(user);
-        const userID = userJson.user_id;
-
-        let playlistID = 0
-        axios.get(`http://127.0.0.1:8000/api/getPlaylistID?user_id=${userID}`).then(response => {
-            if(response == undefined) {
-                playlistID = 1
+    async function handleAddplaylist() {
+        try {
+            const user = localStorage.getItem('user');
+            const userJson = JSON.parse(user);
+            const userID = userJson.user_id;
+    
+            let playlistID = 0;
+    
+            const response = await axios.get(`http://127.0.0.1:8000/api/getPlaylistID?user_id=${userID}`);
+    
+            if (response === undefined) {
+                playlistID = 1;
             } else {
-                playlistID = response.data.playlist_id
+                playlistID = response.data.id;
             }
-            const title = "Your playlist"
-            axios.post(`http://127.0.0.1:8000/api/createPlaylist`, {
-                user_id : userID,
+    
+            const title = "Your playlist";
+    
+            await axios.post(`http://127.0.0.1:8000/api/createPlaylist`, {
+                user_id: userID,
                 id: playlistID,
                 title: title
-            })
-        }).then(() =>
-            {
-                const path =`/user-playlist/${playlistID+1}`
-                navigate(path)
-            }
-        )
+            });
+    
+            const path = `/user-playlist/${playlistID + 1}`;
+            navigate(path);
+    
+        } catch (error) {
+            console.error("Error while adding playlist:", error);
+        }
     }
 
     return(

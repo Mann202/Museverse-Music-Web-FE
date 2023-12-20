@@ -15,7 +15,7 @@ function ArtistAppear({id, dark}) {
         if(logged) {
             setLimit(5)
         } else {
-            setLimit(6)
+            setLimit(7)
         }
     }, [])
 
@@ -59,7 +59,7 @@ function ArtistAppear({id, dark}) {
                 </div>
             </div>
             <div className='flex justify-center'>
-                <div className={`flex flex-row flex-wrap gap-5 w-[95%] ${(data.length < 6) ? "justify-start ml-5" : "justify-center"} mt-4`}>
+                <div className={`flex flex-row flex-wrap gap-5 w-[95%] ${(data.length < 7) ? "justify-start" : "justify-center"} mt-4`}>
                     {
                         data.map(item => (
                             <AppearOnCard 

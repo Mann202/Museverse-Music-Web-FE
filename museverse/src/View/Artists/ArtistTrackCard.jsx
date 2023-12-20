@@ -19,7 +19,7 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
     }
 
   return (
-    <>
+    <div className='my-1'>
       <div
         className="flex flex-row justify-between gap-20 pl-1 hover:bg-white/10 hover:bg-opacity-70 hover:rounded-lg py-1"
         onMouseEnter={() => {
@@ -64,7 +64,7 @@ function ArtistTrackCard({index, id, image, name, duration, release_date}) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

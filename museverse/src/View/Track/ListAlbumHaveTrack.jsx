@@ -107,7 +107,7 @@ function ListAlbumHaveTrack({ trackID, artistID }) {
     if (loading) return <div><Loading /></div>;
 
     return (
-        <div className='mt-10'>
+        <div className='mt-10 pb-32'>
             <div className='flex justify-center'>
                 <div className='w-11/12'>
                     <div className='flex flex-row gap-2'>

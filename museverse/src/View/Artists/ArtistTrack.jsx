@@ -43,21 +43,23 @@ function ArtistTrack({id}) {
 
     return (
         <div className='flex justify-center'>
-           <div className='w-full flex flex-col justify-center ml-10 mt-5'>
-            <h1 className="text-[#EE5566] text-opacity-90 font-semibold text-lg">Popular</h1>
-                <div className='mt-5'>
-                {
-                    data.map((item, index) => (
-                        <ArtistTrackCard 
-                        index={index}
-                        id={item.id}
-                        image={item.album.images[0].url}
-                        name={item.album.name}
-                        duration ={item.duration_ms}
-                        release_date = {item.album.release_date}
-                        />
-                    ))
-                } 
+           <div className='w-full flex flex-col justify-center mt-5 gap-2'>
+            <h1 className="text-[#EE5566] text-opacity-90 font-semibold text-lg ml-10">Popular</h1>
+                <div className='mt-5 flex justify-center'>
+                    <div className='w-[95%]'>
+                    {
+                        data.map((item, index) => (
+                            <ArtistTrackCard 
+                            index={index}
+                            id={item.id}
+                            image={item.album.images[0].url}
+                            name={item.album.name}
+                            duration ={item.duration_ms}
+                            release_date = {item.album.release_date}
+                            />
+                        ))
+                    } 
+                    </div>
                 </div>
            </div>
         </div>

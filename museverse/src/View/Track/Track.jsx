@@ -125,7 +125,7 @@ function Track({playingData, isPlaying, setPlay, setPlayingTrack}) {
     return (
         <div>
           <Headers bgColor={backgroundColor} />
-          <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll pb-32">
+          <div style={{background: `linear-gradient(${backgroundColor}, black)`}} className="h-screen overflow-y-scroll">
             <div className="flex flex-col gap-10">
                 <div className='flex flex-row gap-5'>
                     <img src={image} className='ml-8 mt-8 w-56 h-56' alt={data.name}></img>

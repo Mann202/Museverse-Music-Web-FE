@@ -45,10 +45,10 @@ function TopTrack({id, trackData}) {
     if(loading) return <div><Loading /></div>
 
   return (
-    <div className='mt-10 ml-10'>
+    <div className='mt-10'>
         <div>
             <div className='flex flex-row gap-2'>
-                <div className='flex items-end'>
+                <div className='flex items-end ml-10'>
                     <h3 className='text-[#EE5566] text-opacity-90 text-lg'>Top track by </h3>
                 </div>
                 <NavLink to={`/artist/${trackData.artists[0].id}`} className='text-[#EE5566] text-opacity-95 text-2xl hover:underline'>{trackData.artists[0].name}</NavLink>
