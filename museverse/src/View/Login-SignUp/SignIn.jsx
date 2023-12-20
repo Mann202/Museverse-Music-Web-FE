@@ -83,7 +83,7 @@ const SignIn = () => {
 
         if (Object.keys(validationErrors).length === 0) {
             let item = { username: formData.username, password: formData.password };
-            let result = await fetch("http://localhost:8000/api/signin", {
+            const response = await fetch("http://localhost:8000/api/signin", {
                 method: 'POST',
                 body: JSON.stringify(item),
                 headers: {
@@ -91,18 +91,24 @@ const SignIn = () => {
                     "Accept": 'application/json'
                 }
             })
-            result = await result.json()
-            console.log("sign in result", result);
-
-            if (result.hasOwnProperty('error')) {
+            if (response.ok){
+                let result = await response.json()
+                console.log("sign in result", result);
+    
+                if (result.hasOwnProperty('error')) {
+                    const Errors = {};
+                    Errors.notmatch = result['error'];
+                    setErrors(Errors);
+                } else {
+                    localStorage.setItem('user', JSON.stringify(result));
+                    setLogged(true);
+                    navigate('/');
+                }
+            }else{
                 const Errors = {};
-                Errors.notmatch = result['error'];
+                Errors.notmatch = 'Connection Failed, try again later!';
                 setErrors(Errors);
-            } else {
-                localStorage.setItem('user', JSON.stringify(result));
-                setLogged(true);
-                navigate('/');
-            }
+            }           
 
         }
 
