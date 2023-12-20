@@ -51,12 +51,17 @@ export default function SignUp() {
 
         if (Object.keys(validationErrors).length === 0) {
             let item = { username: formData.username, email: formData.email, password: formData.password };
-            try {
-                const response = await axiosInstance("/api/signup", {
-                    method: 'POST',
-                    data: item,
-                })
-                const result = response.data
+            const response = await fetch("http://localhost:8000/api/signup", {
+                method: 'POST',
+                body: JSON.stringify(item),
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Accept": 'application/json'
+                }
+            })
+            if (response.ok) {
+                let result = await response.json()
+                console.log("sign up result", result);
 
                 if (result.hasOwnProperty('error')) {
                     const Errors = {};
@@ -83,12 +88,12 @@ export default function SignUp() {
                         }
                     });
                 }
-
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    console.log("🚀 ~ file: SignUp.jsx:80 ~ handleSubmit ~ error:", error)
-                }
+            } else {
+                const Errors = {};
+                Errors.notmatch = 'Connection Failed, try again later!';
+                setErrors(Errors);
             }
+
         }
 
     }

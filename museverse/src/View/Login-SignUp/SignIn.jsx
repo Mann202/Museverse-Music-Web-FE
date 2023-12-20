@@ -81,15 +81,19 @@ const SignIn = () => {
         setErrors(validationErrors)
 
         if (Object.keys(validationErrors).length === 0) {
-            try {
-
-                let item = { username: formData.username, password: formData.password };
-                const response = await axiosInstance("/api/signin", {
-                    method: 'POST',
-                    data: item
-                })
-                const result = response.data
-
+            let item = { username: formData.username, password: formData.password };
+            const response = await fetch("http://localhost:8000/api/signin", {
+                method: 'POST',
+                body: JSON.stringify(item),
+                headers: {
+                    "Content-Type": 'application/json',
+                    "Accept": 'application/json'
+                }
+            })
+            if (response.ok){
+                let result = await response.json()
+                console.log("sign in result", result);
+    
                 if (result.hasOwnProperty('error')) {
                     const Errors = {};
                     Errors.notmatch = result['error'];
@@ -97,13 +101,13 @@ const SignIn = () => {
                 } else {
                     localStorage.setItem('user', JSON.stringify(result));
                     setLogged(true);
-                    navigate(-1);
+                    navigate('/');
                 }
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    console.log("🚀 ~ file: SignIn.jsx:104 ~ handleSubmit ~ error:", error)
-                }
-            }
+            }else{
+                const Errors = {};
+                Errors.notmatch = 'Connection Failed, try again later!';
+                setErrors(Errors);
+            }           
 
         }
 
