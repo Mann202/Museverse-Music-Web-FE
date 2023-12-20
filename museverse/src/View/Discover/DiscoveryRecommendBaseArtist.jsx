@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Spotify } from '../../API/Credentials';
 import Loading from '../Loading/Loading';
+import axiosInstance from '../../API/axios';
 
 function DiscoveryRecommendBaseArtist() {
     const [followArtistResults, setFollowArtistResults] = useState([]);
@@ -23,15 +24,15 @@ function DiscoveryRecommendBaseArtist() {
         })
         .then(response => {
             const accessToken = response.data.access_token;
-            
-            
-            axios.get(`http://127.0.0.1:8000/api/followArtist?id=${id}`)
+
+
+            axiosInstance.get(`/api/followArtist?id=${id}`)
                 .then(response => {
                     followArtist.splice(0);
                     response.data.forEach(item => {
                         followArtist.push(item.artist_id);
                     });
-                    
+
                     if(response.data.length < 3) {
                         setHide(true)
                     }
@@ -113,7 +114,7 @@ function DiscoveryRecommendBaseArtist() {
                         <p className='text-white text-xl font-semibold'>{artistInfor[1].name}</p>
                     </div>
                 </div>
-                    
+
                 <div className='flex justify-center'>
                     <div className='w-11/12 flex flex-row gap-9 pt-8'>
                         {
@@ -169,7 +170,7 @@ function DiscoveryRecommendBaseArtist() {
                 </div>
             </div>
 
-            
+
         </div>
     );
 }

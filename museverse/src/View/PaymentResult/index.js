@@ -4,6 +4,7 @@ import { getOrder } from '../../Utils/payOS';
 import Headers from '../Header/Header';
 import OrderTable from './OrderTable';
 import axios from 'axios';
+import axiosInstance from '../../API/axios';
 
 export default function PaymentResult() {
   const [order, setOrder] = useState();
@@ -30,13 +31,13 @@ export default function PaymentResult() {
           console.log(JSON.stringify(data, null, 2));
           if (data.error == 0) {
             setOrder(data.data);
-            axios.post(`http://127.0.0.1:8000/api/updatePremium`, {
+            axiosInstance.post(`/api/updatePremium`, {
               user_id: userID
             })
-            const user = JSON.parse(localStorage.getItem('user')); 
+            const user = JSON.parse(localStorage.getItem('user'));
             if (user != null) {
               user.accountTypeID = 2;
-              localStorage.setItem('user', JSON.stringify(user)); 
+              localStorage.setItem('user', JSON.stringify(user));
             }
           } else if (data.error == -1) {
             alert('Không tìm thấy đơn hàng');

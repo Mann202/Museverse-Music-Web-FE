@@ -1,12 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import axiosInstance from '../../../API/axios'
 
 function SalesDashboard() {
     const [data, setData] = useState([])
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/getSaleReport`).then(response => {
+        axiosInstance.get(`/api/getSaleReport`).then(response => {
             setData(response.data)
         })
     },[])

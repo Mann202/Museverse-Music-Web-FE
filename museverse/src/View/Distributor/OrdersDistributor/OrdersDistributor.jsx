@@ -4,6 +4,7 @@ import Loading from '../../Loading/Loading';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import axiosInstance from '../../../API/axios';
 
 function OrdersDistributor() {
   const navigate = useNavigate();
@@ -14,29 +15,22 @@ function OrdersDistributor() {
     const fetchData = async () => {
       try {
         let item = { order_id: orderid };
-        const response = await fetch(`http://localhost:8000/api/deleteUserOrder`, {
+        await axiosInstance(`/api/deleteUserOrder`, {
           method: 'POST',
-          body: JSON.stringify(item),
-          headers: {
-            "Content-Type": 'application/json',
-            "Accept": 'application/json'
-          }
+          data: item
         });
-        if (response.ok) {
-          Swal.fire({
-            background: "#1F1F22",
-            color: '#EE5566',
-            title: "Delete order successful!",
-            icon: "success",
-            iconColor: '#EE5566'
-          });
-          const path = "/orders";
-          navigate(path);
-          const updatedData = data.filter(row => row.order_id !== orderid);
-          setData(updatedData);
-        } else {
-          console.error('Error:', response.statusText);
-        }
+
+        Swal.fire({
+          background: "#1F1F22",
+          color: '#EE5566',
+          title: "Delete order successful!",
+          icon: "success",
+          iconColor: '#EE5566'
+        });
+        const path = "/orders";
+        navigate(path);
+        const updatedData = data.filter(row => row.order_id !== orderid);
+        setData(updatedData);
       } catch (error) {
         console.error('Error:', error);
       }
@@ -50,22 +44,14 @@ function OrdersDistributor() {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
         let item = { user_id: user.user_id };
-        const response = await fetch("http://localhost:8000/api/getUserOrder", {
+        const response = await axiosInstance("/api/getUserOrder", {
           method: 'POST',
-          body: JSON.stringify(item),
-          headers: {
-            "Content-Type": 'application/json',
-            "Accept": 'application/json'
-          }
+          data: item
         });
 
-        if (response.ok) {
-          const result = await response.json();
-          setLoad(true);
-          setData(result);
-        } else {
-          console.error('Error:', response.statusText);
-        }
+        const result = response.data
+        setLoad(true);
+        setData(result);
       } catch (error) {
         console.error('Error:', error);
       }

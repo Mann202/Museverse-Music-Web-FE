@@ -8,6 +8,7 @@ import { TiArrowSortedDown } from "react-icons/ti";
 import { CgSortAz } from "react-icons/cg";
 import axios from 'axios';
 import { formatNumber } from '../Dashboard/SalesDashboard';
+import axiosInstance from '../../../API/axios';
 
 function Distributor() {
     const [data, setData] = useState([]);
@@ -15,7 +16,7 @@ function Distributor() {
     const [sortType, setSortType] = useState(null);
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/getDistributorReport`).then(response => {
+        axiosInstance.get(`/api/getDistributorReport`).then(response => {
             setData(response.data)
         })
     }, [])

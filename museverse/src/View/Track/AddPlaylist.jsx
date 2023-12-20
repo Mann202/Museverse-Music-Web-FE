@@ -2,12 +2,13 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { TiTick } from "react-icons/ti";
 import { FaTimes } from "react-icons/fa";
+import axiosInstance from '../../API/axios';
 
 function AddPlaylist({title, id, trackID}) {
     const [added, setAdded] = useState(false)
 
     useEffect(()=> {
-        axios.get(`http://127.0.0.1:8000/api/checkSongID?id=${id}&song_id=${trackID}`).then(response => {
+        axiosInstance.get(`/api/checkSongID?id=${id}&song_id=${trackID}`).then(response => {
             if(response.data == "Yes") {
                 setAdded(true)
             } else {
@@ -17,7 +18,7 @@ function AddPlaylist({title, id, trackID}) {
     },[])
 
     function addPlaylist(id) {
-        axios.post(`http://127.0.0.1:8000/api/addPlaylist?id=${id}&song_id=${trackID}`).then(response => {
+        axiosInstance.post(`/api/addPlaylist?id=${id}&song_id=${trackID}`).then(response => {
             if(response.status === 200) {
                 setAdded(true)
             }

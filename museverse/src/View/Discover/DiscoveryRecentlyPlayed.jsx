@@ -3,21 +3,22 @@ import React, { useEffect, useState } from 'react'
 import { Spotify } from './../../API/Credentials';
 import Loading from '../Loading/Loading';
 import DiscoveryRecentlyPlayedCard from './DiscoveryRecentlyPlayedCard';
+import axiosInstance from '../../API/axios';
 
 const DiscoveryRecentlyPlayed = () => {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true);
-    
+
     function chaoTheoThoiGian() {
         var now = new Date();
         var hour = now.getHours();
-    
+
         if (hour < 12) {
             return <h1 className='text-white text-2xl font-bold'>Good Morning!</h1>;
         } else if (hour < 18) {
-            return <h1 className='text-white text-2xl font-bold'>Good Afternoon!</h1>; 
+            return <h1 className='text-white text-2xl font-bold'>Good Afternoon!</h1>;
         } else {
-            return <h1 className='text-white text-2xl font-bold'>Good Evening!</h1>; 
+            return <h1 className='text-white text-2xl font-bold'>Good Evening!</h1>;
         }
     }
 
@@ -27,9 +28,9 @@ const DiscoveryRecentlyPlayed = () => {
             const user = localStorage.getItem('user')
             const userJson = JSON.parse(user);
             const userID = userJson.user_id;
-            const { data } = await axios.get(`http://127.0.0.1:8000/api/history?id=${userID}`);
+            const { data } = await axiosInstance.get(`/api/history?id=${userID}`);
             const songIds = data.map(item => item.song_id);
-      
+
             const tokenResponse = await axios('https://accounts.spotify.com/api/token', {
               headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -38,7 +39,7 @@ const DiscoveryRecentlyPlayed = () => {
               data: 'grant_type=client_credentials',
               method: 'POST'
             });
-      
+
             const trackData = await Promise.all(
               songIds.map(async (songId) => {
                 const trackResponse = await axios(`https://api.spotify.com/v1/tracks/${songId}`, {
@@ -53,10 +54,10 @@ const DiscoveryRecentlyPlayed = () => {
             console.error('Có lỗi xảy ra:', error);
           }
         };
-      
+
         fetchHistory();
       }, []);
-      
+
     if(loading) return <Loading />
 
     if(data.length == 0) return(
@@ -73,7 +74,7 @@ const DiscoveryRecentlyPlayed = () => {
                     {
                         data.map(item => {
                             return(
-                                    <DiscoveryRecentlyPlayedCard 
+                                    <DiscoveryRecentlyPlayedCard
                                     image={item.album.images[0].url}
                                     name={item.name}
                                     id={item.id}

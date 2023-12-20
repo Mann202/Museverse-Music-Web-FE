@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Headers from '../../Header/Header'
 import { NavLink, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { MdCheckBox, MdCheckBoxOutlineBlank, MdRadioButtonChecked, MdRadioButtonUnchecked } from 'react-icons/md';
 import visa from '../../../assets/visa.jpg'
 import credit2 from '../../../assets/credit2.png'
@@ -9,6 +9,7 @@ import group3707 from '../../../assets/group-3707.svg'
 import { IoMdSearch } from 'react-icons/io';
 import Swal from 'sweetalert2';
 import Loading from '../../Loading/Loading';
+import axiosInstance from '../../../API/axios';
 
 const OrderCheckout = () => {
     const [user, setUser] = useState();
@@ -110,28 +111,22 @@ const OrderCheckout = () => {
             try {
                 setLoad(false);
                 let item = { email: searchemail };
-                const response = await fetch("http://localhost:8000/api/searchCusEmail", {
+                const response = await axiosInstance("/api/searchCusEmail", {
                     method: 'POST',
-                    body: JSON.stringify(item),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: item,
                 });
 
-                if (response.ok) {
-                    setAddNewCus(true);
-                    const result = await response.json();
-                    setUser(result);
-                    // console.log('ủe', user)
-                    setLoad(true);
-                    setFormData({
-                        fname: result.first_name != null ? result.first_name : '',
-                        lname: result.last_name != null ? result.last_name : '',
-                        phone: result.contact_number != null ? result.contact_number : '',
-                        email: result.email_address != null ? result.email_address : ''
-                    });
-                }
+                setAddNewCus(true);
+                const result = response.data
+                setUser(result);
+                // console.log('ủe', user)
+                setLoad(true);
+                setFormData({
+                    fname: result.first_name != null ? result.first_name : '',
+                    lname: result.last_name != null ? result.last_name : '',
+                    phone: result.contact_number != null ? result.contact_number : '',
+                    email: result.email_address != null ? result.email_address : ''
+                });
             } catch (error) {
                 console.warn('Error:', error);
                 setLoad(true);
@@ -180,24 +175,16 @@ const OrderCheckout = () => {
                 try {
                     setLoad(false);
                     let item = { cust_id: user.user_id, details: data };
-                    const response = await fetch("http://localhost:8000/api/createOrder", {
+                    const response = await axiosInstance("/api/createOrder", {
                         method: 'POST',
-                        body: JSON.stringify(item),
-                        headers: {
-                            "Content-Type": 'application/json',
-                            "Accept": 'application/json'
-                        }
+                        data: item
                     });
 
-                    if (response.ok) {
-                        const result = await response.json();
-                        setDetails(result);
-                        setLoad(true);
-                    } else {
-                        console.error('Error:', response.statusText);
-                    }
+                    const result = response.data;
+                    setDetails(result);
                 } catch (error) {
                     console.error('Error:', error);
+                } finally {
                     setLoad(true);
                 }
             };
@@ -221,32 +208,27 @@ const OrderCheckout = () => {
                         let ward = wards.filter((city) => city.Id == selectedWard);
                         let FullAddress = (address ? `${address}, ` : '') + ward[0].Name + ', ' + district[0].Name + ', ' + city[0].Name;
                         let item = { cust_id: user.user_id, first_name: formData.fname, last_name: formData.lname, email_address: formData.email, contact_number: formData.phone, address: FullAddress, note: note, total_final: total, details: data };
-                        const response = await fetch("http://localhost:8000/api/pay", {
+                        const response = await axiosInstance("/api/pay", {
                             method: 'POST',
-                            body: JSON.stringify(item),
-                            headers: {
-                                "Content-Type": 'application/json',
-                                "Accept": 'application/json'
-                            }
+                            data: item
                         });
 
-                        if (response.ok) {
-                            const result = await response.json();
-                            setLoad(true);
-                            if (result.hasOwnProperty('Error')) {
-                                console.log('Error', result['Error'])
-                            } else {
-                                console.log('messs', result)
-                                window.alert('Create order successfully!');
-                                navigate('/orders');
-                            }
+                        const result = response.data
+                        setLoad(true);
+                        if (result.hasOwnProperty('Error')) {
+                            console.log('Error', result['Error'])
                         } else {
-                            console.error('Error:', response.statusText);
-                            window.alert('Pay failed!');
+                            console.log('messs', result)
+                            window.alert('Create order successfully!');
+                            navigate('/orders');
                         }
                     } catch (error) {
-                        window.alert('Error:', error);
-                        setLoad(true);
+                        if (error instanceof AxiosError) {
+                            console.error('Error:', error.response.statusText);
+                            window.alert('Pay failed!');
+                            // window.alert('Error:', error);
+                            setLoad(true);
+                        }
                     }
                 };
                 fetchData();
@@ -280,7 +262,7 @@ const OrderCheckout = () => {
                             </div>
                         </div>
                     </div>
-                    :''}
+                    : ''}
                 <form action="" onSubmit={handleSubmit}>
                     <div className='flex justify-between gap-5 py-5'>
                         {cont ?
