@@ -1,9 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Spotify } from '../../API/Credentials';
-import Playlist from '../Playlist/Playlist';
-import PlaylistCard from '../Playlist/PlaylistCard';
-import CatelogyCard from '../Catelogy/CatelogyCard';
 import { categoriesWithTitles } from './List';
 import DiscoveryCatelogyCard from './DiscoveryCatelogyCard';
 

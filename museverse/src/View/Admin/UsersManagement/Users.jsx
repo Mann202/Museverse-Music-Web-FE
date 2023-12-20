@@ -17,7 +17,7 @@ function Users() {
     const [sortType, setSortType] = useState(null);
 
     useEffect(() => {
-        axiosInstance.get(`/api/getUser`).then(
+        axiosInstance.get(`/api/getUsers`).then(
             response => {setData(response.data)}
         )
     }, [])
