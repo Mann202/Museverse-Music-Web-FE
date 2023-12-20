@@ -82,18 +82,10 @@ const SignIn = () => {
 
         if (Object.keys(validationErrors).length === 0) {
             let item = { username: formData.username, password: formData.password };
-            const response = await fetch("http://localhost:8000/api/signin", {
-                method: 'POST',
-                body: JSON.stringify(item),
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json'
-                }
-            })
-            if (response.ok){
-                let result = await response.json()
-                console.log("sign in result", result);
-    
+            try {
+                const response = await axiosInstance.post('/api/signin', item)
+                const result = response.data
+
                 if (result.hasOwnProperty('error')) {
                     const Errors = {};
                     Errors.notmatch = result['error'];
@@ -103,12 +95,11 @@ const SignIn = () => {
                     setLogged(true);
                     navigate('/');
                 }
-            }else{
+            } catch (error) {
                 const Errors = {};
                 Errors.notmatch = 'Connection Failed, try again later!';
                 setErrors(Errors);
-            }           
-
+            }
         }
 
     }

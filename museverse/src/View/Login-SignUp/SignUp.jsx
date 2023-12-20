@@ -50,18 +50,10 @@ export default function SignUp() {
         setErrors(validationErrors)
 
         if (Object.keys(validationErrors).length === 0) {
-            let item = { username: formData.username, email: formData.email, password: formData.password };
-            const response = await fetch("http://localhost:8000/api/signup", {
-                method: 'POST',
-                body: JSON.stringify(item),
-                headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json'
-                }
-            })
-            if (response.ok) {
-                let result = await response.json()
-                console.log("sign up result", result);
+            let body = { username: formData.username, email: formData.email, password: formData.password };
+            try {
+                const response = await axiosInstance.post('/api/signup', body)
+                const result = response.data
 
                 if (result.hasOwnProperty('error')) {
                     const Errors = {};
@@ -88,15 +80,14 @@ export default function SignUp() {
                         }
                     });
                 }
-            } else {
+            } catch (error) {
                 const Errors = {};
                 Errors.notmatch = 'Connection Failed, try again later!';
                 setErrors(Errors);
             }
-
         }
-
     }
+
     return (
         <div className="w-full h-screen flex items-start">
             <div className='relative w-[40%] h-full flex flex-col'>
