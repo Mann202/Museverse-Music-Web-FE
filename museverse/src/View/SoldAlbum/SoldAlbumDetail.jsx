@@ -58,7 +58,8 @@ const Albums = () => {
 
                     if (response.ok) {
                         const result = await response.json();
-                        window.alert("Add to Cart Successfully");
+                        const errorString = result['message'] ? result['message'] : '';
+                        window.alert(errorString);
                     } else {
                         console.error('Error:', response.statusText);
                     }
