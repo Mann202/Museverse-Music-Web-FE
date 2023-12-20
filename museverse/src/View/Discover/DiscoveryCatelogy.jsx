@@ -24,7 +24,7 @@ function DiscoveryCatelogy({setPlayingTrack, setPlayingID, playingID, setTrackIn
             const selectedCategories = getRandomElements(categoriesWithTitles, 5);
             
             const requests = selectedCategories.map(item => {
-                return axios(`https://api.spotify.com/v1/browse/categories/${item.id}/playlists?limit=5`, {
+                return axios(`https://api.spotify.com/v1/browse/categories/${item.id}/playlists?limit=6`, {
                     method: 'GET',
                     headers: {
                         'Authorization': 'Bearer ' + token

@@ -50,7 +50,7 @@ export default function Discover({setPlayingTrack, setPlayingID, playingID, setT
         <div>
             <Headers />
             <div className="overflow-y-scroll h-screen">
-                <div className="flex items-center justify-center">
+                <div className="flex items-center justify-center pb-12">
                     <div className="w-[95%]">
                         <div>
                             <DiscoveryRecentlyPlayed />
@@ -67,7 +67,7 @@ export default function Discover({setPlayingTrack, setPlayingID, playingID, setT
                         </div>
                     </div>
                 </div>
-                <div className="bg-white bg-opacity-5 w-full mb-16 h-40 flex justify-end pr-5 mt-10 pt-3">
+                <div className="bg-white bg-opacity-5 w-full mb-10 h-32 flex justify-end pr-5 mt-4 pt-3">
                     <p className="text-white">Museverse - Inspired by Spotify © 2023 Museverse</p>
                 </div>
             </div>

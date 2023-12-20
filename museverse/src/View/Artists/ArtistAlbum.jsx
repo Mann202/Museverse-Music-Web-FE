@@ -29,7 +29,7 @@ function ArtistAlbum({id, dark}) {
 
     useEffect(() => {
         if(logged) {
-            setLimit(5)
+            setLimit(6)
         } else {
             setLimit(7)
         }

@@ -13,7 +13,7 @@ function ArtistAppear({id, dark}) {
 
     useEffect(() => {
         if(logged) {
-            setLimit(5)
+            setLimit(6)
         } else {
             setLimit(7)
         }
@@ -59,7 +59,7 @@ function ArtistAppear({id, dark}) {
                 </div>
             </div>
             <div className='flex justify-center'>
-                <div className={`flex flex-row flex-wrap gap-5 w-[95%] ${(data.length < 7) ? "justify-start" : "justify-center"} mt-4`}>
+                <div className={`flex flex-row flex-wrap gap-5 ${(data.length < 7) ? (logged) ? "justify-start" : "justify-start ml-8" : "justify-center"} mt-4`}>
                     {
                         data.map(item => (
                             <AppearOnCard 
