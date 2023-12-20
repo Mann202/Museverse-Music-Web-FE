@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Headers from '../Header/Header';
 import UserPlaylistCard from './UserPlaylistCard';
 import { BsThreeDots } from 'react-icons/bs';
+import axiosInstance from '../../API/axios';
 
 function UserPlaylist() {
     const [playlistData, setPlaylistData] = useState({});
@@ -17,12 +18,12 @@ function UserPlaylist() {
     const [isEditing, setIsEditing] = useState(false);
     const [newPlaylistName, setNewPlaylistName] = useState('');
     const [expanded, setExpanded] = useState(false);
-    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); 
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const navigate = useNavigate()
 
     useEffect(() => {
         if (user) {
-            axios.get(`http://127.0.0.1:8000/api/getPlaylist?user_id=${userID}&playlist_id=${playlistID}`)
+            axiosInstance.get(`/api/getPlaylist?user_id=${userID}&playlist_id=${playlistID}`)
                 .then(response => {
                     setPlaylistData(response.data);
                     setSongID([]);
@@ -52,7 +53,7 @@ function UserPlaylist() {
             title_playlist: newPlaylistName
         }));
 
-        axios.post(`http://127.0.0.1:8000/api/changeTitle?user_id=${userID}&id=${playlistID}&title=${newPlaylistName}`)
+        axiosInstance.post(`/api/changeTitle?user_id=${userID}&id=${playlistID}&title=${newPlaylistName}`)
     };
 
     const handlePlaylistNameBlur = () => {
@@ -70,7 +71,7 @@ function UserPlaylist() {
     }
 
     function confirmDelete() {
-        axios.post(`http://127.0.0.1:8000/api/removePlaylist?id=${playlistID}`)
+        axiosInstance.post(`/api/removePlaylist?id=${playlistID}`)
             .then(response => {
             })
             .catch(error => console.error('Error deleting playlist:', error));
@@ -100,7 +101,7 @@ function UserPlaylist() {
                                             type="text"
                                             value={newPlaylistName}
                                             onChange={handlePlaylistNameChange}
-                                            onBlur={handlePlaylistNameBlur} 
+                                            onBlur={handlePlaylistNameBlur}
                                             className='bg-inherit text-white text-9xl font-bold w-7/12'
                                         />
                                     </div>
@@ -135,7 +136,7 @@ function UserPlaylist() {
                                     return <UserPlaylistCard playlistID={playlistID} id={item} />;
                                 })}
                             </div>
-                            : 
+                            :
                             <div className='pt-10 flex justify-center items-center'>
                                 <p className='text-white text-2xl font-semibold'>Your playlist has empty track</p>
                             </div>

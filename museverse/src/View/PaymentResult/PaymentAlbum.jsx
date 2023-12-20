@@ -4,6 +4,7 @@ import { getOrder } from '../../Utils/payOS';
 import Headers from '../Header/Header';
 import OrderTable from './OrderTable';
 import axios from 'axios';
+import axiosInstance from '../../API/axios';
 
 export default function PaymentAlbum() {
   const [order, setOrder] = useState();
@@ -19,57 +20,50 @@ export default function PaymentAlbum() {
     orderCode = paramsValue.get('orderCode');
   }
   useEffect(() => {
-    if (orderCode !== null) {
-      getOrder(orderCode)
-        .then((data) => {
-          console.log(JSON.stringify(data, null, 2));
-          if (data.error == 0) {
-            setOrder(data.data);
-            const fetchData = async () => {
-              try {
-                const item = JSON.parse(localStorage.getItem('myItem'));
-                const response = await fetch("http://localhost:8000/api/pay", {
-                  method: 'POST',
-                  body: JSON.stringify(item),
-                  headers: {
-                    "Content-Type": 'application/json',
-                    "Accept": 'application/json'
-                  }
-                });
-
-                if (response.ok) {
-                  const result = await response.json();
-                  if (result.hasOwnProperty('Error')) {
-                    console.log('Error', result['Error'])
-                  } else {
-                    console.log('messs', result)
-                    // window.alert('Order successfully!');  
-                    setCount(1);
-                    localStorage.removeItem('myItem')
-                  }
-                } else {
-                  console.error('Error:', response.statusText);
-                  window.alert('Pay failed!');
-
-                }
-              } catch (error) {
-                window.alert('Error:', error);
-              }
-            };
-            fetchData();
-          } else if (data.error == -1) {
-            alert('Không tìm thấy đơn hàng');
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          alert('Có lỗi xảy ra');
-          setLoading(false);
-        });
-    } else {
+    if (orderCode === null) {
       setLoading(false);
+      return
     }
 
+    ; (async () => {
+      try {
+        const data = await getOrder(orderCode)
+        console.log(JSON.stringify(data, null, 2));
+
+        if (data.error == -1) {
+          alert('Không tìm thấy đơn hàng');
+          setLoading(false);
+
+          return
+        }
+
+        if (data.error == 0) {
+          setOrder(data.data);
+
+          const item = localStorage.getItem('myItem')
+          console.log(item)
+
+          const response = await axiosInstance("/api/pay", {
+            method: 'POST',
+            data: item
+          });
+          const result = response.data;
+
+          if (result.hasOwnProperty('Error')) {
+            console.log('Error', result['Error'])
+          } else {
+            console.log('messs', result)
+            window.alert('Order successfully');
+            localStorage.removeItem('myItem');
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        window.alert('pay failed!');
+      } finally {
+        setLoading(false);
+      }
+    })()
   }, []);
 
   return (

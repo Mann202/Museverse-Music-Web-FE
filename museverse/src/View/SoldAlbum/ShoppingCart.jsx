@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
 import Loading from '../Loading/Loading'
 import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
+import axiosInstance from '../../API/axios'
 
 const ShoppingCart = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ShoppingCart = () => {
     if (selectAll) {
       setSelectAll(false);
       setSelectedItems([]);
-      setTotalPrice(0);      
+      setTotalPrice(0);
     } else {
       setSelectAll(true);
       setSelectedItems(data.map((item) => item.detail_id));
@@ -70,25 +71,16 @@ const ShoppingCart = () => {
       // setLoad(false);
       try {
         // let item[] = {  };
-        const response = await fetch("http://localhost:8000/api/deleteCart", {
+        const response = await axiosInstance("/api/deleteCart", {
           method: 'POST',
-          body: JSON.stringify({ arr: selectedItems }),
-          headers: {
-            "Content-Type": 'application/json',
-            "Accept": 'application/json'
-          }
+          data: { arr: selectedItems }
         });
 
-        if (response.ok) {
-          const result = await response.json();
-          if (result > 0)
-            console.log('xoa nhieu dong');
-          else
-            console.log('ko xoa dong nao');
-          // setLoad(true);
-        } else {
-          console.error('Error:', response.statusText);
-        }
+        const result = response.data
+        if (result > 0)
+          console.log('xoa nhieu dong');
+        else
+          console.log('ko xoa dong nao');
       } catch (error) {
         console.error('Error:', error);
       }
@@ -120,29 +112,20 @@ const ShoppingCart = () => {
       try {
         const user = JSON.parse(localStorage.getItem('user'));
         let item = { cust_id: user.user_id };
-        const response = await fetch("http://localhost:8000/api/loadCart", {
+        const response = await axiosInstance("/api/loadCart", {
           method: 'POST',
-          body: JSON.stringify(item),
-          headers: {
-            "Content-Type": 'application/json',
-            "Accept": 'application/json'
-          }
+          data: item
         });
 
-        if (response.ok) {
-          const result = await response.json();
-          if (result.hasOwnProperty('Error')) {
-            setData([]);
-          } else {
-            setData(result);
-          }
 
-          setLoad(true);
-
-
+        const result = response.data
+        if (result.hasOwnProperty('Error')) {
+          setData([]);
         } else {
-          console.error('Error:', response.statusText);
+          setData(result);
         }
+
+        setLoad(true);
       } catch (error) {
         console.error('Error:', error);
       }

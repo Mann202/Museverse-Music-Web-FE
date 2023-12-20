@@ -15,9 +15,9 @@ function RelatedArtistTrack({id, dark}) {
 
     useEffect(() => {
         if(logged) {
-            setDataSlice(5)
-        } else {
             setDataSlice(6)
+        } else {
+            setDataSlice(7)
         }
         // Gọi API để lấy token
         axios('https://accounts.spotify.com/api/token', {

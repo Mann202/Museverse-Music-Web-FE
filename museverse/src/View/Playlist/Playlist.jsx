@@ -61,9 +61,6 @@ function Playlist({ setPlayingTrack, playingID, setPlayingID, setTrackInAlbum, s
                         const totalFollower = json.data.followers.total
                         const format = formatNumber(totalFollower)
                         setFollower(format)
-                        data.forEach((item) => {
-                            time += item.track.duration_ms
-                        })
                     })
                     .catch(error => {
                         console.error(error);
@@ -99,7 +96,9 @@ useEffect(() => {
 if (loading) {
     return <div><Loading /></div>
 }
-console.log("playlist: ", data);
+data.forEach((item) => {
+    time += item.track.duration_ms
+})
 
 const timeinString = chuyenDoiThoiGian(time)
 

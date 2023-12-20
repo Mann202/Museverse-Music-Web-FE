@@ -1,0 +1,7 @@
+version: '3'
+
+services:
+  frontend:
+    image: khoavhd/museverse-fe:latest
+    ports:
+      - '8888:80'

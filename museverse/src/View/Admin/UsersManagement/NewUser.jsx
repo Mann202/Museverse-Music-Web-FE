@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import axios from 'axios';
+import axiosInstance from '../../../API/axios';
 
 const schema = yup.object().shape({
   username: yup.string().min(6, 'Username must be at least 6 characters').required(),
@@ -27,7 +28,7 @@ function NewUser() {
 
   const onSubmit = (data) => {
     console.log(data)
-    axios.post(`http://127.0.0.1:8000/api/insertUser`, {
+    axiosInstance.post(`/api/insertUser`, {
       email: data.email,
       username: data.username,
       password: data.password,

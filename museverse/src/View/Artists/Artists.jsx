@@ -12,6 +12,7 @@ import RelatedArtist from './RelatedArtist';
 import Headers from '../Header/Header';
 import ArtistAppear from './ArtistAppear';
 import { formatNumber } from '../Playlist/SplitNumber';
+import axiosInstance from '../../API/axios';
 
 function Artist() {
     const [data, setData] = useState(null);
@@ -43,7 +44,7 @@ function Artist() {
             })
         })
     }, [artistID]);
-  
+
     useEffect(() => {
         const colorThief = new ColorThief();
 
@@ -54,27 +55,27 @@ function Artist() {
               img.src = image;
               img.onload = () => {
                 const color = colorThief.getColor(img);
-                
+
                 const brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
-                
+
                 if(brightness < 50) {
                     setDark(true)
                 }
 
                 if (brightness > 160) {
                   const darkenedColor = [
-                    Math.max(0, color[0] - 100), 
-                    Math.max(0, color[1] - 100), 
-                    Math.max(0, color[2] - 100), 
+                    Math.max(0, color[0] - 100),
+                    Math.max(0, color[1] - 100),
+                    Math.max(0, color[2] - 100),
                   ];
                   const hexColor = `#${darkenedColor[0].toString(16).padStart(2, '0')}${darkenedColor[1].toString(16).padStart(2, '0')}${darkenedColor[2].toString(16).padStart(2, '0')}`;
                   setBackgroundColor(hexColor);
                 } else {
-                  
+
                   const darkenedColor = [
-                    Math.max(0, color[0] - 15), 
-                    Math.max(0, color[1] - 15), 
-                    Math.max(0, color[2] - 15), 
+                    Math.max(0, color[0] - 15),
+                    Math.max(0, color[1] - 15),
+                    Math.max(0, color[2] - 15),
                   ];
                   const hexColor = `#${darkenedColor[0].toString(16).padStart(2, '0')}${darkenedColor[1].toString(16).padStart(2, '0')}${darkenedColor[2].toString(16).padStart(2, '0')}`;
                   setBackgroundColor(hexColor);
@@ -86,7 +87,7 @@ function Artist() {
           };
         loadImage();
       }, [image]);
-    
+
     if(loading) {
         return <div><Loading /></div>
     }
@@ -97,7 +98,7 @@ function Artist() {
                 <div style={{background: `${backgroundColor}`}} className="flex flex-row gap-10">
                     <div className="flex items-center flex-row ml-7">
                         {
-                            (data.images.length == 0) 
+                            (data.images.length == 0)
                             ?
                             <img src="https://i.scdn.co/image/ab6761610000e5eb1020c22e0ce742eca7166e65" alt="" className='rounded-full w-60 h-64 my-5'></img>
                             :
@@ -147,7 +148,7 @@ function PlayButton({artistID}) {
     useEffect(() => {
         async function checkFollowStatus() {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/artistById?user_id=${userID}&artist_id=${artistID}`);
+                const response = await axiosInstance.get(`/api/artistById?user_id=${userID}&artist_id=${artistID}`);
                 if (response.data === "Yes") {
                     setFollowed(true);
                 } else {
@@ -159,7 +160,7 @@ function PlayButton({artistID}) {
         }
 
         checkFollowStatus();
-    }, [artistID]); 
+    }, [artistID]);
 
     async function handleClick() {
         try {
@@ -167,7 +168,7 @@ function PlayButton({artistID}) {
                 user_id: userID,
                 artist_id: artistID
             };
-            await axios.post('http://127.0.0.1:8000/api/followArtist', data);
+            await axiosInstance.post('/api/followArtist', data);
             setFollowed(true);
         } catch (error) {
             console.error('Error following artist:', error);
@@ -180,8 +181,8 @@ function PlayButton({artistID}) {
                 user_id: 1,
                 artist_id: artistID
             };
-            await axios.get('http://127.0.0.1:8000/api/unfollowArtist', { params: data });
-            setFollowed(false); 
+            await axiosInstance.get('/api/unfollowArtist', { params: data });
+            setFollowed(false);
         } catch (error) {
             console.error('Error unfollowing artist:', error);
         }
@@ -197,7 +198,7 @@ function PlayButton({artistID}) {
             </button>
             <div className='flex items-center'>
                 {
-                    (!followed) 
+                    (!followed)
                     ?
                     <button onClick={handleClick} className='w-28 h-8 rounded-full border-solid border-[1px] border-[#EE5566] border-opacity-50 bg-[#EE5566] bg-opacity-80 text-white'>Follow</button>
                     :

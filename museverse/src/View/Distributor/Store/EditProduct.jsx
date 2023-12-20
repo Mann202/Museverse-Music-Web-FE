@@ -6,6 +6,7 @@ import Headers from '../../Header/Header';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import axiosInstance from '../../../API/axios';
 
 const schema = yup.object().shape({
   album_name: yup.string().min(5, 'Album name must be at least 5 characters').required('Album name is required'),
@@ -32,7 +33,7 @@ const EditProduct = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/getAlbum?id=${newProductID}`);
+        const response = await axiosInstance.get(`/api/getAlbum?id=${newProductID}`);
         setData(response.data);
 
         if (response.data) {
@@ -65,7 +66,7 @@ const EditProduct = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/api/updateAlbum`, {
+      const response = await axiosInstance.post(`/api/updateAlbum`, {
         id: newProductID,
         album_name: data.album_name,
         type: data.type,
@@ -98,9 +99,9 @@ const EditProduct = () => {
     }
   };
 
-  function handleDelete() {
+  async function handleDelete() {
     try {
-      const response = axios.get(`http://127.0.0.1:8000/api/deteleAlbum?id=${newProductID}`);
+      await axiosInstance.get(`/api/deteleAlbum?id=${newProductID}`);
       const path = "/"
       Swal.fire({
         background: "#1F1F22",

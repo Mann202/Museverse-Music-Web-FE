@@ -7,7 +7,9 @@ import { FaFacebook } from "react-icons/fa6";
 import { useGoogleLogin } from '@react-oauth/google';
 import { Link, useNavigate, useLocation, json, NavLink } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
+import axiosInstance from '../../API/axios';
+
 const SignIn = () => {
     const { logged, setLogged } = useContext(LoggedContext);
     const navigate = useNavigate();
@@ -15,8 +17,8 @@ const SignIn = () => {
     const from = location.state?.from?.pathname || "/";
     const [PasswordInputType, ToggleIcon, change] = UsePasswordToggle();
 
-    useEffect(()=>{
-        if(logged) navigate('/');
+    useEffect(() => {
+        if (logged) navigate('/');
     })
 
     const login = useGoogleLogin({
@@ -31,15 +33,12 @@ const SignIn = () => {
                     }
                 );
                 console.log('User log in with google: ', res.data);
-                let result = await fetch("http://localhost:8000/api/signingoogle", {
+
+                const _response = await axiosInstance("/api/signingoogle", {
                     method: 'POST',
-                    body: JSON.stringify(res.data),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: res.data
                 })
-                result = await result.json()
+                const result = _response.data
                 console.log("signin with google: ", result);
                 localStorage.setItem('user', JSON.stringify(result));
                 setLogged(true);

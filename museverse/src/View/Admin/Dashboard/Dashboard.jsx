@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom'
 import DistributorDashboard from './DistributorDashboard'
 import SalesDashboard from './SalesDashboard'
 import axios from 'axios'
+import axiosInstance from '../../../API/axios'
 
 function Dashboard() {
     const [albumOrders, setAlbumOrders] = useState(0)
@@ -13,19 +14,19 @@ function Dashboard() {
     const [userDashboard, setUserDashboard] = useState([])
 
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/api/getOrderReport`).then(
+        axiosInstance.get(`/api/getOrderReport`).then(
             response => {setAlbumOrders(response.data.length)}
         )
 
-        axios.get(`http://127.0.0.1:8000/api/getNewUserCount`).then(
+        axiosInstance.get(`/api/getNewUserCount`).then(
             response => {setNewUser(response.data)}
         )
 
-        axios.get(`http://127.0.0.1:8000/api/getRevenueReport`).then(
+        axiosInstance.get(`/api/getRevenueReport`).then(
             response => {setRevenue(response.data)}
         )
 
-        axios.get(`http://127.0.0.1:8000/api/getUsersDashboard`).then(
+        axiosInstance.get(`/api/getUsersDashboard`).then(
             response => {setUserDashboard(response.data)}
         )
     }, [])

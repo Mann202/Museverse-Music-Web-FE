@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import axios from 'axios';
 
 import { Spotify } from '../../API/Credentials';
@@ -6,14 +6,21 @@ import ArtistAlbum from '../Artists/ArtistAlbum';
 
 import { chuyenNgay } from '../Playlist/SplitNumber';
 import { NavLink } from 'react-router-dom';
+import { LoggedContext } from "../Login-SignUp/LoggedContext";
 
 function TopTrackAnother({id, dark}) {
+    const { logged, setLogged } = useContext(LoggedContext);
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [artist, setArtistData] = useState([])
+    const [dataSlice, setDataSlice] = useState(0)
 
     useEffect(() => {
-        // Gọi API để lấy token
+        if(logged) {
+            setDataSlice(6)
+        } else {
+            setDataSlice(7)
+        }
         axios('https://accounts.spotify.com/api/token', {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -24,7 +31,6 @@ function TopTrackAnother({id, dark}) {
         })
         .then(response => {
             const token = response.data.access_token;
-            // Gọi Spotify Web API để lấy thông tin về nghệ sĩ
             axios(`https://api.spotify.com/v1/artists/${id}/top-tracks?market=VN`, {
                 method: 'GET',
                 headers: {
@@ -51,7 +57,6 @@ function TopTrackAnother({id, dark}) {
         })
         .then(response => {
             const token = response.data.access_token;
-            // Gọi Spotify Web API để lấy thông tin về nghệ sĩ
             axios(`https://api.spotify.com/v1/artists/${id}`, {
                 method: 'GET',
                 headers: {
@@ -75,7 +80,7 @@ function TopTrackAnother({id, dark}) {
     return (
         <div className='mt-10'>
             <div className='flex flex-row justify-between'>
-                <div className='flex flex-row gap-2 ml-5'>
+                <div className='flex flex-row gap-2 ml-8'>
                     <div className='flex items-center'>
                         <img src={artist.images[0].url} className='w-10 h-10 rounded-full'></img>
                     </div>
@@ -88,10 +93,10 @@ function TopTrackAnother({id, dark}) {
                     <NavLink to={`/artist/${id}/discovery-all`} className={`hover:underline text-[#EE5566] ${(data.length < 6) ? "hidden" : ""}`}>Show all</NavLink>
                 </div>
             </div>
-            <div className={`flex mt-5 ${(data.length < 6) ? "justify-start ml-5" : "justify-center"}`}>
+            <div className={`flex mt-5 ${(dataSlice <= 7) ? (data.length < 7) ? (logged) ? "justify-start ml-5" : "justify-start ml-8" : "justify-center" : ""}`}>
                 <div>
                     <div className='flex flex-row flex-wrap gap-5'>
-                    {data.slice(0,6).map(item => (
+                    {data.slice(0,dataSlice).map(item => (
                         <div
                         className={`${dark ? "bg-white bg-opacity-10 hover:bg-opacity-20" : "bg-black bg-opacity-30 hover:bg-opacity-60"} h-76 w-48 flex flex-col items-center rounded-lg gap-y-3 cursor-pointer`}
                         //onMouseEnter={() => setIsHovered(true)}
@@ -108,7 +113,7 @@ function TopTrackAnother({id, dark}) {
                                     {item.name.length > 15 ? item.name.slice(0, 15) + '...' : item.name}
                                 </h3>
                                 <p className="font-normal text-sm text-[#9898A6]">
-                                    {chuyenNgay(item.release_date)}
+                                    {chuyenNgay(item.album.release_date)}
                                 </p>
                                 </div>
                             </div>

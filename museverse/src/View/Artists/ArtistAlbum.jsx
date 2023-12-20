@@ -31,7 +31,7 @@ function ArtistAlbum({id, dark}) {
         if(logged) {
             setLimit(5)
         } else {
-            setLimit(6)
+            setLimit(7)
         }
         axios('https://accounts.spotify.com/api/token', {
             headers: {
@@ -100,7 +100,7 @@ function ArtistAlbum({id, dark}) {
   return (
     <div className="mt-10">
         <div className="flex flex-row justify-between">
-            <div className="flex flex-row gap-5 ml-5">
+            <div className="flex flex-row gap-5 ml-7">
                 <button onClick={handleChangeType1} className={`w-20 h-7 rounded-full border-[1px] border-[#EE5566] border-opacity-60 text-[#EE5566] ${choose ? "bg-[#EE5566] text-white text-opacity-100" : ""}`}>Single</button>
                 <button onClick={handleChangeType2} className={`w-20 h-7 rounded-full border-[1px] border-[#EE5566] border-opacity-60 text-[#EE5566] ${(preData.length == 0) ? "hidden" : ""} ${choose ? "" : "bg-[#EE5566] text-white text-opacity-100"}`}>Album</button>
             </div>
@@ -108,7 +108,7 @@ function ArtistAlbum({id, dark}) {
                 <NavLink to={`/artist/${id}/discovery-all`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
             </div>
         </div>
-        <div className="mt-5 flex justify-center">
+        <div className={`mt-5 flex ${(data.length < 7) ? (logged) ? "justify-start ml-5" : "justify-start ml-8" : "justify-center"}`}>
             <div className="flex flex-row content-start gap-5 flex-wrap">
             {
                 data.map(item => (

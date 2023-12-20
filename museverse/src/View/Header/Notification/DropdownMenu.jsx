@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { createPaymentLink } from '../../../Utils/payOS';
 import { LoggedContext } from '../../Login-SignUp/LoggedContext';
 
-const HOST = process.env.NODE_ENV === 'development' ? `http://${window.location.host}` : process.env.WEB_URL
+const HOST = `${window.location.protocol}//${window.location.host}`
 const RETURN_URL = `${HOST}/payment/result/`;
 const CANCEL_URL = `${HOST}/payment/result/`;
 
@@ -54,7 +54,7 @@ function DropdownMenu() {
     let first_name = ''
     let last_name = ''
     let phone = ''
-    
+
     if(user != null) {
       const userJson = JSON.parse(user);
       email_address = userJson.email_address;
@@ -91,9 +91,9 @@ function DropdownMenu() {
     <div className="absolute z-50 right-20 flex flex-col text-[#FFFFFF] bg-black bg-opacity-80 w-48 py-5 px-3 mt-1 text-lg gap-4 rounded">
       <NavLink to="/profile">Profile</NavLink>
       {
-        accType == 1 ? 
+        accType == 1 ?
         <NavLink onClick={handleUpgradePremium}>Upgrade to Premium</NavLink>
-        : 
+        :
         ""
       }
       <NavLink onClick={handleLogOut} to={"/signin"}>Logout</NavLink>

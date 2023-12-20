@@ -58,8 +58,8 @@ function RelatedArtist({id}) {
                 <NavLink to={`/artist/${id}/related-artists`} className="text-[#EE5566] text-opacity-80 hover:underline">Show all</NavLink>
             </div>
         </div>
-        <div className='flex justify-center'>
-            <div className="flex flex-row flex-wrap justify-start gap-5 w-[94%]" >
+        <div className='flex justify-center mt-2'>
+            <div className="flex flex-row flex-wrap justify-between gap-5 w-[94%]" >
                 {
                     data.slice(0,dataSlice).map((item) => (
                         <RelatedArtistCard 

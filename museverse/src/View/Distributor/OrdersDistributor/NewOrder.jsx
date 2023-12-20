@@ -3,6 +3,8 @@ import Headers from '../../Header/Header'
 import { NavLink, useNavigate } from 'react-router-dom';
 import Loading from '../../Loading/Loading';
 import { MdCheckBox, MdCheckBoxOutlineBlank } from 'react-icons/md';
+import axiosInstance from '../../../API/axios';
+import { AxiosError } from 'axios';
 
 const NewOrder = () => {
     const navigate = useNavigate();
@@ -72,24 +74,17 @@ const NewOrder = () => {
             try {
                 const user = JSON.parse(localStorage.getItem('user'));
                 let item = { user_id: user.user_id };
-                const response = await fetch("http://localhost:8000/api/getDistributorAlbum", {
+                const response = await axiosInstance("/api/getDistributorAlbum", {
                     method: 'POST',
-                    body: JSON.stringify(item),
-                    headers: {
-                        "Content-Type": 'application/json',
-                        "Accept": 'application/json'
-                    }
+                    data: item
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    setLoad(true);
-                    setData(result);
-                } else {
-                    console.error('Error:', response.statusText);
-                }
+                setLoad(true);
+                setData(response.data);
             } catch (error) {
-                console.error('Error:', error);
+                if (error instanceof AxiosError){
+                    console.error('Error:', error.response.statusText);
+                }
             }
         };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import axios from 'axios';
+import axiosInstance from '../../../API/axios';
 
 function Report() {
     const chartRef = useRef(null);
@@ -11,7 +12,7 @@ function Report() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/report/user', { params: { year: selectedYear } });
+            const response = await axiosInstance.get('/api/report/user', { params: { year: selectedYear } });
             const responseData = response.data;
             const labels = responseData?.months || [];
             const dataSets = responseData?.totals || [];
@@ -90,7 +91,7 @@ function Report() {
     return (
         <div>
             <h2>Biểu đồ doanh thu theo tháng</h2>
-            <div style={myStyle}>>
+            <div style={myStyle}>
                 <select value={selectedYear} onChange={handleYearChange}>
                     <option value="">Tất cả</option>
                     {years.map((year) => (

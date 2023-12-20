@@ -5,6 +5,8 @@ import UsePasswordToggle from './UsePasswordToggle';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { LoggedContext } from './LoggedContext';
 import Swal from 'sweetalert2'
+import axiosInstance from '../../API/axios';
+import { AxiosError } from 'axios';
 
 export default function SignUp() {
     const { logged, setLogged } = useContext(LoggedContext);
