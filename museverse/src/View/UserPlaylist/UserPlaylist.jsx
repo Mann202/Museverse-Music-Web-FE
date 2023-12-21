@@ -18,6 +18,7 @@ function UserPlaylist() {
     const [isEditing, setIsEditing] = useState(false);
     const [newPlaylistName, setNewPlaylistName] = useState('');
     const [expanded, setExpanded] = useState(false);
+    const [noti, setNoti] = useState(false)
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
     const navigate = useNavigate()
 
@@ -25,6 +26,9 @@ function UserPlaylist() {
         if (user) {
             axiosInstance.get(`/api/getPlaylist?user_id=${userID}&playlist_id=${playlistID}`)
                 .then(response => {
+                    if (response.data.length === 0) {
+                        setNoti(true);
+                    }
                     setPlaylistData(response.data);
                     setSongID([]);
                     setImage(response.data.picture);
@@ -85,6 +89,25 @@ function UserPlaylist() {
     function cancelDelete() {
         setShowDeleteConfirmation(false);
     }
+
+    if(noti) return(
+        <div className='h-screen bg-black overflow-y-auto'>
+                <Headers bgColor={'#000000'} />
+                <div>
+                    <div>
+                        <div className='h-60 flex justify-center'>
+                            <div className='w-11/12'>
+                                <p className='text-white font-medium text-xl'>Playlist</p>
+                                <p className='text-white font-bold text-2xl'
+                                    >
+                                        Sorry, you dont own or having this playlist!
+                                    </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    )
 
     return (
         <div>
