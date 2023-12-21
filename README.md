@@ -23,6 +23,9 @@ Museverse is not just a website; it's a meticulously designed digital haven tail
 ## 5. How to run
 ###  5.1 Front-end side
     - Install NodeJS (Recommend for most user) from [NodeJS](https://nodejs.org/en)
+    - Login Spotify Premium account in Spotify 
+        User: 21521115@gm.uit.edu.vn
+        Password: Truonggiaman.3012
     - Clone the GitHub repository through the link or unzip the packaged web.
     - After cloning or unzip, use Visual Code Studio and run the following commands:
         cd museverse
