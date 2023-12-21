@@ -46,16 +46,17 @@ export default function NavLinks({ handleClick }) {
         try {
             let playlistID = 0
             const response = await axiosInstance.get(`/api/getPlaylistID?user_id=${userID}`)
-            if (response) {
+            if (response.data.id) {
                 playlistID = response.data.id;
             } else {
-                playlistID = 1
+                const newID = await axiosInstance.get(`/api/getNewestPlaylistID`)
+                playlistID = newID.data.id
             }
 
             const title = "Your playlist"
             await axiosInstance.post(`/api/createPlaylist`, {
                 user_id: userID,
-                id: playlistID,
+                id: playlistID+1,
                 title: title
             });
 

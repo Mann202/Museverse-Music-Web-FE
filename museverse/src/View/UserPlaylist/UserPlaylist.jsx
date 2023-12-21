@@ -88,8 +88,8 @@ function UserPlaylist() {
 
     return (
         <div>
-            <Headers bgColor={'#fd9869'} />
-            <div style={{ background: `linear-gradient(#fd9869, #654ea3)` }} className='h-screen overflow-y-auto'>
+            <Headers bgColor={'#000000'} />
+            <div className='h-screen bg-black overflow-y-auto'>
                 <div>
                     <div>
                         <div className='h-60 flex justify-center'>
