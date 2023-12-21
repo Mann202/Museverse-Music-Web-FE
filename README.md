@@ -29,6 +29,7 @@ Museverse is not just a website; it's a meticulously designed digital haven tail
     - Clone the GitHub repository through the link or unzip the packaged web.
     - After cloning or unzip, use Visual Code Studio and run the following commands:
         cd museverse
+        npm install
         npm install react
         npm run start
 ###  5.2 Back-end side
