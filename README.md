@@ -20,5 +20,22 @@ Museverse is not just a website; it's a meticulously designed digital haven tail
 - PHP v8.2.12
 - Laravel v10.32.1
 - Environment: Node.JS
-### 5. Timeline
+### 5. How to run
+##  5.1 Front-end side
+    - Install NodeJS (Recommend for most user) from [NodeJS](https://nodejs.org/en)
+    - Clone the GitHub repository through the link or unzip the packaged web.
+    - After cloning or unzip, use Visual Code Studio and run the following commands:
+        cd museverse
+        npm install react
+        npm run start
+##  5.2 Back-end side
+    - Instal PHP, Xampp and Composer from [Composer](https://getcomposer.org/download/)
+    - Create database in MyPHPAdmin with name "Museverse"
+    - Run database script
+    - Clone the GitHub repository through the link or unzip the packaged web.
+    - After cloning or unzip, use Visual Code Studio and run the following commands:
+        cd Backend
+        composer install
+        php artisan serve
+### 6. Timeline
 [Timeline notion Museverse](https://www.notion.so/ad5b313aa02e42219e42bbe3beb1e92e?v=e014cc3f9bac4941a116c8fc60e393c5&pvs=4)
