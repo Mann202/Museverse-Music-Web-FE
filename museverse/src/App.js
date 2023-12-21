@@ -77,6 +77,13 @@ function App() {
     }
   }, [status])
 
+  useEffect(() => {
+    const metaTag = document.createElement('meta');
+    metaTag.name = 'google-site-verification';
+    metaTag.content = 'J3SgeAxrSnsR5ZddTyafDpIoHEfPckpwsWZoDp99ZeA';
+    document.head.appendChild(metaTag);
+  }, []);
+
   const [playingID, setPlayingID] = useState('')
   const [trackInAlbum, setTrackInAlbum] = useState(0) //Lưu vào thứ tự phát của album khi được bấm (dùng để queue bài hát)
   const [isPlaying, setIsPlaying] = useState(true) //Lấy trạng thái của thanh nghe nhạc (Đang nghe hay đã dừng)

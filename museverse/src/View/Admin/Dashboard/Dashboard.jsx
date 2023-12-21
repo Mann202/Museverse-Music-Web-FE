@@ -81,7 +81,7 @@ function Dashboard() {
 export function formatCurrency(number) {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'VND',
       minimumFractionDigits: 0,
     }).format(number);
   }

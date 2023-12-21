@@ -58,13 +58,13 @@ const NewRelease = ({ setPlayingTrack, setPlayingID, playingID, setTrackInAlbum,
 
 
     return (
-        <div className="h-screen overflow-y-scroll flex flex-col w-full">
+        <div className="h-screen overflow-y-scroll flex flex-col w-full pb-20">
             <Headers bgColor='#eaafc8' />
             <div className="flex flex-col gap-10 h-1/4" style={{ background: `linear-gradient(#eaafc8, #654ea3)` }}>
-                <div className='flex h-full items-center text-[90px] font-bold text-white ml-5'>Mới phát hành</div>
+                <div className='flex h-full items-center text-[90px] font-bold text-white ml-5'>New Release</div>
             </div>
             <div className="flex flex-col h-2/4" style={{ background: 'linear-gradient(#403267, #201934 )' }}>
-                <div className='text-white text-xl font-bold mt-8 ml-5'>Những bản phát hành mới hay nhất</div>
+                <div className='text-[#EE5566] text-xl font-bold mt-8 ml-5'>The latest and greatest releases</div>
                 <div className='mt-5 ml-5'>
                     <CatelogyCard
                         id={data.id}
