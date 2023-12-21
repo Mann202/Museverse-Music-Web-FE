@@ -3,7 +3,6 @@ import Headers from '../../Header/Header';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import axios from 'axios';
 import axiosInstance from '../../../API/axios';
 
 const schema = yup.object().shape({
@@ -27,13 +26,12 @@ function NewUser() {
   });
 
   const onSubmit = (data) => {
-    console.log(data)
     axiosInstance.post(`/api/insertUser`, {
       email: data.email,
       username: data.username,
       password: data.password,
-      firstname: data.firstname,
-      lastName: data.lastname
+      firstname: data.firstName,
+      lastname: data.lastName
     })
   };
 
@@ -42,7 +40,7 @@ function NewUser() {
       <Headers />
       <div className="p-8">
         <p className="text-xl font-bold mb-4">User Information</p>
-        <form className="flex flex-col gap-4 w-8/12 mx-auto" onSubmit={() => handleSubmit(onSubmit)}>
+        <form className="flex flex-col gap-4 w-8/12 mx-auto" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col">
             <label className="text-white mb-2">Username</label>
             <input

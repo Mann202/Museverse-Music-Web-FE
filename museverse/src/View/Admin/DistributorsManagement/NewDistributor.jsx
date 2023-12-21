@@ -27,13 +27,12 @@ function NewDistributor() {
   });
 
   const onSubmit = (data) => {
-    console.log(data)
     axiosInstance.post(`/api/insertDistributor`, {
       email: data.email,
       username: data.username,
       password: data.password,
-      firstname: data.firstname,
-      lastName: data.lastname
+      firstname: data.firstName,
+      lastname: data.lastName
     })
   };
 
@@ -42,7 +41,7 @@ function NewDistributor() {
       <Headers />
       <div className="p-8">
         <p className="text-xl font-bold mb-4">Distributor Information</p>
-        <form className="flex flex-col gap-4 w-8/12 mx-auto" onSubmit={() => {handleSubmit(onSubmit)}}>
+        <form className="flex flex-col gap-4 w-8/12 mx-auto" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col">
             <label className="text-white mb-2">Username</label>
             <input
