@@ -26,6 +26,13 @@ export default function Headers({ bgColor }) {
 export function LoggedHeader({ bgColor, showHello }) {
 
     const [logged, setLogged] = useState('');
+    let accType = 0
+    const user = localStorage.getItem('user')
+    if (user != null) {
+        const userJson = JSON.parse(user);
+        accType = userJson.accountTypeID;
+    }
+
     useEffect(() => {
         if (!localStorage.getItem('user'))
             setLogged(false);
@@ -88,11 +95,13 @@ export function LoggedHeader({ bgColor, showHello }) {
                 </div>
 
                 <div className="flex gap-4 mr-4 justify-center items-center">
-                    {logged ? 
+                    {(logged) ? (accType===1 || accType===2) ?
                         <div onClick={()=>navigate('/albums')} class="w-36 h-10 bg-[#EE5566] rounded-xl flex items-center justify-center gap-2 text-white font-bold cursor-pointer select-none hover:bg-[#ed4559]">
                             <FaBagShopping />
                             <div class="">Explore Store</div>
                         </div>
+                        :
+                        null
                         :
                         null
                     }

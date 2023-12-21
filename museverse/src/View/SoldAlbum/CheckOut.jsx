@@ -201,7 +201,7 @@ const CheckOut = () => {
     };
 
     return (
-        <div className='h-screen overflow-y-scroll'>
+        <div className='h-screen overflow-y-scroll pb-20'>
             <Headers />
             <div className='flex justify-between w-full h-[10%] mt-3 items-center '>
                 <div className='text-[#EE5566] ml-5 flex items-center'>

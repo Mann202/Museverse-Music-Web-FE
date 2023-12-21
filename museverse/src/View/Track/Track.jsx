@@ -71,7 +71,9 @@ function Track({ playingData, isPlaying, setPlay, setPlayingTrack }) {
           })
             .then(response => {
               setLyric(response.data.lyrics.lines)
-            })
+            }).catch(error => {
+              console.log(error)
+            }) 
         })
       })
   }, [trackID]);

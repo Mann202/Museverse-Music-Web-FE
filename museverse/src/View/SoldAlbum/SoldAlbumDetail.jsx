@@ -142,7 +142,7 @@ const Albums = () => {
 
 
     return (
-        <div className='h-screen overflow-y-scroll'>
+        <div className='h-screen overflow-y-scroll pb-20'>
             <Headers />
             <div className='flex justify-between w-full h-[10%] mt-3 items-center'>
                 <div className='text-[#EE5566] ml-5 flex items-center'>
@@ -206,9 +206,6 @@ const Albums = () => {
                             onClick={() => { handleAddtoCart() }}>
                             <FaShoppingCart className='text-lg font-semibold' />
                             <div class="text-sm font-semibold">Add to Cart</div>
-                        </div>
-                        <div class="w-[172px] h-9 flex bg-[#EE5566] rounded-[50px] justify-center items-center cursor-pointer select-none">
-                            <div class="text-white text-sm font-semibold">Buy Now</div>
                         </div>
                     </div>
                 </div>
