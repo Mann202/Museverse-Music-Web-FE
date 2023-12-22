@@ -63,7 +63,7 @@ function OrdersDistributor() {
   if (!load) return <Loading />;
 
   return (
-    <div>
+    <div className='h-screen overflow-y-auto pb-20'>
       <Headers />
       <div className='text-[#EE5566] ml-5 mt-3 font-bold text-lg'>Album Orders</div>
       <div className='ml-5 mt-3'>
